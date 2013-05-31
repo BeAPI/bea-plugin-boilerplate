@@ -76,9 +76,6 @@ register_deactivation_hook(__FILE__, array('BEA_PB_Plugin', 'deactivate'));
 
 add_action('plugins_loaded', 'init_bea_pb_plugin');
 function init_bea_pb_plugin() {
-	// Load translations
-	load_plugin_textdomain('bea-plugin-boilerplate', false, basename(BEA_PB_DIR) . '/languages');
-
 	// Client
 	new BEA_PB_Main();
 
