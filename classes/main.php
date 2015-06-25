@@ -1,5 +1,7 @@
 <?php
-class BEA_PB_Main {
+namespace BEA_PB;
+
+class Main {
 
 	public function __construct() {
 		add_action('init', array(__CLASS__, 'init'));

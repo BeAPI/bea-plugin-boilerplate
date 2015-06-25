@@ -10,9 +10,6 @@
  Network: false
  Text Domain: bea-plugin-boilerplate
 
- TODO:
-	* To complete
-
  ----
 
  Copyright 2013 Amaury Balmer (amaury@beapi.fr)
@@ -41,6 +38,7 @@ global $wpdb;
 $wpdb->tables[]   = 'sample_table';
 $wpdb->sample_table = $wpdb->prefix . 'sample_table';
 
+
 // Plugin constants
 define('BEA_PB_VERSION', '0.1');
 define('BEA_PB_CPT_NAME', 'custom_post_type');
@@ -49,6 +47,31 @@ define('BEA_PB_TAXO_NAME', 'custom_taxonomy');
 // Plugin URL and PATH
 define('BEA_PB_URL', plugin_dir_url ( __FILE__ ));
 define('BEA_PB_DIR', plugin_dir_path( __FILE__ ));
+
+/**
+ * Autoload all the things
+ */
+require_once BEA_PB_DIR . '/autoload.php';
+
+add_action('plugins_loaded', 'init_bea_pb_plugin');
+function init_bea_pb_plugin() {
+	// Client
+	new \BEA_PB\Main();
+
+	// Admin
+	if (is_admin()) {
+		new \BEA_PB\Admin\Main();
+	}
+
+	// Widget
+	add_action('widgets_init', function() {
+			new \BEA_PB\Widgets\Main();
+		}
+	);
+}
+
+return;
+
 
 // Function for easy load files
 function _bea_pb_load_files($dir, $files, $prefix = '') {
@@ -74,16 +97,3 @@ if (is_admin()) {
 register_activation_hook(__FILE__, array('BEA_PB_Plugin', 'activate'));
 register_deactivation_hook(__FILE__, array('BEA_PB_Plugin', 'deactivate'));
 
-add_action('plugins_loaded', 'init_bea_pb_plugin');
-function init_bea_pb_plugin() {
-	// Client
-	new BEA_PB_Main();
-
-	// Admin
-	if (is_admin()) {
-		new BEA_PB_Admin_Main();
-	}
-
-	// Widget
-	add_action('widgets_init', create_function('', 'return register_widget("BEA_PB_Widget");'));
-}

@@ -1,0 +1,36 @@
+<?php
+
+class BEA_PB_Autoload {
+	protected function __construct( $prefix, $basedir ) {
+		$this->prefix  = $prefix;
+		$this->basedir = $basedir;
+	}
+
+	static function register( $prefix, $basedir ) {
+		$loader = new self( $prefix, $basedir );
+
+		spl_autoload_register( array( $loader, 'autoload' ) );
+	}
+
+	function autoload( $class ) {
+		if ( $class[0] === '\\' ) {
+			$class = substr( $class, 1 );
+		}
+
+		if ( strpos( $class, $this->prefix ) !== 0 ) {
+			return;
+		}
+
+		$path = str_replace( $this->prefix, '', $class );
+		$path = ltrim( str_replace( array( '_', '\\' ) , array( '-', '/' ), strtolower( $path ) ), '/' );
+		$file = sprintf( '%s/%s.php', $this->basedir, $path );
+
+		var_dump($file);
+
+		if ( is_file( $file ) ) {
+			require( $file );
+		}
+	}
+}
+
+BEA_PB_Autoload::register( 'BEA_PB', BEA_PB_DIR.'classes' );

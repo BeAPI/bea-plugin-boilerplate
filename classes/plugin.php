@@ -1,5 +1,7 @@
 <?php
-class BEA_PB_Plugin {
+namespace BEA_PB;
+
+class Plugin {
 	public static function activate() {
 		global $wpdb;
 

@@ -1,5 +1,7 @@
 <?php
-class BEA_PB_Widget extends WP_Widget {
+namespace BEA_PB\Widgets;
+
+class Main extends WP_Widget {
 	
 	public function __construct() {
 		parent::__construct( 'widget-bea-pb', __('Widget title', 'bea-plugin-boilerplate'),
