@@ -9,6 +9,6 @@ class Main {
 
 	public static function init() {
 		// Load translations
-		load_plugin_textdomain( 'bea-plugin-boilerplate', false, basename( BEA_PB_DIR ) . '/languages' );
+		load_plugin_textdomain( 'bea-plugin-boilerplate', false, BEA_PB_DIR . 'languages' );
 	}
 }
