@@ -1,5 +1,5 @@
 <?php
-namespace Bea_PB;
+namespace BEA_PB;
 
 /**
  * An example of a general-purpose implementation that includes the optional
