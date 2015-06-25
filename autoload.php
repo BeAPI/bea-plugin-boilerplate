@@ -193,4 +193,4 @@ $loader = new \BEA_PB\Autoloader();
 $loader->register();
 
 // register the base directories for the namespace prefix
-$loader->addNamespace('BEA_PB', BEA_PB_DIR.'classes');
+$loader->addNamespace( 'BEA_PB', BEA_PB_DIR . 'classes' );

@@ -7,7 +7,6 @@
  Author: Amaury Balmer
  Author URI: http://www.beapi.fr
  Domain Path: languages
- Network: false
  Text Domain: bea-plugin-boilerplate
 
  ----
@@ -30,47 +29,47 @@
  */
 
 // don't load directly
-if ( !defined('ABSPATH') )
-	die('-1');
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
 
 // Plugin tables
 global $wpdb;
-$wpdb->tables[]   = 'sample_table';
+$wpdb->tables[]     = 'sample_table';
 $wpdb->sample_table = $wpdb->prefix . 'sample_table';
 
 
 // Plugin constants
-define('BEA_PB_VERSION', '0.1');
-define('BEA_PB_CPT_NAME', 'custom_post_type');
-define('BEA_PB_TAXO_NAME', 'custom_taxonomy');
+define( 'BEA_PB_VERSION', '0.1' );
+define( 'BEA_PB_CPT_NAME', 'custom_post_type' );
+define( 'BEA_PB_TAXO_NAME', 'custom_taxonomy' );
 
 // Plugin URL and PATH
-define('BEA_PB_URL', plugin_dir_url ( __FILE__ ));
-define('BEA_PB_DIR', plugin_dir_path( __FILE__ ));
+define( 'BEA_PB_URL', plugin_dir_url( __FILE__ ) );
+define( 'BEA_PB_DIR', plugin_dir_path( __FILE__ ) );
 
 /**
  * Autoload all the things
  */
 require_once BEA_PB_DIR . '/autoload.php';
 
-
 // Plugin activate/deactive hooks
-register_activation_hook(__FILE__, array('\BEA_PB\Plugin', 'activate'));
-register_deactivation_hook(__FILE__, array('\BEA_PB\Plugin', 'deactivate'));
+register_activation_hook( __FILE__, array( '\BEA_PB\Plugin', 'activate' ) );
+register_deactivation_hook( __FILE__, array( '\BEA_PB\Plugin', 'deactivate' ) );
 
-add_action('plugins_loaded', 'init_bea_pb_plugin');
+add_action( 'plugins_loaded', 'init_bea_pb_plugin' );
 function init_bea_pb_plugin() {
 	// Client
 	new \BEA_PB\Main();
 
 	// Admin
-	if (is_admin()) {
+	if ( is_admin() ) {
 		new \BEA_PB\Admin\Main();
 	}
 
 	// Widget
-	add_action('widgets_init', function() {
-			new \BEA_PB\Widgets\Main();
-		}
+	add_action( 'widgets_init', function () {
+		new \BEA_PB\Widgets\Main();
+	}
 	);
 }
