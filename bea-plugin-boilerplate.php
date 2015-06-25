@@ -53,6 +53,11 @@ define('BEA_PB_DIR', plugin_dir_path( __FILE__ ));
  */
 require_once BEA_PB_DIR . '/autoload.php';
 
+
+// Plugin activate/deactive hooks
+register_activation_hook(__FILE__, array('\BEA_PB\Plugin', 'activate'));
+register_deactivation_hook(__FILE__, array('\BEA_PB\Plugin', 'deactivate'));
+
 add_action('plugins_loaded', 'init_bea_pb_plugin');
 function init_bea_pb_plugin() {
 	// Client
@@ -69,31 +74,3 @@ function init_bea_pb_plugin() {
 		}
 	);
 }
-
-return;
-
-
-// Function for easy load files
-function _bea_pb_load_files($dir, $files, $prefix = '') {
-	foreach ($files as $file) {
-		if ( is_file($dir . $prefix . $file . ".php") ) {
-			require_once($dir . $prefix . $file . ".php");
-		}
-	}	
-}
-
-// Plugin functions
-_bea_pb_load_files(BEA_PB_DIR . 'functions/', array('api', 'template'));
-
-// Plugin client classes
-_bea_pb_load_files(BEA_PB_DIR . 'classes/', array('main', 'plugin', 'widget'));
-
-// Plugin admin classes
-if (is_admin()) {
-	_bea_pb_load_files(BEA_PB_DIR . 'classes/admin/', array('main'));
-}
-
-// Plugin activate/desactive hooks
-register_activation_hook(__FILE__, array('BEA_PB_Plugin', 'activate'));
-register_deactivation_hook(__FILE__, array('BEA_PB_Plugin', 'deactivate'));
-
