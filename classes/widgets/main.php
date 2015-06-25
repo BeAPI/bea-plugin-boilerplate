@@ -1,8 +1,8 @@
 <?php
 namespace BEA_PB\Widgets;
 
-class Main extends WP_Widget {
-	
+class Main extends \WP_Widget {
+
 	public function __construct() {
 		parent::__construct( 'widget-bea-pb', __('Widget title', 'bea-plugin-boilerplate'),
 			array( 'classname' => 'widget-bea-pb', 'description' => __('Widget description', 'bea-plugin-boilerplate' ) )
