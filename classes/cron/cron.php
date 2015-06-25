@@ -1,4 +1,6 @@
 <?php
+use \Bea_Log;
+
 namespace BEA_PB;
 abstract class Cron {
 
@@ -29,47 +31,39 @@ abstract class Cron {
 	/**
 	 * Check if locked file exist
 	 *
-	 * @param string $name
-	 *
 	 * @return bool
 	 */
-	public static function is_locked( $name ) {
+	public function is_locked() {
 		clearstatcache();
 
-		return self::get_filesystem()->is_file( self::get_lock_file_path( $name ) );
+		return self::get_filesystem()->is_file( self::get_lock_file_path() );
 	}
 
 	/**
 	 * Create the .lock file
 	 *
-	 * @param string $name
-	 *
 	 * @return bool
 	 */
-	public function create_lock_file( $name ) {
-		return self::get_filesystem()->touch( self::get_lock_file_path( $name ) );
+	public function create_lock_file() {
+		return self::get_filesystem()->touch( self::get_lock_file_path() );
 	}
 
 	/**
 	 * Delete lock file
 	 *
-	 * @param string $name
-	 *
 	 * @return bool
 	 */
-	public static function delete_lock_file( $name ) {
+	public function delete_lock_file() {
 		// Delete the lock file
-		return self::is_locked( $name ) ? self::get_filesystem()->delete( self::get_lock_file_path( $name ) ) : true;
+		return self::is_locked() ? self::get_filesystem()->delete( self::get_lock_file_path() ) : true;
 	}
 
 	/**
 	 * Get lock file
 	 *
-	 * @param string $name
-	 *
 	 * @return string
 	 */
-	private static function get_lock_file_path( $name ) {
+	private function get_lock_file_path( ) {
 		// Get the file system
 		$filesystem = self::get_filesystem();
 
@@ -77,7 +71,7 @@ abstract class Cron {
 		$base = is_multisite() ? 'lock-cron-' . get_current_blog_id() . '-' : '.lock-cron-';
 
 		// Create the file name
-		$name = ! empty( $name ) ? $base . $name : $base;
+		$name = $base . $this->type;
 
 		// Return the lock file path
 		return $filesystem->wp_content_dir() . '/' . sanitize_file_name( $name );
@@ -112,7 +106,7 @@ abstract class Cron {
 	}
 
 	/**
-	 * Get the log filepath
+	 * Get the log file path
 	 *
 	 * @param bool $extension
 	 *
@@ -123,21 +117,17 @@ abstract class Cron {
 	}
 
 	/**
-	 * Add all the log
+	 * Log a message for the current type
 	 *
-	 * @param string $message
-	 *
+	 * @param $message : message to write on the log file
+	 * @param $type type to use for the log message
 	 */
-	protected function add_log( $message ) {
+	protected function add_log( $message, $type = \Bea_Log::gravity_7 ) {
 		// Log if bea log or not
-		if ( class_exists( '\Bea_Log' ) ) {
-			if ( ! is_a( $this->log, '\Bea_Log' ) ) {
-				$this->log = new \Bea_Log( $this->get_log_file_path( false ), '.log' );
-			}
-			$this->log->log_this( $message );
-		} else {
-			error_log( date( '[d-m-Y H:i:s]' ) . $message . "\n", 3, $this->get_log_file_path() );
+		if ( ! is_a( $this->log, '\Bea_Log' ) ) {
+			$this->log = new \Bea_Log( $this->get_log_file_path( false ), '.log' );
 		}
+		$this->log->log_this( $message, $type );
 
 		echo date( '[d-m-Y H:i:s]' ) . $message . "\n";
 	}
