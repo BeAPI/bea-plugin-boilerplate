@@ -1,5 +1,6 @@
 <?php
 namespace BEA_PB\Widgets;
+
 use BEA_PB\API as API;
 
 class Main extends \WP_Widget {
@@ -20,8 +21,9 @@ class Main extends \WP_Widget {
 
 	public function __construct() {
 		parent::__construct( 'widget-bea-pb', __( 'Widget title', 'bea-plugin-boilerplate' ),
-			array( 'classname'   => 'widget-bea-pb',
-			       'description' => __( 'Widget description', 'bea-plugin-boilerplate' )
+			array(
+				'classname'   => 'widget-bea-pb',
+				'description' => __( 'Widget description', 'bea-plugin-boilerplate' )
 			)
 		);
 	}
@@ -38,7 +40,7 @@ class Main extends \WP_Widget {
 
 		// Make the args
 		$this->_instance = $instance;
-		$this->_args = $args;
+		$this->_args     = $args;
 
 		// unset vars
 		unset( $instance );
@@ -85,6 +87,7 @@ class Main extends \WP_Widget {
 		$instance = wp_parse_args( (array) $instance, $defaults );
 
 		include( BEA_PB_DIR . 'views/admin/widget.php' );
+
 		return true;
 	}
 
@@ -92,14 +95,14 @@ class Main extends \WP_Widget {
 	 * Display the before widget data
 	 */
 	public function the_header() {
-		echo isset( $this->_args['before_widget'] ) ?  $this->_args['before_widget'] : '' ;
+		echo isset( $this->_args['before_widget'] ) ? $this->_args['before_widget'] : '';
 	}
 
 	/**
 	 * Display the after widget data
 	 */
 	public function the_footer() {
-		echo isset( $this->_args['after_widget'] ) ?  $this->_args['after_widget'] : '' ;
+		echo isset( $this->_args['after_widget'] ) ? $this->_args['after_widget'] : '';
 	}
 
 	/**
@@ -110,6 +113,6 @@ class Main extends \WP_Widget {
 			return;
 		}
 
-		echo $this->_args['before_title'].$this->_instance['title'].$this->_args['after_title'];
+		echo $this->_args['before_title'] . $this->_instance['title'] . $this->_args['after_title'];
 	}
 }

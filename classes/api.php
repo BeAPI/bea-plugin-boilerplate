@@ -1,6 +1,6 @@
 <?php
 namespace BEA_PB;
-Class API{
+Class API {
 	/**
 	 * Locate template in the theme or plugin if needed
 	 *
@@ -14,7 +14,7 @@ Class API{
 		}
 
 		// Locate from the theme
-		$located = locate_template( array( '/views/'.BEA_PB_VIEWS_FOLDER_NAME.'/' . $tpl . '.php' ), false, false );
+		$located = locate_template( array( '/views/' . BEA_PB_VIEWS_FOLDER_NAME . '/' . $tpl . '.php' ), false, false );
 		if ( ! empty( $located ) ) {
 			return $located;
 		}
@@ -75,7 +75,7 @@ Class API{
 	 *
 	 * @return string
 	 */
-	public static function datetime_i18n( $format, \DateTime $date  ) {
+	public static function datetime_i18n( $format, \DateTime $date ) {
 		return date_i18n( $format, $date->format( 'U' ) );
 	}
 

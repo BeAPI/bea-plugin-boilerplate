@@ -63,7 +63,7 @@ abstract class Cron {
 	 *
 	 * @return string
 	 */
-	private function get_lock_file_path( ) {
+	private function get_lock_file_path() {
 		// Get the file system
 		$filesystem = self::get_filesystem();
 
