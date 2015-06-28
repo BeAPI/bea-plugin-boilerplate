@@ -11,7 +11,7 @@
 
  ----
 
- Copyright 2015 Beapi Technical team (technique@beapi.fr)
+ Copyright 2015 Beapi Technical team (human@beapi.fr)
 
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
