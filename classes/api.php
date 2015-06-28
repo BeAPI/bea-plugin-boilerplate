@@ -59,7 +59,7 @@ Class API {
 	 * @return string the date formatted
 	 */
 	public static function format_date( $date, $from_format, $to_format ) {
-		$date = DateTime::createFromFormat( $from_format, $date );
+		$date = \DateTime::createFromFormat( $from_format, $date );
 		if ( false == $date ) {
 			return '';
 		}
