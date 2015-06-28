@@ -1,5 +1,5 @@
 <?php
-namespace BEA\PB;
+namespace BEA\PB\Admin;
 
 class Main {
 	public function __construct() {
