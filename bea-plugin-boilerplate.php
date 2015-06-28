@@ -41,7 +41,7 @@ $wpdb->sample_table = $wpdb->prefix . 'sample_table';
 // Plugin constants
 define( 'BEA_PB_VERSION', '0.1' );
 define( 'BEA_PB_MIN_PHP_VERSION', '5.4' );
-define( 'BEA_PB_VIEWS_FOLDER_NAME', '5.4' );
+define( 'BEA_PB_VIEWS_FOLDER_NAME', 'bea-pb' );
 define( 'BEA_PB_CPT_NAME', 'custom_post_type' );
 define( 'BEA_PB_TAXO_NAME', 'custom_taxonomy' );
 
