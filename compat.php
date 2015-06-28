@@ -1,5 +1,5 @@
 <?php
-namespace BEA_PB;
+namespace BEA\PB;
 class Compatibility {
 	/**
 	 * admin_init hook callback
