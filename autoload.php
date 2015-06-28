@@ -1,5 +1,5 @@
 <?php
-namespace BEA_PB;
+namespace BEA\PB;
 
 /**
  * An example of a general-purpose implementation that includes the optional
@@ -187,10 +187,10 @@ class Autoloader {
 }
 
 // instantiate the loader
-$loader = new \BEA_PB\Autoloader();
+$loader = new \BEA\PB\Autoloader();
 
 // register the autoloader
 $loader->register();
 
 // register the base directories for the namespace prefix
-$loader->addNamespace( 'BEA_PB', BEA_PB_DIR . 'classes' );
+$loader->addNamespace( 'BEA\PB', BEA_PB_DIR . 'classes' );

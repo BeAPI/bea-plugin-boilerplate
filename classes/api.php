@@ -1,5 +1,5 @@
 <?php
-namespace BEA_PB;
+namespace BEA\PB;
 Class API {
 	/**
 	 * Locate template in the theme or plugin if needed

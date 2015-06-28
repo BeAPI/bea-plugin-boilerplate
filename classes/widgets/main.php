@@ -1,7 +1,7 @@
 <?php
-namespace BEA_PB\Widgets;
+namespace BEA\PB\Widgets;
 
-use BEA_PB\API as API;
+use BEA\PB\API as API;
 
 class Main extends \WP_Widget {
 

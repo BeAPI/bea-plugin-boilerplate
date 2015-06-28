@@ -1,5 +1,5 @@
 <?php
-namespace BEA_PB;
+namespace BEA\PB;
 
 class Plugin {
 	public static function activate() {

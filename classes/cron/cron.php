@@ -1,7 +1,7 @@
 <?php
 use \Bea_Log;
 
-namespace BEA_PB;
+namespace BEA\PB;
 abstract class Cron {
 
 	/**

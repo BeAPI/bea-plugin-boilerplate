@@ -75,15 +75,15 @@ add_action( 'plugins_loaded', 'init_bea_pb_plugin' );
  */
 function init_bea_pb_plugin() {
 	// Client
-	new \BEA_PB\Main();
+	new \BEA\PB\Main();
 
 	// Admin
 	if ( is_admin() ) {
-		new \BEA_PB\Admin\Main();
+		new \BEA\PB\Admin\Main();
 	}
 
 	// Widgets
 	add_action( 'widgets_init', function () {
-		new \BEA_PB\Widgets\Main();
+		new \BEA\PB\Widgets\Main();
 	} );
 }
