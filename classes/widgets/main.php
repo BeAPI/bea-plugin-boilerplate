@@ -1,7 +1,22 @@
 <?php
 namespace BEA_PB\Widgets;
+use BEA_PB\API as API;
 
 class Main extends \WP_Widget {
+
+	/**
+	 * The args used for the widget
+	 *
+	 * @var array
+	 */
+	private $args;
+
+	/**
+	 * The current widget instance
+	 *
+	 * @var
+	 */
+	private $instance;
 
 	public function __construct() {
 		parent::__construct( 'widget-bea-pb', __( 'Widget title', 'bea-plugin-boilerplate' ),
@@ -11,39 +26,58 @@ class Main extends \WP_Widget {
 		);
 	}
 
+	/**
+	 * Display the widget instance
+	 *
+	 * @param array $args
+	 * @param array $instance
+	 *
+	 * @return bool
+	 */
 	public function widget( $args, $instance ) {
-		extract( $args );
 
-		// Get data from instance
-		$title = $instance['title'];
-		// TODO
+		// Make the args
+		$this->_instance = $instance;
+		$this->_args = $args;
 
-		echo $before_widget;
+		// unset vars
+		unset( $instance );
+		unset( $args );
 
-		// Display the widget, allow take template from child or parent theme
-		if ( is_file( STYLESHEETPATH . '/widget-views/bea-plugin-boilerplate-widget.php' ) ) { // Use custom template from child theme
-			include( STYLESHEETPATH . '/widget-views/bea-plugin-boilerplate-widget.php' );
-		} elseif ( is_file( TEMPLATEPATH . '/widget-views/bea-plugin-boilerplate-widget.php' ) ) { // Use custom template from parent theme
-			include( TEMPLATEPATH . '/widget-views/bea-plugin-boilerplate-widget.php' );
-		} else { // Use builtin temlate
-			include( BEA_PB_DIR . 'views/client/widget.php' );
-		}
+		// Display header
+		$this->the_header();
 
-		echo $after_widget;
+		include( API::locate_template( 'bea-plugin-boilerplate-widget' ) );
+
+		// Display footer
+		$this->the_footer();
 
 		return true;
 	}
 
-
+	/**
+	 * Method for updating the form data
+	 *
+	 * @param array $new_instance
+	 * @param array $old_instance
+	 *
+	 * @return array
+	 */
 	public function update( $new_instance, $old_instance ) {
-		$instance          = $old_instance;
-		$instance['title'] = stripslashes( $new_instance['title'] );
+		$instance = $old_instance;
 
-		// TODO
+		$instance['title'] = sanitize_text_field( $new_instance['title'] );
 
 		return $instance;
 	}
 
+	/**
+	 * Form display
+	 *
+	 * @param array $instance
+	 *
+	 * @return bool
+	 */
 	public function form( $instance ) {
 		// TODO
 		$defaults = array( 'title' => __( 'Sample title', 'bea-plugin-boilerplate' ) );
@@ -51,5 +85,31 @@ class Main extends \WP_Widget {
 		$instance = wp_parse_args( (array) $instance, $defaults );
 
 		include( BEA_PB_DIR . 'views/admin/widget.php' );
+		return true;
+	}
+
+	/**
+	 * Display the before widget data
+	 */
+	public function the_header() {
+		echo isset( $this->_args['before_widget'] ) ?  $this->_args['before_widget'] : '' ;
+	}
+
+	/**
+	 * Display the after widget data
+	 */
+	public function the_footer() {
+		echo isset( $this->_args['after_widget'] ) ?  $this->_args['after_widget'] : '' ;
+	}
+
+	/**
+	 * Display the title of the instance
+	 */
+	public function the_title() {
+		if ( ! isset( $this->_instance['title'] ) || empty( $this->_instance['title'] ) ) {
+			return;
+		}
+
+		echo $this->_args['before_title'].$this->_instance['title'].$this->_args['after_title'];
 	}
 }
