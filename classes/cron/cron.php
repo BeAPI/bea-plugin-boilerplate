@@ -2,6 +2,16 @@
 use \Bea_Log;
 
 namespace BEA\PB;
+
+/**
+ * This class needs Bea_Log to work
+ * This class purpose is to handle cron process by :
+ * - creating lock files
+ * - Having a start and an end process methods
+ *
+ * Class Cron
+ * @package BEA\PB
+ */
 abstract class Cron {
 
 	/**

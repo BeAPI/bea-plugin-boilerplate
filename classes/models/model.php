@@ -1,6 +1,19 @@
 <?php
 namespace BEA\PB\Models;
 
+/**
+ * The purpose of this model is to use methods from \WP_post and implement custom ones
+ * This model is only for the post_types
+ *
+ * Use a maximum of the internal methods for implementing yours.
+ *
+ * If you want update a meta then use ->update_meta('the_key', 'data');
+ * The class tries to launch the method :
+ *  ->update_meta_the_key()
+ *
+ * Class Model
+ * @package BEA\PB\Models
+ */
 abstract class Model {
 
 	/**

@@ -1,8 +1,13 @@
 <?php
 namespace BEA\PB\Widgets;
+use BEA\PB\API;
 
-use BEA\PB\API as API;
-
+/**
+ * Example of a Widget class well done
+ *
+ * Class Main
+ * @package BEA\PB\Widgets
+ */
 class Main extends \WP_Widget {
 
 	/**
