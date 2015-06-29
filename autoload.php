@@ -187,7 +187,7 @@ class Autoloader {
 }
 
 // instantiate the loader
-$loader = new \BEA\PB\Autoloader();
+$loader = new \BEA\PB\Autoloader;
 
 // register the autoloader
 $loader->register();
