@@ -1,5 +1,19 @@
 <?php
 namespace BEA\PB;
+/**
+ * The purpose of the API class is to have the basic reusable methods like :
+ *  - Template include
+ *  - Template searcher
+ *  - Date formatting
+ *
+ * You can put here all of the tools you use in the project but not
+ * limited to an object or a context.
+ * It's recommended to use static methods for simple accessing to the methods
+ * and stick to the non context methods
+ *
+ * Class API
+ * @package BEA\PB
+ */
 Class API {
 	/**
 	 * Locate template in the theme or plugin if needed

@@ -1,6 +1,15 @@
 <?php
 namespace BEA\PB;
 
+/**
+ * The purpose of the plugin class is to have the methods for
+ *  - activation actions
+ *  - deactivation actions
+ *  - uninstall actions
+ *
+ * Class Plugin
+ * @package BEA\PB
+ */
 class Plugin {
 	public static function activate() {
 		global $wpdb;
