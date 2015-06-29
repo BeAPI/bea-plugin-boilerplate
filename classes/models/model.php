@@ -14,7 +14,7 @@ abstract class Model {
 	protected $ID;
 
 	/**
-	 * @var \\WP_Post : the WordPress object
+	 * @var \WP_Post : the WordPress object
 	 */
 	public $wp_object;
 
@@ -297,6 +297,11 @@ abstract class Model {
 		return set_post_thumbnail( $this->wp_object, $id );
 	}
 
+	/**
+	 * Check the current object has a thumbnail
+	 *
+	 * @return bool
+	 */
 	public function has_thumbnail() {
 		return has_post_thumbnail( $this->get_ID() );
 	}
