@@ -47,6 +47,32 @@ class singleton_test extends Singleton {
 }
 ```
 
+## Routes
+Routes are essential to the application structure, you have a Router class available for having handy methods a base Route will be :
+```php
+<?php
+namespace \BEA\PB\Routes;
+
+class Registration {
+
+	public function __construct() {
+		add_action( 'init', array( __CLASS__, 'init' ) );
+	}
+
+	public static function init() {
+		/********* Registration *********/
+		hm_add_rewrite_rule( array(
+				'regex'          => '^' . Router::rewrite_slug( 'registration' ) . '/?$',
+				'query'          => 'index.php?registration=true&step=1&my_page=registration',
+				'template'       => 'views/auth/registration.php'
+			)
+		);
+	}
+}
+```
+
+The route use hm_rewrite to handle correctly a rewrite rule.
+
 ## Model
 The model included are :
 - post type model (abstract)
