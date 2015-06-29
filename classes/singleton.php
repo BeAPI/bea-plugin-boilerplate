@@ -1,23 +1,26 @@
 <?php
 namespace BEA\PB;
 
-class Singleton {
+/**
+ * Singleton base class for having singleton implementation
+ * This allows you to have only one instance of the needed object
+ * You can get the instance with
+ *     $class = My_Class::get_instance();
+ *
+ * Class Singleton
+ * @package BEA\PB
+ */
+abstract class Singleton {
 
 	/**
 	 * @var self
 	 */
-	private static $instance;
+	protected static $instance;
 
 	/**
-	 * @return self
+	 * Constructor protected from the outside
 	 */
-	public static function get_instance() {
-		if ( is_null( self::$instance ) ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
+	protected function __construct() {}
 
 	/**
 	 * prevent the instance from being cloned
