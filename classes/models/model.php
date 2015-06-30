@@ -345,7 +345,7 @@ abstract class Model {
 	 * @return bool|int|\WP_Error
 	 */
 	protected function connect( $object_id, $connection_type, $metas = array() ) {
-		if( !function_exists('p2p_type') ){
+		if ( ! function_exists( 'p2p_type' ) ) {
 			return false;
 		}
 		return p2p_type( $connection_type )->connect( $this->get_ID(), $object_id, $metas );
@@ -360,7 +360,7 @@ abstract class Model {
 	 * @return bool|int|\WP_Error
 	 */
 	protected function disconnect( $object_id, $connection_type ) {
-		if( !function_exists('p2p_type') ){
+		if ( ! function_exists( 'p2p_type' ) ) {
 			return false;
 		}
 		// Delete connection
@@ -375,7 +375,7 @@ abstract class Model {
 	* @return \WP_Error|bool
 	*
 	*/
-	public function update( array $data ){
+	public function update( array $data ) {
 		return $this->_update( $data );
 	}
 
