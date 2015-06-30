@@ -149,7 +149,7 @@ abstract class Model {
 		}
 
 		// Get all ACF fields
-		$fields = $this->get_fields( $this->post_type );
+		$fields = $this->get_fields();
 
 		// Check ACF
 		if ( ! isset( $fields[ $key ] ) || ! function_exists( 'get_field' ) ) {
@@ -195,7 +195,7 @@ abstract class Model {
 		}
 
 		// Get the fields and use the ACF ones
-		$fields = $this->get_fields( $this->post_type );
+		$fields = $this->get_fields();
 		$key    = isset( $fields[ $key ] ) ? $fields[ $key ] : $key;
 
 		return update_field( $key, $value, $this->get_ID() );
@@ -309,12 +309,12 @@ abstract class Model {
 	 *
 	 * @return array
 	 */
-	protected function get_fields( $post_type ) {
+	protected function get_fields() {
 		if ( ! is_null( $this->fields ) ) {
 			return $this->fields;
 		}
 
-		$groups = acf_get_field_groups( array( 'post_type' => $post_type ) );
+		$groups = acf_get_field_groups( array( 'post_type' => $this->post_type ) );
 
 		if ( empty( $groups ) ) {
 			return array();
@@ -507,7 +507,7 @@ abstract class Model {
 	 * @return bool
 	 */
 	public function filter_post_meta_keys( $key ) {
-		$fields = $this->get_fields( $this->post_type );
+		$fields = $this->get_fields();
 
 		return ( substr( $key, 0, 1 ) !== '_' && ! isset( $fields[ $key ] ) );
 	}
