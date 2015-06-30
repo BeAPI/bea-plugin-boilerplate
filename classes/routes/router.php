@@ -73,7 +73,7 @@ class Router {
 	 * @return false|string : the url rewrited
 	 * @author Nicolas Juen
 	 */
-	public static function get_url( $query_var = '', $params = array() ) {
+	public static function get_url( $query_var, $params = array() ) {
 		// Get the slug
 		$slug = self::rewrite_slug( $query_var );
 
@@ -98,7 +98,7 @@ class Router {
 	 * @return false|string : the url rewrited
 	 * @author Nicolas Juen
 	 */
-	public static function get_url_complex( $slugs = array(), $params = array() ) {
+	public static function get_url_complex( array $slugs, $params = array() ) {
 		if ( ! isset( $slugs ) || empty( $slugs ) ) {
 			return '';
 		}
