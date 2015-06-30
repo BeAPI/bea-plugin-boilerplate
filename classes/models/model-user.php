@@ -21,11 +21,6 @@ class User {
 	protected $ID;
 
 	/**
-	 * @var bool
-	 */
-	protected $is = false;
-
-	/**
 	 *
 	 * @param \WP_User $object
 	 *
@@ -41,18 +36,8 @@ class User {
 
 		$this->user = $object;
 		$this->ID        = $object->ID;
-		$this->is        = true;
 
 		return;
-	}
-
-	/**
-	 * Check if the object is rightly instaciated
-	 *
-	 * @return bool
-	 */
-	public function is() {
-		return $this->is;
 	}
 
 	/**
@@ -186,7 +171,7 @@ class User {
 	 * @return bool
 	 */
 	public function get_meta( $key, $format = true ) {
-		if ( empty( $key ) || ! $this->is() ) {
+		if ( empty( $key ) ) {
 			return false;
 		}
 
@@ -210,7 +195,7 @@ class User {
 	 * @return bool|int
 	 */
 	public function update_meta( $key, $value = '' ) {
-		if ( empty( $key ) || ! $this->is() ) {
+		if ( empty( $key ) ) {
 			return false;
 		}
 
@@ -281,10 +266,6 @@ class User {
 	 * @return bool|\WP_Error
 	 */
 	public function delete( $reassign = null ) {
-		if ( false === $this->is() ) {
-			return new \WP_Error( 'nodata', __( 'Impossible to delete the current user', 'bea-pb' ) );
-		}
-
 		return (bool) wp_delete_user( $this->get_ID(), $reassign );
 	}
 
