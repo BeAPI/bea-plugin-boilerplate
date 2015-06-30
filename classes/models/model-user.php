@@ -147,18 +147,25 @@ class User {
 	 *
 	 * @return bool|string
 	 */
-	public function get_email( ) {
+	public function get_email() {
 		$user_email = $this->user->get( 'user_email' );
-		return !empty( $user_email ) ? $user_email : false;
+
+		return ! empty( $user_email ) ? $user_email : false;
 	}
 
 	/**
-	* Check capability of user
-	*
-	* @return bool
-	*/
-	public function has_cap( $cap ){
-		return $this->user->has_cap( $cap );
+	 * Check capability of user
+	 *
+	 * @param string $capability
+	 *
+	 * @return mixed
+	 */
+	public function has_cap( $capability ) {
+
+		$args = array_slice( func_get_args(), 1 );
+		$args = array_merge( array( $capability ), $args );
+
+		return call_user_func_array( array( $this->get_user(), 'has_cap' ), $args );
 	}
 
 	/**
