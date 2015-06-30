@@ -32,11 +32,6 @@ abstract class Model {
 	public $wp_object;
 
 	/**
-	 * @var bool
-	 */
-	protected $is = false;
-
-	/**
 	 * The user ACF fields
 	 *
 	 * @var array
@@ -48,28 +43,16 @@ abstract class Model {
 	 *
 	 * @param \WP_Post $object
 	 *
+	 * @throws \Exception
 	 */
 	function __construct( \WP_Post $object ) {
-		if ( empty( $object ) ) {
-			return false;
-		}
 
-		if ( is_null( $object ) || $object->post_type !== $this->post_type ) {
-			return false;
+		if ( $object->post_type !== $this->post_type ) {
+			throw new \Exception( sprintf( '%s post type does not match model post type %s', $object->post_type, $this->post_type ), 'mismatch_post_type' );
 		}
 
 		$this->wp_object = $object;
 		$this->ID        = $object->ID;
-		$this->is        = true;
-	}
-
-	/**
-	 * Check if the object is correctly instantiated
-	 *
-	 * @return bool
-	 */
-	public function is() {
-		return $this->is;
 	}
 
 	/**
