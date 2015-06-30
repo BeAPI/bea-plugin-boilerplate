@@ -10,7 +10,7 @@ use BEA\PB\Routes\Router;
  *  - fill the page_slug property
  *  - Add action on the wp tag and add the elements
  *
- * All the controllers needs to be implemented on all clases
+ * All the controllers needs to be implemented on all classes
  *
  * Class Controller
  * @package BEA\PB
