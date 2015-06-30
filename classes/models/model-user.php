@@ -24,18 +24,16 @@ class User {
 	 *
 	 * @param \WP_User $object
 	 *
+	 * @throws \Exception
 	 */
 	function __construct( \WP_User $object ) {
-		if ( empty( $object ) ) {
-			return false;
-		}
 
-		if ( is_null( $object ) || !$object->exists() ) {
-			return false;
+		if ( ! $object->exists() ) {
+			throw new \Exception( 'User does not exist', 'user_does_not_exist' );
 		}
 
 		$this->user = $object;
-		$this->ID        = $object->ID;
+		$this->ID   = $object->ID;
 
 		return;
 	}
