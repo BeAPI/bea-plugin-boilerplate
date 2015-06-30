@@ -451,13 +451,13 @@ abstract class Model {
 		$wp_keys = array_filter( get_post_custom_keys( $this->get_ID() ), array( $this, 'filter_post_meta_keys' ) );
 
 		// Add the ACF fields
-		foreach ( $this->get_fields( $this->post_type ) as $key => $acf_key ) {
-			$data[ $key ] = self::get_meta( $acf_key );
+		foreach ( $this->get_fields() as $key => $acf_key ) {
+			$data[ $key ] = $this->get_meta( $acf_key );
 		}
 
 		// Add the normal fields
 		foreach ( $wp_keys as $key ) {
-			$data[ $key ] = self::get_meta( $key );
+			$data[ $key ] = $this->get_meta( $key );
 		}
 
 		// Add the taxonomies
