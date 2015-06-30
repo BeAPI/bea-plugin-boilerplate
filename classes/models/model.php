@@ -388,7 +388,7 @@ abstract class Model {
 	 */
 	protected function _update( array $data ) {
 		if ( empty( $data ) || ! isset( $data ) ) {
-			return new \WP_Error( 'nodata', __( 'No data', 'bea-bp' ) );
+			return new \WP_Error( 'nodata', __( 'No data', 'bea-plugin-boilerplate' ) );
 		}
 
 		// Get the defaults
