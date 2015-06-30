@@ -284,11 +284,8 @@ class User {
 	 */
 	public function get_permalink( $args = array() ) {
 		$url = get_the_author_meta( 'url', $this->get_ID() );
-		if ( $url ) {
-			return add_query_arg( $args, $url );
-		}
 
-		return false;
+		return ( ! $url ) ? add_query_arg( $args, $url ) : false;
 	}
 
 }
