@@ -13,7 +13,7 @@ use BEA\PB\Routes\Router;
  * Class Controller
  * @package BEA\PB
  */
-abstract class Controller {
+abstract class Controller extends Singleton {
 	/**
 	 * The page slug on the rewrite rule
 	 *
@@ -85,7 +85,7 @@ abstract class Controller {
 	 * @author Nicolas Juen
 	 */
 	public static function filter_classes( $class ) {
-		if ( false === is_subclass_of( $class, '\BEA\PB\Singleton', true ) ) {
+		if ( false === is_subclass_of( $class, '\BEA\PB\Controller', true ) ) {
 			return false;
 		}
 
