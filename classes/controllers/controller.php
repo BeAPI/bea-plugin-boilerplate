@@ -59,6 +59,18 @@ abstract class Controller extends Singleton {
 	}
 
 	/**
+	 * Redirect to the form url with the data
+	 *
+	 * @param array $args
+	 *
+	 * @author Nicolas Juen
+	 */
+	protected function redirect( $args = array() ) {
+		wp_safe_redirect( $this->get_form_url( $args ) );
+		exit;
+	}
+
+	/**
 	 * Get among all the controller the right one for the current page
 	 *
 	 * @author Nicolas Juen
