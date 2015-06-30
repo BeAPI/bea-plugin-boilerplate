@@ -82,7 +82,8 @@ abstract class Model {
 
 			try {
 				$final_class = new $class( $object );
-			} catch( \Exception $e ) {
+			} catch ( \Exception $e ) {
+				return new \WP_Error( 'fail_model_instantiation', sprintf( 'Fail to instantiate model for post_type %s', get_post_type( $object ) ) );
 			}
 			break;
 		}
