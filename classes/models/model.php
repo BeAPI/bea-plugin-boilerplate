@@ -47,8 +47,8 @@ abstract class Model {
 	 */
 	function __construct( \WP_Post $object ) {
 
-		if ( $object->post_type !== $this->post_type ) {
-			throw new \Exception( sprintf( '%s post type does not match model post type %s', $object->post_type, $this->post_type ), 'mismatch_post_type' );
+		if ( get_post_type( $object ) !== $this->post_type ) {
+			throw new \Exception( sprintf( '%s post type does not match model post type %s', get_post_type( $object ), $this->post_type ), 'mismatch_post_type' );
 		}
 
 		$this->wp_object = $object;
@@ -62,15 +62,16 @@ abstract class Model {
 	 */
 	public static function get_model( \WP_Post $object ) {
 		$classes = array_filter( get_declared_classes(), array( __CLASS__, 'filter_classes' ) );
+		$final_class = new \WP_Error( 'no_model', sprintf( 'No model found for post_type %s', get_post_type( $object ) ) );
+
 		// Check there is classes
 		if ( empty( $classes ) ) {
 			return false;
 		}
 
-		$final_class = new \WP_Error( 'no-model', sprintf( 'No model found for post_type %s', get_post_type( $object ) ) );
 		foreach ( $classes as $class ) {
 			$vars = get_class_vars( $class );
-			if ( $object->post_type !== $vars['post_type'] ) {
+			if ( get_post_type( $object ) !== $vars['post_type'] ) {
 				continue;
 			}
 
