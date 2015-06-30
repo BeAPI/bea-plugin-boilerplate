@@ -61,7 +61,7 @@ class User {
 	 *
 	 * @return User|bool
 	 */
-	protected static function _create( $user_name, $user_email ){
+	protected static function _create( $user_name, $user_email ) {
 		$random_password = wp_generate_password( 12, false );
 		$user_id         = wp_create_user( $user_name, $random_password, $user_email );
 
@@ -69,7 +69,7 @@ class User {
 			return false;
 		}
 
-		return new self( new \WP_User($user_id) );
+		return new self( new \WP_User( $user_id ) );
 	}
 
 	/**
@@ -90,29 +90,28 @@ class User {
 	/**
 	 * Retrieve the avatar `<img>` tag for a user, email address, MD5 hash, comment, or post.
 	 *
-	 * @param mixed $id_or_email The Gravatar to retrieve. Accepts a user_id, gravatar md5 hash, user email, \WP_User object, \WP_Post object, or comment object.
-	 * @param int    $size       Optional. Height and width of the avatar image file in pixels. Default 96.
-	 * @param string $default    Optional. URL for the default image or a default type. Accepts '404' (return a 404 instead of a default image), 'retro' (8bit), 'monsterid'
-	 * 							(monster), 'wavatar' (cartoon face), 'indenticon' (the "quilt"),
-	 *							'mystery', 'mm', or 'mysterman' (The Oyster Man), 'blank' (transparent GIF),
-	 *							or 'gravatar_default' (the Gravatar logo). Default is the value of the 'avatar_default' option, with a fallback of 'mystery'.
+	 * @param int $size Optional. Height and width of the avatar image file in pixels. Default 96.
+	 * @param string $default Optional. URL for the default image or a default type. Accepts '404' (return a 404 instead of a default image), 'retro' (8bit), 'monsterid'
+	 *                            (monster), 'wavatar' (cartoon face), 'indenticon' (the "quilt"),
+	 *                            'mystery', 'mm', or 'mysterman' (The Oyster Man), 'blank' (transparent GIF),
+	 *                            or 'gravatar_default' (the Gravatar logo). Default is the value of the 'avatar_default' option, with a fallback of 'mystery'.
 	 *
-	 * @param string $alt        Optional. Alternative text to use in &lt;img&gt; tag. Default empty.
-	 * @param array  $args       {
+	 * @param string $alt Optional. Alternative text to use in &lt;img&gt; tag. Default empty.
+	 * @param array $args {
 	 *     Optional. Extra arguments to retrieve the avatar.
 	 *
-	 *     @type int          $height        Display height of the avatar in pixels. Defaults to $size.
-	 *     @type int          $width         Display width of the avatar in pixels. Defaults to $size.
-	 *     @type bool         $force_default Whether to always show the default image, never the Gravatar. Default false.
-	 *     @type string       $rating        What rating to display avatars up to. Accepts 'G', 'PG', 'R', 'X', and are
+	 * @type int $height Display height of the avatar in pixels. Defaults to $size.
+	 * @type int $width Display width of the avatar in pixels. Defaults to $size.
+	 * @type bool $force_default Whether to always show the default image, never the Gravatar. Default false.
+	 * @type string $rating What rating to display avatars up to. Accepts 'G', 'PG', 'R', 'X', and are
 	 *                                       judged in that order. Default is the value of the 'avatar_rating' option.
-	 *     @type string       $scheme        URL scheme to use. See set_url_scheme() for accepted values.
+	 * @type string $scheme URL scheme to use. See set_url_scheme() for accepted values.
 	 *                                       Default null.
-	 *     @type array|string $class         Array or string of additional classes to add to the &lt;img&gt; element.
+	 * @type array|string $class Array or string of additional classes to add to the &lt;img&gt; element.
 	 *                                       Default null.
-	 *     @type bool         $force_display Whether to always show the avatar - ignores the show_avatars option.
+	 * @type bool $force_display Whether to always show the avatar - ignores the show_avatars option.
 	 *                                       Default false.
-	 *     @type string       $extra_attr    HTML attributes to insert in the IMG element. Is not sanitized. Default empty.
+	 * @type string $extra_attr HTML attributes to insert in the IMG element. Is not sanitized. Default empty.
 	 * }
 	 * @return false|string `<img>` tag for the user's avatar. False on failure.
 	 */
@@ -125,9 +124,10 @@ class User {
 	 *
 	 * @return bool|string
 	 */
-	public function get_first_name( ) {
+	public function get_first_name() {
 		$first_name = $this->user->get( 'first_name' );
-		return !empty( $first_name ) ? $first_name : false;
+
+		return ! empty( $first_name ) ? $first_name : false;
 	}
 
 	/**
@@ -135,9 +135,10 @@ class User {
 	 *
 	 * @return bool|string
 	 */
-	public function get_last_name( ) {
+	public function get_last_name() {
 		$last_name = $this->user->get( 'last_name' );
-		return !empty( $last_name ) ? $last_name : false;
+
+		return ! empty( $last_name ) ? $last_name : false;
 	}
 
 
@@ -181,7 +182,7 @@ class User {
 			return $this->user->{$key};
 		}
 
-		return get_field( $fields[ $key ], 'user_'.$this->get_ID(), $format );
+		return get_field( $fields[ $key ], 'user_' . $this->get_ID(), $format );
 	}
 
 	/**
@@ -222,7 +223,7 @@ class User {
 		$fields = $this->get_fields();
 		$key    = isset( $fields[ $key ] ) ? $fields[ $key ] : $key;
 
-		return update_field( $key, $value, 'user_'.$this->get_ID() );
+		return update_field( $key, $value, 'user_' . $this->get_ID() );
 	}
 
 	/**
@@ -230,7 +231,7 @@ class User {
 	 *
 	 * @return array
 	 */
-	protected function get_fields( ) {
+	protected function get_fields() {
 		if ( ! is_null( $this->fields ) ) {
 			return $this->fields;
 		}
@@ -259,7 +260,7 @@ class User {
 	/**
 	 * Delete entirely the current object and disconnect it.
 	 *
-	 * @param int $reassign, Reassign posts and links to new User ID
+	 * @param int $reassign , Reassign posts and links to new User ID
 	 *
 	 * @return bool|\WP_Error
 	 */
@@ -275,10 +276,11 @@ class User {
 	 * @return string|bool
 	 */
 	public function get_permalink( $args = array() ) {
-		$url = get_the_author_meta('url', $this->get_ID() );
-		if( $url ){
+		$url = get_the_author_meta( 'url', $this->get_ID() );
+		if ( $url ) {
 			return add_query_arg( $args, $url );
 		}
+
 		return false;
 	}
 
