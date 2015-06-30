@@ -144,7 +144,7 @@ abstract class Model {
 	 * @return bool
 	 */
 	public function get_meta( $key, $format = true ) {
-		if ( empty( $key ) || ! $this->is() ) {
+		if ( empty( $key ) ) {
 			return false;
 		}
 
@@ -169,7 +169,7 @@ abstract class Model {
 	 * @return bool|int
 	 */
 	public function update_meta( $key, $value = '' ) {
-		if ( empty( $key ) || ! $this->is() ) {
+		if ( empty( $key ) ) {
 			return false;
 		}
 
@@ -421,15 +421,12 @@ abstract class Model {
 	 *
 	 * @param bool $force_delete
 	 *
-	 * @return bool|\WP_Error
+	 * @return array|bool|\WP_Post
 	 */
 	public function delete( $force_delete = false ) {
-		if ( false === $this->is() ) {
-			return new \WP_Error( 'nodata', __( 'Impossible to delete the current object', 'bea-pb' ) );
-		}
-
-		return (bool) wp_delete_post( $this->get_ID(), $force_delete );
+		return wp_delete_post( $this->get_ID(), $force_delete );
 	}
+
 	/**
 	 * Get the current model permalink
 	 *
