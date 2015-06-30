@@ -1,6 +1,6 @@
 <?php
 namespace BEA\PB\Widgets;
-use BEA\PB\API;
+use BEA\PB\Helpers;
 
 /**
  * Example of a Widget class well done
@@ -54,7 +54,7 @@ class Main extends \WP_Widget {
 		// Display header
 		$this->the_header();
 
-		include( API::locate_template( 'bea-plugin-boilerplate-widget' ) );
+		include( Helpers::locate_template( 'bea-plugin-boilerplate-widget' ) );
 
 		// Display footer
 		$this->the_footer();
