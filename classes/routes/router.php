@@ -48,7 +48,7 @@ class Router {
 		 */
 		global $wp_rewrite;
 
-		if ( $post_type === 'page' ) {
+		if ( 'page' === $post_type ) {
 			$post_type_permastruct = $wp_rewrite->get_page_permastruct();
 		} else {
 			$post_type_permastruct = $wp_rewrite->get_extra_permastruct( $post_type );
