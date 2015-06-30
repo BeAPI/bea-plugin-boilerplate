@@ -7,6 +7,8 @@ namespace BEA\PB;
  * You can get the instance with
  *     $class = My_Class::get_instance();
  *
+ * /!\ The get_instance method have to be implemented !
+ *
  * Class Singleton
  * @package BEA\PB
  */

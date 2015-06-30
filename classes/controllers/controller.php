@@ -10,6 +10,8 @@ use BEA\PB\Routes\Router;
  *  - fill the page_slug property
  *  - Add action on the wp tag and add the elements
  *
+ * All the controllers needs to be implemented on all clases
+ *
  * Class Controller
  * @package BEA\PB
  */
@@ -42,6 +44,7 @@ abstract class Controller extends Singleton {
 	protected function is_page() {
 		return get_query_var( $this->page_query_var, null ) === $this->page_slug;
 	}
+
 	/**
 	 * Return the form url base
 	 * Dashboard/$this->page_slug/
