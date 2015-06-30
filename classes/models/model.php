@@ -64,7 +64,7 @@ abstract class Model {
 	}
 
 	/**
-	 * Check if the object is rightly instaciated
+	 * Check if the object is correctly instantiated
 	 *
 	 * @return bool
 	 */
