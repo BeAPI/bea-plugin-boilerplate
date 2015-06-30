@@ -61,7 +61,7 @@ abstract class Model {
 	 * @return \WP_Error|Model
 	 */
 	public static function get_model( \WP_Post $object ) {
-		$classes = array_filter( get_declared_classes(), array( __CLASS__, 'filter_classes' ) );
+		$classes     = array_filter( get_declared_classes(), array( __CLASS__, 'filter_classes' ) );
 		$final_class = new \WP_Error( 'no_model', sprintf( 'No model found for post_type %s', get_post_type( $object ) ) );
 
 		// Check there is classes
@@ -289,7 +289,7 @@ abstract class Model {
 	public function set_thumbnail( $id ) {
 		// Remove the attachment if here
 		if ( has_post_thumbnail( $this->get_ID() ) ) {
-			wp_delete_attachment( $this->get_thumbnail_id() ,true );
+			wp_delete_attachment( $this->get_thumbnail_id(), true );
 		}
 
 		return set_post_thumbnail( $this->wp_object, $id );
@@ -348,6 +348,7 @@ abstract class Model {
 		if ( ! function_exists( 'p2p_type' ) ) {
 			return false;
 		}
+
 		return p2p_type( $connection_type )->connect( $this->get_ID(), $object_id, $metas );
 	}
 
@@ -363,18 +364,20 @@ abstract class Model {
 		if ( ! function_exists( 'p2p_type' ) ) {
 			return false;
 		}
+
 		// Delete connection
 		return p2p_type( $connection_type )->disconnect( $this->get_ID(), $object_id );
 	}
 
 	/**
-	*
-	* Update an object
-	* @param array $data
-	*
-	* @return \WP_Error|bool
-	*
-	*/
+	 *
+	 * Update an object
+	 *
+	 * @param array $data
+	 *
+	 * @return \WP_Error|bool
+	 *
+	 */
 	public function update( array $data ) {
 		return $this->_update( $data );
 	}
@@ -382,6 +385,7 @@ abstract class Model {
 	/**
 	 *
 	 * Really update object
+	 *
 	 * @param array $data
 	 *
 	 * @return \WP_Error|bool
@@ -392,7 +396,7 @@ abstract class Model {
 		}
 
 		// Get the defaults
-		$defaults              = $this->get_all_data();
+		$defaults = $this->get_all_data();
 
 		// Get all the data
 		$data = wp_parse_args( $data, $defaults );
@@ -476,7 +480,10 @@ abstract class Model {
 	 * @return array
 	 */
 	public static function filter_post_array( $data ) {
-		return array_intersect_key( $data, array_flip( array_filter( array_keys( $data ), array( __CLASS__, 'filter_post_keys' ) ) ) );
+		return array_intersect_key( $data, array_flip( array_filter( array_keys( $data ), array(
+			__CLASS__,
+			'filter_post_keys'
+		) ) ) );
 	}
 
 	/**

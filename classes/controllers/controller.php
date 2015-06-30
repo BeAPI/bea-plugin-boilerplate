@@ -1,5 +1,6 @@
 <?php
 namespace BEA\PB;
+
 use BEA\PB\Routes\Router;
 
 /**
@@ -28,7 +29,7 @@ abstract class Controller extends Singleton {
 	 * This is the same slug as the slug used on the rewrite
 	 * Like in the hm_rewrite rule:
 	 *
-	 *	'query' => 'index.php?registration=true&step=1&bea_pb_page=registration',
+	 *    'query' => 'index.php?registration=true&step=1&bea_pb_page=registration',
 	 * Here the "bea_pb_page" is the slug to check on
 	 *
 	 * @var string

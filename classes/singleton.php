@@ -22,7 +22,8 @@ abstract class Singleton {
 	/**
 	 * Constructor protected from the outside
 	 */
-	protected function __construct() {}
+	protected function __construct() {
+	}
 
 	/**
 	 * prevent the instance from being cloned

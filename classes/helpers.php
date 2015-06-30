@@ -14,7 +14,7 @@ namespace BEA\PB;
  * Class API
  * @package BEA\PB
  */
-Class Helpers {
+class Helpers {
 	/**
 	 * Locate template in the theme or plugin if needed
 	 *

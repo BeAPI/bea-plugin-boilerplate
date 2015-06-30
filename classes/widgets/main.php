@@ -1,5 +1,6 @@
 <?php
 namespace BEA\PB\Widgets;
+
 use BEA\PB\Helpers;
 
 /**
