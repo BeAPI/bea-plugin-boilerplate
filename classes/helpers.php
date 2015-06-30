@@ -54,7 +54,7 @@ Class Helpers {
 		}
 
 		$tpl_path = self::locate_template( $tpl );
-		if ( $tpl_path === false ) {
+		if ( false === $tpl_path ) {
 			return false;
 		}
 
