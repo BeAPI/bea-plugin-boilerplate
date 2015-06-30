@@ -15,20 +15,20 @@ class Main extends \WP_Widget {
 	 *
 	 * @var array
 	 */
-	private $args;
+	private $_args;
 
 	/**
 	 * The current widget instance
 	 *
 	 * @var
 	 */
-	private $instance;
+	private $_instance;
 
 	public function __construct() {
 		parent::__construct( 'widget-bea-pb', __( 'Widget title', 'bea-plugin-boilerplate' ),
 			array(
 				'classname'   => 'widget-bea-pb',
-				'description' => __( 'Widget description', 'bea-plugin-boilerplate' )
+				'description' => __( 'Widget description', 'bea-plugin-boilerplate' ),
 			)
 		);
 	}
