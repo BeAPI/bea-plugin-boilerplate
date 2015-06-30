@@ -66,7 +66,7 @@ abstract class Model {
 
 		// Check there is classes
 		if ( empty( $classes ) ) {
-			return false;
+			return $final_class;
 		}
 
 		foreach ( $classes as $class ) {
