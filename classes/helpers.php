@@ -28,7 +28,7 @@ class Helpers {
 		}
 
 		// Locate from the theme
-		$located = locate_template( array( '/views/' . BEA_PB_VIEWS_FOLDER_NAME . '/' . $tpl . '.php' ), false, false );
+		$located = locate_template( array( 'views/' . BEA_PB_VIEWS_FOLDER_NAME . '/' . $tpl . '.php' ), false, false );
 		if ( ! empty( $located ) ) {
 			return $located;
 		}
