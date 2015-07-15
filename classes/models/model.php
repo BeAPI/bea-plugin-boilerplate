@@ -138,7 +138,7 @@ abstract class Model {
 	/**
 	 * Provided the meta value of meta key given
 	 *
-	 * @param string $key
+	 * @param string $key : the ACF or the meta key to get the data from
 	 * @param bool $format : format or not, specific to ACF
 	 *
 	 * @return bool
@@ -152,11 +152,14 @@ abstract class Model {
 		$fields = $this->get_fields();
 
 		// Check ACF
-		if ( ! isset( $fields[ $key ] ) || ! function_exists( 'get_field' ) ) {
+		if ( ! in_array( $key, $fields ) && ! isset( $fields[ $key ] ) || ! function_exists( 'get_field' ) ) {
 			return $this->wp_object->{$key};
 		}
+		
+		// On ACF given key
+		$key = in_array( $key, $fields ) ? $key : $fields[ $key ];
 
-		return get_field( $fields[ $key ], $this->get_ID(), $format );
+		return get_field( $key, $this->get_ID(), $format );
 	}
 
 
