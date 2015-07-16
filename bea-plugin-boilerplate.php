@@ -66,8 +66,8 @@ if ( version_compare( PHP_VERSION, BEA_PB_MIN_PHP_VERSION, '<' ) ) {
 require_once BEA_PB_DIR . 'autoload.php';
 
 // Plugin activate/deactive hooks
-register_activation_hook( __FILE__, array( '\BEA_PB\Plugin', 'activate' ) );
-register_deactivation_hook( __FILE__, array( '\BEA_PB\Plugin', 'deactivate' ) );
+register_activation_hook( __FILE__, array( '\BEA\PB\Plugin', 'activate' ) );
+register_deactivation_hook( __FILE__, array( '\BEA\PB\Plugin', 'deactivate' ) );
 
 add_action( 'plugins_loaded', 'init_bea_pb_plugin' );
 /**
