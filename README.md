@@ -6,7 +6,7 @@ The BEA Plugin Boilerplate serves as a foundation off of which to build your Wor
  
 # Getting Started
 
-For making this plugin easily usable, you can make the given replacements please enable the case sensitive search
+For making this plugin easily usable, you can make the given replacements please enable the case sensitive search and then :
 
 * Search for: `bea-plugin-boilerplate` and replace with: `my-plugin`
 * Search for:  `BEA\PB` and replace with: `BEA\My_plugin`
