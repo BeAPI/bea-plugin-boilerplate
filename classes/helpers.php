@@ -97,7 +97,7 @@ class Helpers {
 	 */
 	public static function render( $tpl, $data = array() ) {
 		$view = self::load_template( $tpl );
-		echo false !== $view ? $view( $data ) : '';
+		false !== $view ? $view( $data ) : '';
 	}
 
 	/**
