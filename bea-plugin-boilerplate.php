@@ -2,16 +2,16 @@
 /*
  Plugin Name: BEA Plugin Name
  Version: 0.1
- Plugin URI: https://github.com/herewithme/bea-plugin-boilerplate
+ Plugin URI: http://www.beapi.fr
  Description: Your plugin description
- Author: Beapi Technical team
+ Author: BE API Technical team
  Author URI: http://www.beapi.fr
  Domain Path: languages
  Text Domain: bea-plugin-boilerplate
 
  ----
 
- Copyright 2015 Beapi Technical team (human@beapi.fr)
+ Copyright 2015 BE API Technical team (human@beapi.fr)
 
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ $wpdb->sample_table = $wpdb->prefix . 'sample_table';
 
 // Plugin constants
 define( 'BEA_PB_VERSION', '0.1' );
-define( 'BEA_PB_MIN_PHP_VERSION', '5.4' );
+define( 'BEA_PB_MIN_PHP_VERSION', '5.3' );
 define( 'BEA_PB_VIEWS_FOLDER_NAME', 'bea-pb' );
 define( 'BEA_PB_CPT_NAME', 'custom_post_type' );
 define( 'BEA_PB_TAXO_NAME', 'custom_taxonomy' );
