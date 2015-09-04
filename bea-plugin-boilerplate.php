@@ -1,7 +1,7 @@
 <?php
 /*
  Plugin Name: BEA Plugin Name
- Version: 0.1
+ Version: 1.1.0
  Plugin URI: http://www.beapi.fr
  Description: Your plugin description
  Author: BE API Technical team
@@ -39,7 +39,7 @@ $wpdb->tables[]     = 'sample_table';
 $wpdb->sample_table = $wpdb->prefix . 'sample_table';
 
 // Plugin constants
-define( 'BEA_PB_VERSION', '0.1' );
+define( 'BEA_PB_VERSION', '1.1.0' );
 define( 'BEA_PB_MIN_PHP_VERSION', '5.3' );
 define( 'BEA_PB_VIEWS_FOLDER_NAME', 'bea-pb' );
 define( 'BEA_PB_CPT_NAME', 'custom_post_type' );
