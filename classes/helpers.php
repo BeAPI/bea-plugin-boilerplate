@@ -42,13 +42,13 @@ class Helpers {
 	}
 
 	/**
-	 * Load the template given
+	 * Include the template given
 	 *
 	 * @param string $tpl : the template name to load
 	 *
 	 * @return bool
 	 */
-	public static function load_template( $tpl ) {
+	public static function include_template( $tpl ) {
 		if ( empty( $tpl ) ) {
 			return false;
 		}
@@ -61,6 +61,43 @@ class Helpers {
 		include( $tpl_path );
 
 		return true;
+	}
+
+	/**
+	 * Load the template given and return a view to be render
+	 *
+	 * @param string $tpl : the template name to load
+	 *
+	 * @return \Closure|false
+	 */
+	public static function load_template( $tpl ) {
+		if ( empty( $tpl ) ) {
+			return false;
+		}
+
+		$tpl_path = self::locate_template( $tpl );
+		if ( false === $tpl_path ) {
+			return false;
+		}
+
+		return function( $data ) use ( $tpl_path ) {
+			if ( ! is_array( $data ) ) {
+				$data = array( 'data' => $data );
+			}
+			extract( $data,  EXTR_OVERWRITE );
+			include( $tpl_path );
+		};
+	}
+
+	/**
+	 * Render a view
+	 *
+	 * @param string $tpl : the template's name
+	 * @param array  $data : the template's data
+	 */
+	public static function render( $tpl, $data = array() ) {
+		$view = self::load_template( $tpl );
+		false !== $view ? $view( $data ) : '';
 	}
 
 	/**
