@@ -75,11 +75,11 @@ add_action( 'plugins_loaded', 'init_bea_pb_plugin' );
  */
 function init_bea_pb_plugin() {
 	// Client
-	new \BEA\PB\Main();
+	\BEA\PB\Main::get_instance();
 
 	// Admin
 	if ( is_admin() ) {
-		new \BEA\PB\Admin\Main();
+		\BEA\PB\Admin\Main::get_instance();
 	}
 
 	// Widgets
