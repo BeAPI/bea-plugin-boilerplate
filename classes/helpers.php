@@ -15,6 +15,12 @@ namespace BEA\PB;
  * @package BEA\PB
  */
 class Helpers {
+
+	/**
+	 * Use the trait
+	 */
+	use Singleton;
+
 	/**
 	 * Locate template in the theme or plugin if needed
 	 *

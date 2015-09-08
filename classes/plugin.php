@@ -11,6 +11,11 @@ namespace BEA\PB;
  * @package BEA\PB
  */
 class Plugin {
+	/**
+	 * Use the trait
+	 */
+	use Singleton;
+
 	public static function activate() {
 		global $wpdb;
 
