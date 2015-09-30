@@ -84,6 +84,6 @@ function init_bea_pb_plugin() {
 
 	// Widgets
 	add_action( 'widgets_init', function () {
-		new \BEA\PB\Widgets\Main();
+		register_widget( '\BEA\PB\Widgets\Main' );
 	} );
 }
