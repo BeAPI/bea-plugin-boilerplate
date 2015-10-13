@@ -2,6 +2,7 @@
 /*
  Plugin Name: BEA Plugin Name
  Version: 1.1.1
+ Version Boilerplate: 2.0.0
  Plugin URI: http://www.beapi.fr
  Description: Your plugin description
  Author: BE API Technical team
@@ -75,11 +76,11 @@ add_action( 'plugins_loaded', 'init_bea_pb_plugin' );
  */
 function init_bea_pb_plugin() {
 	// Client
-	new \BEA\PB\Main();
+	\BEA\PB\Main::get_instance();
 
 	// Admin
 	if ( is_admin() ) {
-		new \BEA\PB\Admin\Main();
+		\BEA\PB\Admin\Main::get_instance();
 	}
 
 	// Widgets

@@ -1,5 +1,6 @@
 <?php
 namespace BEA\PB\Admin;
+use BEA\PB\Singleton;
 
 /**
  * Basic class for Admin
@@ -8,6 +9,11 @@ namespace BEA\PB\Admin;
  * @package BEA\PB\Admin
  */
 class Main {
+	/**
+	 * Use the trait
+	 */
+	use Singleton;
+
 	public function __construct() {
 	}
 }

@@ -1,7 +1,8 @@
 <?php
-namespace BEA\PB;
+namespace BEA\PB\Controllers;
 
 use BEA\PB\Routes\Router;
+use BEA\PB\Singleton;
 
 /**
  * This class is the base class for the controllers
@@ -16,7 +17,13 @@ use BEA\PB\Routes\Router;
  * Class Controller
  * @package BEA\PB
  */
-abstract class Controller extends Singleton {
+abstract class Controller {
+
+	/**
+	 * Use the trait
+	 */
+	use Singleton;
+
 	/**
 	 * The page slug on the rewrite rule
 	 *
