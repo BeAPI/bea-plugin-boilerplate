@@ -1,34 +1,55 @@
 <?php
 namespace BEA\PB\Shortcodes;
+
 use BEA\PB\Singleton;
 
 
 /**
+ * This class is the base class of Shortcode
  *
- * Class Singleton
- * @package BEA\PB
+ * Class Shortcode
+ * @package BEA\PB\Shortcodes
  */
 abstract class Shortcode {
 
 	use Singleton;
 
-	const shortcode_tag = '';
-
-	private static $defaults = array();
+	/**
+	 * The shortcode Tag
+	 */
+	const TAG = '';
 
 	/**
-	 * Init the shortcode tag
+	 * List of supported attributes and their defaults
 	 *
-	 * @author Nicolas Juen
+	 * @var array
+	 */
+	private $defaults = array();
+
+
+	/**
+	 * Create a shortCode
 	 */
 	public function add_shortcode() {
-		add_shortcode( $this->shortcode_tag, array( get_class(__CLASS__), 'do_shortcode' ) );
+		add_shortcode( self::TAG, array( get_class( __CLASS__ ), 'render' ) );
 	}
 
-	public function shortcode_atts( $attributes ) {
-		return shortcode_atts( $this->$defaults, $attributes, self::shortcode_tag );
+	/**
+	 * Combine the attributes gives us whit defaults attributes
+	 *
+	 * @param $attributes .
+	 *
+	 * @return mixed
+	 */
+	public function attributes( $attributes ) {
+		return shortcode_atts( $this->defaults, $attributes, self::TAG );
 	}
 
-	public abstract function do_shortcode();
+	/**
+	 * Display shortcode content
+	 *
+	 * @return mixed
+	 */
+	public abstract function render();
 
 }
