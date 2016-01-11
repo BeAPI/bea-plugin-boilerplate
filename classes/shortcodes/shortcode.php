@@ -17,7 +17,7 @@ abstract class Shortcode {
 	/**
 	 * The shortcode TAG
 	 */
-	const TAG = '';
+	protected $tag = '';
 
 	/**
 	 * List of supported attributes and their defaults
@@ -30,7 +30,7 @@ abstract class Shortcode {
 	 * Create a shortCode
 	 */
 	public function add() {
-		add_shortcode( self::TAG, array( get_class( __CLASS__ ), 'render' ) );
+		add_shortcode( $this->tag, array( get_class( $this ), 'render' ) );
 	}
 
 	/**
@@ -41,7 +41,7 @@ abstract class Shortcode {
 	 * @return mixed
 	 */
 	public function attributes( $attributes = array() ) {
-		return shortcode_atts( $this->defaults, $attributes, self::TAG );
+		return shortcode_atts( $this->defaults, $attributes, $this->tag );
 	}
 
     /**
