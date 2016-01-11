@@ -15,9 +15,9 @@ abstract class Shortcode {
 	use Singleton;
 
 	/**
-	 * The shortcode Tag
+	 * The shortcode TAG
 	 */
-	const tag = '';
+	const TAG = '';
 
 	/**
 	 * List of supported attributes and their defaults
@@ -26,30 +26,32 @@ abstract class Shortcode {
 	 */
 	private $defaults = array();
 
-
 	/**
 	 * Create a shortCode
 	 */
 	public function add() {
-		add_shortcode( self::tag, array( get_class( __CLASS__ ), 'render' ) );
+		add_shortcode( self::TAG, array( get_class( __CLASS__ ), 'render' ) );
 	}
 
 	/**
 	 * Combine the attributes gives us whit defaults attributes
 	 *
-	 * @param $attributes .
+	 * @param array $attributes
 	 *
 	 * @return mixed
 	 */
-	public function attributes( $attributes ) {
-		return shortcode_atts( $this->defaults, $attributes, self::tag );
+	public function attributes( $attributes = array() ) {
+		return shortcode_atts( $this->defaults, $attributes, self::TAG );
 	}
 
-	/**
-	 * Display shortcode content
-	 *
-	 * @return mixed
-	 */
-	public abstract function render();
+    /**
+     * Display shortcode content
+     *
+     * @param array $attributes
+     * @param string $content
+     *
+     * @return string
+     */
+	public abstract function render( $attributes = array(), $content = '' );
 
 }
