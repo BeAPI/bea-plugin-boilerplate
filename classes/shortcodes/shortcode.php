@@ -30,7 +30,7 @@ abstract class Shortcode {
 	 * Create a shortCode
 	 */
 	public function add() {
-		add_shortcode( $this->tag, array( get_class( $this ), 'render' ) );
+		add_shortcode( $this->tag, array( $this, 'render' ) );
 	}
 
 	/**
