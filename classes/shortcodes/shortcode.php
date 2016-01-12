@@ -24,7 +24,7 @@ abstract class Shortcode {
 	 *
 	 * @var array
 	 */
-	private $defaults = array();
+	protected $defaults = array();
 
 	/**
 	 * Create a shortCode
