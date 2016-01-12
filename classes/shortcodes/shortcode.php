@@ -15,7 +15,7 @@ abstract class Shortcode {
 	use Singleton;
 
 	/**
-	 * The shortcode TAG
+	 * The shortcode [tag]
 	 */
 	protected $tag = '';
 
@@ -27,7 +27,7 @@ abstract class Shortcode {
 	protected $defaults = array();
 
 	/**
-	 * Create a shortCode
+	 * Create a shortcode
 	 */
 	public function add() {
 		add_shortcode( $this->tag, array( $this, 'render' ) );
