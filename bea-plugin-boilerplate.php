@@ -2,7 +2,7 @@
 /*
  Plugin Name: BEA Plugin Name
  Version: 1.0.0
- Version Boilerplate: 2.0.0
+ Version Boilerplate: 2.1.0
  Plugin URI: http://www.beapi.fr
  Description: Your plugin description
  Author: BE API Technical team
@@ -40,7 +40,7 @@ $wpdb->tables[]     = 'sample_table';
 $wpdb->sample_table = $wpdb->prefix . 'sample_table';
 
 // Plugin constants
-define( 'BEA_PB_VERSION', '1.0.0' );
+define( 'BEA_PB_VERSION', '2.1.0' );
 define( 'BEA_PB_MIN_PHP_VERSION', '5.4' );
 define( 'BEA_PB_VIEWS_FOLDER_NAME', 'bea-pb' );
 define( 'BEA_PB_CPT_NAME', 'custom_post_type' );
