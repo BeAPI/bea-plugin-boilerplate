@@ -5,6 +5,7 @@ namespace BEA\PB;
  * The purpose of the main class is to init all the plugin base code like :
  *  - Taxonomies
  *  - Post types
+ *  - Shortcodes
  *  - Posts to posts relations etc.
  *  - Loading the text domain
  *
@@ -28,4 +29,5 @@ class Main {
 		// Load translations
 		load_plugin_textdomain( 'bea-plugin-boilerplate', false, BEA_PB_DIR . 'languages' );
 	}
+
 }
