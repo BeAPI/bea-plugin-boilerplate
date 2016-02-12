@@ -1,18 +1,34 @@
 <?php namespace BEA\PB\Shortcodes;
 
+/**
+ * The purpose of this factory is to create shortcodes easily
+ *
+ * Class Shortcode_Factory
+ * @package BEA\PB\Shortcodes
+ * @since 2.1.0
+ */
 class Shortcode_Factory {
 
+	/**
+	 * Instantiate a shortcode with the given class
+	 *
+	 * @param $classname
+	 *
+	 * @since 2.1.0
+	 * @return bool
+	 */
 	public static function create( $classname ) {
-		$namespace = 'BEA\PB\Shortcodes\\';
-		if( ! class_exists( $namespace . $classname ) ) {
+		if( empty( $classname ) || ! class_exists( __NAMESPACE__ . $classname ) ) {
 			return false;
 		}
 
-		$class = call_user_func( array ( $namespace . $classname, 'get_instance' ) );
-		if( ! is_subclass_of( $class, $namespace . 'Shortcode' ) || ! is_callable( array( $class, 'add' ) ) ) {
+		// Call the get_instance method for the given $classname
+		$class = call_user_func( array ( __NAMESPACE__ . $classname, 'get_instance' ) );
+		if( ! is_subclass_of( $class, __NAMESPACE__ . 'Shortcode' ) || ! is_callable( array( $class, 'add' ) ) ) {
 			return false;
 		}
 
+		// Add shortcode
 		call_user_func( array( $class, 'add' ) );
 		return true;
 	}
