@@ -1,0 +1,24 @@
+{
+  "name": "bea/plugin-boilerplate",
+  "description": "BEA Plugin Name",
+  "minimum-stability": "stable",
+  "license": "GPL-2.0",
+  "authors": [
+    {
+      "name": "Dev team beapi",
+      "email": "technique@gmail.com"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/BeAPI/bea-logger"
+    }
+  ],
+  "require" : {
+    "bea/logger" : "dev-master"
+  },
+  "autoload": {
+    "classmap": {"BEA\\PB\\": "classes"}
+  }
+}

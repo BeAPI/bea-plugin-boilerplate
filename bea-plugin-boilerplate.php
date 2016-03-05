@@ -64,7 +64,7 @@ if ( version_compare( PHP_VERSION, BEA_PB_MIN_PHP_VERSION, '<' ) ) {
 /**
  * Autoload all the things \o/
  */
-require_once BEA_PB_DIR . 'autoload.php';
+require_once __FILE__ . 'vendor/autoload.php';
 
 // Plugin activate/deactive hooks
 register_activation_hook( __FILE__, array( '\BEA\PB\Plugin', 'activate' ) );
