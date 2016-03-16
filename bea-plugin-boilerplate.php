@@ -2,7 +2,7 @@
 /*
  Plugin Name: BEA Plugin Name
  Version: 1.0.0
- Version Boilerplate: 2.1.0
+ Version Boilerplate: 2.1.2
  Plugin URI: http://www.beapi.fr
  Description: Your plugin description
  Author: BE API Technical team
