@@ -71,6 +71,7 @@ abstract class Model {
 
 		foreach ( $classes as $class ) {
 			$vars = get_class_vars( $class );
+
 			if ( get_post_type( $object ) !== $vars['post_type'] ) {
 				continue;
 			}
@@ -100,7 +101,7 @@ abstract class Model {
 	 * @return bool
 	 */
 	public static function filter_classes( $class ) {
-		if ( false === is_subclass_of( $class, 'Model' ) ) {
+		if ( false === is_subclass_of( $class, __NAMESPACE__ . '\\' . 'Model' )  ) {
 			return false;
 		}
 
