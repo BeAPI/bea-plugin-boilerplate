@@ -1,5 +1,6 @@
 <?php
 namespace BEA\PB\Models;
+
 /**
  * This class pupose is to manipulate and access to method of the WP_User class
  * It's not mandatory to extend from this class and you can se it as it is
