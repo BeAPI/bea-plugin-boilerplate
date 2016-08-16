@@ -1,6 +1,5 @@
 <?php
 namespace BEA\PB\Models;
-
 /**
  * This class pupose is to manipulate and access to method of the WP_User class
  * It's not mandatory to extend from this class and you can se it as it is
@@ -41,29 +40,42 @@ class User {
 	/**
 	 * Create user
 	 *
-	 * @param string $user_name
-	 * @param string $user_email
+	 * @param array  $args
+	 * @deprecated 2.1.3 $user_email Use first argument as array.
 	 *
 	 * @return false or user model
 	 *
-	 * @author Alexandre Sadowski
+	 * @author Alexandre Sadowski|Romain DORR
 	 */
-	public static function create( $user_name, $user_email ) {
-		return self::_create( $user_name, $user_email );
+	public static function create( $args, $user_email = null ) {
+		if ( null !== $user_email ) {
+			_deprecated_argument( __FUNCTION__, '2.1.3', esc_html__( 'Use first argument as array', 'bea-plugin-boilerplate' ) );
+			$args = [
+				'user_name'  => $args,
+				'user_email' => $user_email,
+			];
+		}
+		return self::_create( $args );
 	}
 
 	/**
 	 * User creation method
 	 *
-	 *
-	 * @param $user_name
-	 * @param $user_email
+	 * @param array  $args
 	 *
 	 * @return User|bool
+	 *
+	 * @author Alexandre Sadowski|Romain DORR
 	 */
-	protected static function _create( $user_name, $user_email ) {
+	protected static function _create( $args ) {
 		$random_password = wp_generate_password( 12, false );
-		$user_id         = wp_create_user( $user_name, $random_password, $user_email );
+
+		$defaults = [
+		    'user_pass' => $random_password,
+		];
+		$userdata = wp_parse_args( $args, $defaults );
+
+		$user_id = wp_insert_user( $userdata );
 
 		if ( is_wp_error( $user_id ) ) {
 			return false;
@@ -287,5 +299,4 @@ class User {
 
 		return ( ! $url ) ? add_query_arg( $args, $url ) : false;
 	}
-
 }
