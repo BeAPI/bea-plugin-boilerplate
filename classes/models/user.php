@@ -21,6 +21,13 @@ class User {
 	protected $ID;
 
 	/**
+	 * The user ACF fields
+	 *
+	 * @var array
+	 */
+	protected $fields = null;
+
+	/**
 	 *
 	 * @param \WP_User $object
 	 *
@@ -164,6 +171,18 @@ class User {
 		$user_email = $this->user->get( 'user_email' );
 
 		return ! empty( $user_email ) ? $user_email : false;
+	}
+
+	/**
+	 * Get Roles
+	 *
+	 * @return bool|array
+	 *
+	 * @author Romain DORR
+	 */
+	public function get_roles() {
+		$roles = $this->user->roles;
+		return ! empty( $roles ) ? $roles : false;
 	}
 
 	/**
