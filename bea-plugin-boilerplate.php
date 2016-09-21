@@ -2,7 +2,7 @@
 /*
  Plugin Name: BEA Plugin Name
  Version: 1.0.0
- Version Boilerplate: 2.1.3
+ Version Boilerplate: 2.1.4
  Plugin URI: http://www.beapi.fr
  Description: Your plugin description
  Author: BE API Technical team
@@ -49,6 +49,8 @@ define( 'BEA_PB_TAXO_NAME', 'custom_taxonomy' );
 // Plugin URL and PATH
 define( 'BEA_PB_URL', plugin_dir_url( __FILE__ ) );
 define( 'BEA_PB_DIR', plugin_dir_path( __FILE__ ) );
+define( 'BEA_PB_PLUGIN_DIRNAME', basename( rtrim( dirname( __FILE__ ), '/' ) ) );
+
 
 // Check PHP min version
 if ( version_compare( PHP_VERSION, BEA_PB_MIN_PHP_VERSION, '<' ) ) {

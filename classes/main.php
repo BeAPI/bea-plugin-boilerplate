@@ -27,7 +27,7 @@ class Main {
 	 */
 	public static function init_translations() {
 		// Load translations
-		load_plugin_textdomain( 'bea-plugin-boilerplate', false, BEA_PB_DIR . 'languages' );
+		load_plugin_textdomain( 'bea-plugin-boilerplate', false, BEA_PB_PLUGIN_DIRNAME . '/languages' );
 	}
 
 }
