@@ -18,7 +18,7 @@ class Compatibility {
 		}
 
 		// Load the textdomain
-		load_plugin_textdomain( 'bea-plugin-boilerplate', false, BEA_PB_DIR . 'languages' );
+		load_plugin_textdomain( 'bea-plugin-boilerplate', false, BEA_PB_PLUGIN_DIRNAME . '/languages' );
 
 		trigger_error( sprintf( __( 'Plugin Boilerplate requires PHP version %s or greater to be activated.', 'bea-plugin-boilerplate' ), BEA_PB_MIN_PHP_VERSION ) );
 

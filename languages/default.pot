@@ -1,0 +1,59 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: BEA Plugin Boilerplate\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-09-21 14:59+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Alexandre Sadowski <asadowski@beapi.fr>\n"
+"Language-Team: BeAPI <human@beapi.fr>\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;"
+"__ngettext_noop:1,2;_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;"
+"_nx_js:1,2,3c;esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;"
+"esc_attr_x:1,2c;esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;"
+"transChoice:1,2\n"
+"X-Generator: Poedit 1.8.9\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: classes/models/model.php:399
+msgid "No data"
+msgstr ""
+
+#: classes/models/user.php:53
+msgid "Use first argument as array"
+msgstr ""
+
+#: classes/widgets/main.php:29
+msgid "Widget title"
+msgstr ""
+
+#: classes/widgets/main.php:32
+msgid "Widget description"
+msgstr ""
+
+#: classes/widgets/main.php:91
+msgid "Sample title"
+msgstr ""
+
+#: compat.php:23
+#, php-format
+msgid "Plugin Boilerplate requires PHP version %s or greater to be activated."
+msgstr ""
+
+#: compat.php:38
+#, php-format
+msgid ""
+"Plugin Boilerplate require PHP version %s or greater to be activated. Your "
+"server is currently running PHP version %s."
+msgstr ""
+
+#: views/admin/widget.php:9
+msgid "Title"
+msgstr ""
