@@ -19,6 +19,11 @@ Then you have to rename the `bea-plugin-boilerplate.php` to `my-plugin.php` and 
 
 ## Changelog ##
 
+### 2.1.4
+* 06 Oct 2016
+* Fix textdomain load
+* Add french translations
+
 ### 2.1.3
 * 13 April 2016
 * Fix model class name with namespace
