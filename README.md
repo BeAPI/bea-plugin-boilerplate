@@ -19,41 +19,41 @@ Then you have to rename the `bea-plugin-boilerplate.php` to `my-plugin.php` and 
 
 ## Changelog ##
 
-### 1.0.0
-* 18 Feb 2016
-* Initial
-
-### 1.1.0
-* 4 Sep 2015
-* Add new filter on locate_template
-
-### 1.1.1
-* 4 Sep 2015
-
-### 1.1.2
-* 30 Sep 2015
-* Fix widget registration
-
-### 2.0.0
-* 13 Oct 2015
-* Add traits
-
-### 2.0.1
-* 11 Jan 2016
-* Fix title display in widget view
-
-### 2.1.0
-* 12 Feb 2016
-* Add Shortcode implementation
-
-### 2.1.1
-* 6 Mar 2016
-* Fix plugin version number
+### 2.1.3
+* 13 April 2016
+* Fix model class name with namespace
 
 ### 2.1.2
 * 16 Mar 2016
 * Fix user model filename
 
-### 2.1.3
-* 13 April 2016
-* Fix model class name with namespace
+### 2.1.1
+* 6 Mar 2016
+* Fix plugin version number
+
+### 2.1.0
+* 12 Feb 2016
+* Add Shortcode implementation
+
+### 2.0.1
+* 11 Jan 2016
+* Fix title display in widget view
+
+### 2.0.0
+* 13 Oct 2015
+* Add traits
+
+### 1.1.2
+* 30 Sep 2015
+* Fix widget registration
+
+### 1.1.1
+* 4 Sep 2015
+
+### 1.1.0
+* 4 Sep 2015
+* Add new filter on locate_template
+
+### 1.0.0
+* 18 Feb 2016
+* Initial
