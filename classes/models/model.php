@@ -61,32 +61,16 @@ abstract class Model {
 	 * @return \WP_Error|Model
 	 */
 	public static function get_model( \WP_Post $object ) {
-		$classes     = array_filter( get_declared_classes(), array( __CLASS__, 'filter_classes' ) );
-		$final_class = new \WP_Error( 'no_model', sprintf( 'No model found for post_type %s', get_post_type( $object ) ) );
+		$post_type = get_post_type_object( $object->post_type );
 
-		// Check there is classes
-		if ( empty( $classes ) ) {
-			return $final_class;
+		if ( empty( $post_type->model_class ) || ! class_exists( $post_type->model_class ) ) {
+			return new \WP_Error( 'fail_model_find', sprintf( 'Fail to find model for post_type %s', get_post_type( $object ) ) );
 		}
 
-		foreach ( $classes as $class ) {
-			$vars = get_class_vars( $class );
-
-			if ( get_post_type( $object ) !== $vars['post_type'] ) {
-				continue;
-			}
-
-			$r = new \ReflectionMethod( $class, '__construct' );
-			if ( $r->getNumberOfRequiredParameters() > 1 ) {
-				break;
-			}
-
-			try {
-				$final_class = new $class( $object );
-			} catch ( \Exception $e ) {
-				return new \WP_Error( 'fail_model_instantiation', sprintf( 'Fail to instantiate model for post_type %s', get_post_type( $object ) ) );
-			}
-			break;
+		try {
+			$final_class = new $post_type->model_class( $object );
+		} catch ( \Exception $e ) {
+			return new \WP_Error( 'fail_model_instantiation', sprintf( 'Fail to instantiate model for post_type %s', get_post_type( $object ) ) );
 		}
 
 		// Give the model
