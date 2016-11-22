@@ -25,7 +25,7 @@ class Main {
 	/**
 	 * Load the plugin translation
 	 */
-	public static function init_translations() {
+	public function init_translations() {
 		// Load translations
 		load_plugin_textdomain( 'bea-plugin-boilerplate', false, BEA_PB_PLUGIN_DIRNAME . '/languages' );
 	}

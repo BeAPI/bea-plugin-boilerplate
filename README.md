@@ -19,6 +19,10 @@ Then you have to rename the `bea-plugin-boilerplate.php` to `my-plugin.php` and 
 
 ## Changelog ##
 
+### 2.1.6
+* 22 Nov 2016
+* Fix Non-static method init_translations() should not be called statically
+
 ### 2.1.5
 * 15 Nov 2016
 * Fix method get_model using model_class in post_type
