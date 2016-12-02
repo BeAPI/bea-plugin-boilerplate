@@ -3,10 +3,10 @@
  Plugin Name: BEA Plugin Name
  Version: 1.0.0
  Version Boilerplate: 2.1.6
- Plugin URI: http://www.beapi.fr
+ Plugin URI: https://beapi.fr
  Description: Your plugin description
  Author: BE API Technical team
- Author URI: http://www.beapi.fr
+ Author URI: https://beapi.fr
  Domain Path: languages
  Text Domain: bea-plugin-boilerplate
 
