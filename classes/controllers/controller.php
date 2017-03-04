@@ -2,7 +2,6 @@
 namespace BEA\PB\Controllers;
 
 use BEA\PB\Routes\Router;
-use BEA\PB\Singleton;
 
 /**
  * This class is the base class for the controllers
@@ -18,11 +17,6 @@ use BEA\PB\Singleton;
  * @package BEA\PB
  */
 abstract class Controller {
-
-	/**
-	 * Use the trait
-	 */
-	use Singleton;
 
 	/**
 	 * The page slug on the rewrite rule
