@@ -5,14 +5,14 @@
  Version Boilerplate: 2.1.6
  Plugin URI: https://beapi.fr
  Description: Your plugin description
- Author: BE API Technical team
+ Author: Be API Technical team
  Author URI: https://beapi.fr
  Domain Path: languages
  Text Domain: bea-plugin-boilerplate
 
  ----
 
- Copyright 2016 BE API Technical team (human@beapi.fr)
+ Copyright 2017 Be API Technical team (human@beapi.fr)
 
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
