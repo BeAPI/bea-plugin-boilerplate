@@ -19,6 +19,10 @@ Then you have to rename the `bea-plugin-boilerplate.php` to `my-plugin.php` and 
 
 ## Changelog ##
 
+### 2.1.7
+* 14 June 2017
+* Fix wrong use of get_object_term_cache() and php Exception
+
 ### 2.1.6
 * 22 Nov 2016
 * Fix Non-static method init_translations() should not be called statically
