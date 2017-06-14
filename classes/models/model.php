@@ -211,7 +211,7 @@ abstract class Model {
 	 * @return array|\WP_Error
 	 */
 	public function get_terms( $taxonomy, array $args = array() ) {
-		$terms = get_object_term_cache( $this->get_ID(), $taxonomy, $args );
+		$terms = get_object_term_cache( $this->get_ID(), $taxonomy );
 		if ( false === $terms ) {
 			$terms = wp_get_object_terms( $this->get_ID(), $taxonomy, $args );
 		}
