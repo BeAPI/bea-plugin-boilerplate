@@ -48,7 +48,7 @@ abstract class Model {
 	function __construct( \WP_Post $object ) {
 
 		if ( get_post_type( $object ) !== $this->post_type ) {
-			throw new \Exception( sprintf( '%s post type does not match model post type %s', get_post_type( $object ), $this->post_type ), 'mismatch_post_type' );
+			throw new \Exception( sprintf( '%s post type does not match model post type %s', get_post_type( $object ), $this->post_type ) );
 		}
 
 		$this->wp_object = $object;
