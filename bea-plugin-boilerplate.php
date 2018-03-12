@@ -2,7 +2,7 @@
 /*
  Plugin Name: BEA Plugin Name
  Version: 1.0.0
- Version Boilerplate: 2.1.6
+ Version Boilerplate: 2.1.8
  Plugin URI: https://beapi.fr
  Description: Your plugin description
  Author: Be API Technical team
@@ -50,11 +50,12 @@ define( 'BEA_PB_TAXO_NAME', 'custom_taxonomy' );
 define( 'BEA_PB_URL', plugin_dir_url( __FILE__ ) );
 define( 'BEA_PB_DIR', plugin_dir_path( __FILE__ ) );
 define( 'BEA_PB_PLUGIN_DIRNAME', basename( rtrim( dirname( __FILE__ ), '/' ) ) );
+define( 'BEA_PB_PLUGIN_MAIN_FILE_DIR', __FILE__ );
 
 /** Autoload all the things \o/ */
 require_once BEA_PB_DIR . 'autoload.php';
 
-\BEA\PB\Compatibility::get_instance();
+\BEA\PB\Requirements::get_instance();
 
 // Plugin activate/deactive hooks
 register_activation_hook( __FILE__, array( '\BEA\PB\Plugin', 'activate' ) );
