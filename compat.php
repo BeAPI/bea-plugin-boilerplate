@@ -1,12 +1,21 @@
-<?php
-namespace BEA\PB;
+<?php namespace BEA\PB;
 class Compatibility {
+
+	use Singleton;
+
+	public function init() {
+		// Check PHP min version
+		if ( version_compare( PHP_VERSION, BEA_PB_MIN_PHP_VERSION, '<' ) ) {
+			add_action( 'admin_init', [ $this, 'admin_init' ] );
+		}
+	}
+
 	/**
 	 * admin_init hook callback
 	 *
 	 * @since 0.1
 	 */
-	public static function admin_init() {
+	public function admin_init() {
 		// Not on ajax
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			return;
@@ -27,13 +36,11 @@ class Compatibility {
 
 		unset( $_GET['activate'] );
 
-		add_action( 'admin_notices', array( __CLASS__, 'admin_notices' ) );
+		add_action( 'admin_notices', [ $this, 'admin_notices' ] );
 	}
 
-	/**
-	 * Notify the user about the incompatibility issue.
-	 */
-	public static function admin_notices() {
+	/** Notify the user about the incompatibility issue. */
+	public function admin_notices() {
 		echo '<div class="notice error is-dismissible">';
 		echo '<p>' . esc_html( sprintf( __( 'Plugin Boilerplate require PHP version %s or greater to be activated. Your server is currently running PHP version %s.', 'bea-plugin-boilerplate' ), BEA_PB_MIN_PHP_VERSION, PHP_VERSION ) ) . '</p>';
 		echo '</div>';

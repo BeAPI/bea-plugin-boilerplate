@@ -51,22 +51,10 @@ define( 'BEA_PB_URL', plugin_dir_url( __FILE__ ) );
 define( 'BEA_PB_DIR', plugin_dir_path( __FILE__ ) );
 define( 'BEA_PB_PLUGIN_DIRNAME', basename( rtrim( dirname( __FILE__ ), '/' ) ) );
 
-
-// Check PHP min version
-if ( version_compare( PHP_VERSION, BEA_PB_MIN_PHP_VERSION, '<' ) ) {
-	require_once( BEA_PB_DIR . 'compat.php' );
-
-	// possibly display a notice, trigger error
-	add_action( 'admin_init', array( 'BEA\PB\Compatibility', 'admin_init' ) );
-
-	// stop execution of this file
-	return;
-}
-
-/**
- * Autoload all the things \o/
- */
+/** Autoload all the things \o/ */
 require_once BEA_PB_DIR . 'autoload.php';
+
+\BEA\PB\Compatibility::get_instance();
 
 // Plugin activate/deactive hooks
 register_activation_hook( __FILE__, array( '\BEA\PB\Plugin', 'activate' ) );
