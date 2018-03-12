@@ -4,6 +4,8 @@ class Requirements {
 
 	use Singleton;
 
+	public $satsify_requiremeents = true;
+
 	public function init() {
 		add_action( 'admin_init', [ $this, 'check_requirements' ] );
 	}
@@ -18,11 +20,13 @@ class Requirements {
 	public function check_requirements() {
 		// Not on ajax
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			do_action( 'bea_pb_load' );
 			return true;
 		}
 
 		// Check activation
 		if ( ! current_user_can( 'activate_plugins' ) ) {
+			do_action( 'bea_pb_load' );
 			return true;
 		}
 
@@ -33,6 +37,7 @@ class Requirements {
 
 		// Maybe more checks
 
+		do_action( 'bea_pb_load' );
 		return true;
 	}
 
@@ -42,6 +47,8 @@ class Requirements {
 	 * @since 2.1.8
 	 */
 	public function display_error( $message ) {
+		$this->satsify_requiremeents = false;
+
 		trigger_error( $message );
 
 		add_action( 'admin_notices', function () use ($message) {

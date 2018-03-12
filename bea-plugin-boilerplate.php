@@ -61,7 +61,7 @@ require_once BEA_PB_DIR . 'autoload.php';
 register_activation_hook( __FILE__, array( '\BEA\PB\Plugin', 'activate' ) );
 register_deactivation_hook( __FILE__, array( '\BEA\PB\Plugin', 'deactivate' ) );
 
-add_action( 'plugins_loaded', 'init_bea_pb_plugin' );
+add_action( 'bea_pb_load', 'init_bea_pb_plugin' );
 /**
  * Init the plugin
  */
