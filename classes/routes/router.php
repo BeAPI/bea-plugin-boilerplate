@@ -11,7 +11,7 @@ class Router {
 	/**
 	 * Launch all the filters and actions needed
 	 */
-	function __construct() {
+	public function __construct() {
 		/**
 		 * This array is built like that
 		 *  internal_query_element => displayed_query_element
