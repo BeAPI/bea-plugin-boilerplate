@@ -34,11 +34,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
-// Plugin tables
-global $wpdb;
-$wpdb->tables[]     = 'sample_table';
-$wpdb->sample_table = $wpdb->prefix . 'sample_table';
-
 // Plugin constants
 define( 'BEA_PB_VERSION', '1.0.0' );
 define( 'BEA_PB_MIN_PHP_VERSION', '5.4' );
