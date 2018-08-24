@@ -15,8 +15,6 @@ use BEA\PB\Singleton;
  */
 abstract class Shortcode {
 
-	use Singleton;
-
 	/**
 	 * The shortcode [tag]
 	 * @since   2.1.0
