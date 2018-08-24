@@ -1,9 +1,6 @@
 <?php
 namespace BEA\PB\Shortcodes;
 
-use BEA\PB\Singleton;
-
-
 /**
  * This class is the base class of Shortcode
  * It have to be used as base for all Shortcodes
