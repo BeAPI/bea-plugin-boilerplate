@@ -1,9 +1,6 @@
 <?php
 namespace BEA\PB\Shortcodes;
 
-use BEA\PB\Singleton;
-
-
 /**
  * This class is the base class of Shortcode
  * It have to be used as base for all Shortcodes
@@ -14,8 +11,6 @@ use BEA\PB\Singleton;
  * @since   2.1.0
  */
 abstract class Shortcode {
-
-	use Singleton;
 
 	/**
 	 * The shortcode [tag]

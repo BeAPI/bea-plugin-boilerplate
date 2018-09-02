@@ -39,7 +39,8 @@ class Shortcode_Factory {
 		 * @var Shortcode $class
 		 */
 		try {
-			$class = $class_name::get_instance()->add();
+			$class = new $class_name;
+			$class->add();
 		} catch ( \Exception $e ) {
 			return new \WP_Error( 'fail_shortcode_instanciation', sprintf( 'Fail to instantiate shortcode with error %s', $e->getMessage() ) );
 		}
