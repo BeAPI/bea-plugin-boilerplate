@@ -45,9 +45,9 @@ abstract class Model {
 	 *
 	 * @throws \Exception
 	 */
-	function __construct( \WP_Post $object ) {
+	public function __construct( \WP_Post $object ) {
 
-		if (  $object->post_type !== $this->post_type ) {
+		if ( $object->post_type !== $this->post_type ) {
 			throw new \Exception( sprintf( '%s post type does not match model post type %s', $object->post_type, $this->post_type ) );
 		}
 
@@ -85,7 +85,7 @@ abstract class Model {
 	 * @return bool
 	 */
 	public static function filter_classes( $class ) {
-		if ( false === is_subclass_of( $class, __NAMESPACE__ . '\\' . 'Model' )  ) {
+		if ( false === is_subclass_of( $class, __NAMESPACE__ . '\\Model' ) ) {
 			return false;
 		}
 
@@ -376,7 +376,7 @@ abstract class Model {
 	 *
 	 * @param array $data
 	 *
-	 * @return \WP_Error|bool
+	 * @return \WP_Error|Model
 	 */
 	protected function _update( array $data ) {
 		if ( empty( $data ) || ! isset( $data ) ) {
@@ -470,7 +470,7 @@ abstract class Model {
 	public static function filter_post_array( $data ) {
 		return array_intersect_key( $data, array_flip( array_filter( array_keys( $data ), array(
 			__CLASS__,
-			'filter_post_keys'
+			'filter_post_keys',
 		) ) ) );
 	}
 

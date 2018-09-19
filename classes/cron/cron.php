@@ -130,7 +130,7 @@ abstract class Cron {
 	 * Log a message for the current type
 	 *
 	 * @param $message : message to write on the log file
-	 * @param $type type to use for the log message
+	 * @param $type : log level message
 	 */
 	protected function add_log( $message, $type = \Bea_Log::gravity_7 ) {
 		// Log if bea log or not

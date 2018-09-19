@@ -49,7 +49,7 @@ define( 'BEA_PB_PLUGIN_DIRNAME', basename( rtrim( dirname( __FILE__ ), '/' ) ) )
 
 // Check PHP min version
 if ( version_compare( PHP_VERSION, BEA_PB_MIN_PHP_VERSION, '<' ) ) {
-	require_once( BEA_PB_DIR . 'compat.php' );
+	require_once BEA_PB_DIR . 'compat.php';
 
 	// possibly display a notice, trigger error
 	add_action( 'admin_init', array( 'BEA\PB\Compatibility', 'admin_init' ) );

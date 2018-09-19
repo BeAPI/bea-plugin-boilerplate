@@ -26,7 +26,7 @@ class User {
 	 *
 	 * @throws \Exception
 	 */
-	function __construct( \WP_User $object ) {
+	public function __construct( \WP_User $object ) {
 
 		if ( ! $object->exists() ) {
 			throw new \Exception( 'User does not exist', 'user_does_not_exist' );
@@ -34,8 +34,6 @@ class User {
 
 		$this->user = $object;
 		$this->ID   = $object->ID;
-
-		return;
 	}
 
 	/**
@@ -72,7 +70,7 @@ class User {
 		$random_password = wp_generate_password( 12, false );
 
 		$defaults = [
-		    'user_pass' => $random_password,
+			'user_pass' => $random_password,
 		];
 		$userdata = wp_parse_args( $args, $defaults );
 
@@ -91,7 +89,6 @@ class User {
 	public function get_ID() {
 		return $this->ID;
 	}
-
 
 	/**
 	 * @return \WP_User
@@ -153,7 +150,6 @@ class User {
 
 		return ! empty( $last_name ) ? $last_name : false;
 	}
-
 
 	/**
 	 * Get email of user
