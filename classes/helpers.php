@@ -119,7 +119,7 @@ class Helpers {
 	 */
 	public static function format_date( $date, $from_format, $to_format ) {
 		$date = \DateTime::createFromFormat( $from_format, $date );
-		if ( false === $date ) {
+		if ( false == $date ) {
 			return '';
 		}
 
