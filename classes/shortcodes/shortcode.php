@@ -1,4 +1,5 @@
 <?php
+
 namespace BEA\PB\Shortcodes;
 
 /**
@@ -53,11 +54,11 @@ abstract class Shortcode {
 	 *
 	 * @since   2.1.0
 	 *
-	 * @param array  $attributes
+	 * @param array $attributes
 	 * @param string $content
 	 *
 	 * @return string
 	 */
-	public abstract function render( $attributes = array(), $content = '' );
+	abstract public function render( $attributes = array(), $content = '' );
 
 }

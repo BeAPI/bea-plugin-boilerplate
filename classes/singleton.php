@@ -1,4 +1,5 @@
 <?php
+
 namespace BEA\PB;
 
 /**
@@ -24,7 +25,7 @@ trait Singleton {
 	 */
 	final public static function get_instance() {
 		if ( is_null( self::$instance ) ) {
-			self::$instance = new static;
+			self::$instance = new static();
 		}
 
 		return self::$instance;
@@ -42,7 +43,8 @@ trait Singleton {
 	 * Implement this method in your child class
 	 * If you want to have actions send at construct
 	 */
-	protected function init() {}
+	protected function init() {
+	}
 
 	/**
 	 * prevent the instance from being cloned

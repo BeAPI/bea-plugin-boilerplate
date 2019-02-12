@@ -1,7 +1,8 @@
 <?php
-use \Bea_Log;
 
 namespace BEA\PB;
+
+use \Bea_Log;
 
 /**
  * This class needs Bea_Log to work

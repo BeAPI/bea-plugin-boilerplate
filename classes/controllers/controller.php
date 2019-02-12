@@ -1,4 +1,5 @@
 <?php
+
 namespace BEA\PB\Controllers;
 
 use BEA\PB\Routes\Router;

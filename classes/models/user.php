@@ -1,4 +1,5 @@
 <?php
+
 namespace BEA\PB\Models;
 
 /**
@@ -39,7 +40,8 @@ class User {
 	/**
 	 * Create user
 	 *
-	 * @param array  $args
+	 * @param array $args
+	 *
 	 * @deprecated 2.1.3 $user_email Use first argument as array.
 	 *
 	 * @return false or user model
@@ -54,13 +56,14 @@ class User {
 				'user_email' => $user_email,
 			];
 		}
+
 		return self::_create( $args );
 	}
 
 	/**
 	 * User creation method
 	 *
-	 * @param array  $args
+	 * @param array $args
 	 *
 	 * @return User|bool
 	 *

@@ -1,4 +1,5 @@
 <?php
+
 namespace BEA\PB\Routes;
 
 class Router {
@@ -110,7 +111,6 @@ class Router {
 
 		$out_slugs = array();
 		foreach ( $slugs as $key => $slug ) {
-
 			$t_slug = self::rewrite_slug( $slug );
 			if ( ! empty( $t_slug ) ) {
 				$out_slugs[] = $t_slug;

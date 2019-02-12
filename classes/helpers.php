@@ -1,5 +1,7 @@
 <?php
+
 namespace BEA\PB;
+
 /**
  * The purpose of the API class is to have the basic reusable methods like :
  *  - Template include
@@ -66,7 +68,7 @@ class Helpers {
 			return false;
 		}
 
-		include( $tpl_path );
+		include $tpl_path;
 
 		return true;
 	}
@@ -88,12 +90,13 @@ class Helpers {
 			return false;
 		}
 
-		return function( $data ) use ( $tpl_path ) {
+		return function ( $data ) use ( $tpl_path ) {
 			if ( ! is_array( $data ) ) {
 				$data = array( 'data' => $data );
 			}
-			extract( $data,  EXTR_OVERWRITE );
-			include( $tpl_path );
+
+			extract( $data, EXTR_OVERWRITE );
+			include $tpl_path;
 		};
 	}
 
@@ -101,11 +104,13 @@ class Helpers {
 	 * Render a view
 	 *
 	 * @param string $tpl : the template's name
-	 * @param array  $data : the template's data
+	 * @param array $data : the template's data
 	 */
 	public static function render( $tpl, $data = array() ) {
 		$view = self::load_template( $tpl );
-		false !== $view ? $view( $data ) : '';
+		if ( false !== $view ) {
+			$view( $data );
+		}
 	}
 
 	/**
@@ -119,7 +124,7 @@ class Helpers {
 	 */
 	public static function format_date( $date, $from_format, $to_format ) {
 		$date = \DateTime::createFromFormat( $from_format, $date );
-		if ( false == $date ) {
+		if ( false === $date ) {
 			return '';
 		}
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace BEA\PB\Models;
 
 /**
@@ -137,12 +138,12 @@ abstract class Model {
 		$fields = $this->get_fields();
 
 		// Check ACF
-		if ( ! in_array( $key, $fields ) && ! isset( $fields[ $key ] ) || ! function_exists( 'get_field' ) ) {
+		if ( ! in_array( $key, $fields, true ) && ! isset( $fields[ $key ] ) || ! function_exists( 'get_field' ) ) {
 			return $this->wp_object->{$key};
 		}
-		
+
 		// On ACF given key
-		$key = in_array( $key, $fields ) ? $key : $fields[ $key ];
+		$key = in_array( $key, $fields, true ) ? $key : $fields[ $key ];
 
 		return get_field( $key, $this->get_ID(), $format );
 	}
@@ -491,7 +492,7 @@ abstract class Model {
 		$keys[] = 'tax_input';
 		$keys[] = 'post_category';
 
-		return in_array( $key, $keys );
+		return in_array( $key, $keys, true );
 	}
 
 	/**
