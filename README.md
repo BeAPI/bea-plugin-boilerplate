@@ -19,6 +19,10 @@ Then you have to rename the `bea-plugin-boilerplate.php` to `my-plugin.php` and 
 
 ## Changelog ##
 
+### 2.2
+* February 2019
+* Remove widget feature
+
 ### 2.1.8
 * August 2018
 * Fix misuse of singleton in shortcode factory

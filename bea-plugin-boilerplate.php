@@ -2,7 +2,7 @@
 /*
 Plugin Name: BEA Plugin Name
 Version: 1.0.0
-Version Boilerplate: 2.1.8
+Version Boilerplate: 2.2
 Plugin URI: https://beapi.fr
 Description: Your plugin description
 Author: Be API Technical team
@@ -46,7 +46,6 @@ define( 'BEA_PB_URL', plugin_dir_url( __FILE__ ) );
 define( 'BEA_PB_DIR', plugin_dir_path( __FILE__ ) );
 define( 'BEA_PB_PLUGIN_DIRNAME', basename( rtrim( dirname( __FILE__ ), '/' ) ) );
 
-
 // Check PHP min version
 if ( version_compare( PHP_VERSION, BEA_PB_MIN_PHP_VERSION, '<' ) ) {
 	require_once BEA_PB_DIR . 'compat.php';
@@ -79,9 +78,4 @@ function init_bea_pb_plugin() {
 	if ( is_admin() ) {
 		\BEA\PB\Admin\Main::get_instance();
 	}
-
-	// Widgets
-	add_action( 'widgets_init', function () {
-		register_widget( '\BEA\PB\Widgets\Main' );
-	} );
 }
