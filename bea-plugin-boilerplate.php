@@ -12,7 +12,7 @@ Text Domain: bea-plugin-boilerplate
 
 ----
 
-Copyright 2017 Be API Technical team (human@beapi.fr)
+Copyright 2019 Be API Technical team (human@beapi.fr)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
