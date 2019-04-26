@@ -3,7 +3,6 @@ parameters:
   tasks:
     git_blacklist:
       keywords:
-        - "die("
         - "var_dump("
       whitelist_patterns: []
       triggered_by: ['php']
