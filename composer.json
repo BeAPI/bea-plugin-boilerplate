@@ -1,0 +1,25 @@
+{
+  "name": "beapi/bea-plugin-boilerplate",
+  "description": "Plugin boilerplate from BeAPI.",
+  "license": "GPL-2.0+",
+  "type": "project",
+  "keywords": ["WordPress", "boilerplate", "CMS"],
+  "authors": [
+    {
+      "name": "BeAPI",
+      "email": "technique@beapi.fr",
+      "homepage": "https://beapi.fr",
+      "role": "Company"
+    }
+  ],
+  "config": {
+    "preferred-install": { "*": "dist" }
+  },
+  "require-dev": {
+    "phpro/grumphp": "*@stable",
+    "jakub-onderka/php-parallel-lint": "^1.0"
+  },
+  "suggest": {
+    "wp-cli/wp-cli": "*@stable"
+  }
+}
