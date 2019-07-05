@@ -36,7 +36,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Plugin constants
 define( 'BEA_PB_VERSION', '1.0.0' );
-define( 'BEA_PB_MIN_PHP_VERSION', '5.4' );
+define( 'BEA_PB_MIN_PHP_VERSION', '7.2' );
 define( 'BEA_PB_VIEWS_FOLDER_NAME', 'bea-pb' );
 define( 'BEA_PB_CPT_NAME', 'custom_post_type' );
 define( 'BEA_PB_TAXO_NAME', 'custom_taxonomy' );
