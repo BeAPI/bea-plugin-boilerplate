@@ -29,7 +29,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-// don't load directly
+// Don't load directly
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -50,10 +50,10 @@ define( 'BEA_PB_PLUGIN_DIRNAME', basename( rtrim( dirname( __FILE__ ), '/' ) ) )
 if ( version_compare( PHP_VERSION, BEA_PB_MIN_PHP_VERSION, '<' ) ) {
 	require_once BEA_PB_DIR . 'compat.php';
 
-	// possibly display a notice, trigger error
+	// Possibly display a notice, trigger error
 	add_action( 'admin_init', array( 'BEA\PB\Compatibility', 'admin_init' ) );
 
-	// stop execution of this file
+	// Stop execution of this file
 	return;
 }
 
@@ -62,7 +62,7 @@ if ( version_compare( PHP_VERSION, BEA_PB_MIN_PHP_VERSION, '<' ) ) {
  */
 require_once BEA_PB_DIR . 'autoload.php';
 
-// Plugin activate/deactive hooks
+// Plugin activate/deactivate hooks
 register_activation_hook( __FILE__, array( '\BEA\PB\Plugin', 'activate' ) );
 register_deactivation_hook( __FILE__, array( '\BEA\PB\Plugin', 'deactivate' ) );
 
