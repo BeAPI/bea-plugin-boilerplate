@@ -73,4 +73,6 @@ function init_bea_pb_plugin() {
 	if ( is_admin() ) {
 		\BEA\PB\Admin\Main::get_instance();
 	}
+
+	\BEA\PB\Blocks\Blocks::get_instance();
 }
