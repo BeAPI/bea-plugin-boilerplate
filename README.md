@@ -17,7 +17,30 @@ For making this plugin easily usable, you can make the given replacements please
 
 Then you have to rename the `bea-plugin-boilerplate.php` to `my-plugin.php` and edit the plugin header.
 
+### Composer ###
+You need composer to autoload all your classes from the classes folder.
+
+Use the `beapi/composer-scaffold-plugin` package that add it automatically to the composer.json file.
+You can add it yourself like this :
+ 
+```composer.json
+    "autoload": {
+        "psr-4": {
+            "BEA\PB\\": "content/plugins/bea-plugin-boilerplate/classes/"
+        }
+    }
+```
+
+## Autoload ##
+The autoload is based on psr-4 and handled by composer.
+
 ## Changelog ##
+
+### 3.0.0
+* May 2020
+* Remove autoload.php file, it's have to be on the composer.json file autoloading
+* Move compatibility class to the classes directory
+* Use the PSR-4 naming convention
 
 ### 2.2
 * February 2019
