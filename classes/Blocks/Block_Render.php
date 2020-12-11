@@ -66,6 +66,8 @@ class Block_Render {
 			'block_id'         => $block_id,
 			'block_is_preview' => $this->is_preview(),
 			'block_classname'  => sanitize_html_class( $class_name ),
+			'block_content'    => $this->get_content(),
+			'block_post_id'    => $this->get_post_id(),
 		];
 	}
 
