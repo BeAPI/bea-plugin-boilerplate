@@ -97,7 +97,7 @@ abstract class Block implements Block_Interface {
 			return;
 		}
 
-		$tpl_slug = "template-{$this->slug}";
+		$tpl_slug = "block-{$this->slug}";
 
 		$tpl = Helpers::load_template( $tpl_slug );
 		if ( empty( $tpl ) ) {
