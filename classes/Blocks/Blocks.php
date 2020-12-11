@@ -69,7 +69,7 @@ class Blocks {
 	 * @author Nicolas JUEN
 	 */
 	public function block_templates( array $templates, string $template ) {
-		$templates[] = 'components/gutenberg/' . $template . '.php';
+		$templates[] = 'components/gutenberg/bea-plugin-boilerplate/' . $template . '.php';
 
 		return $templates;
 	}
