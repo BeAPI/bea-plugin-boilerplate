@@ -1,9 +1,9 @@
-# grumphp.yml
-parameters:
+grumphp:
   tasks:
     git_blacklist:
       keywords:
         - "var_dump("
+        - "<<<<<<< HEAD"
       whitelist_patterns: []
       triggered_by: ['php']
       regexp_type: G
@@ -14,6 +14,18 @@ parameters:
     phpcs:
       standard: ['phpcs.xml']
       triggered_by: [php]
-
+    composer:
+      no_check_all: true
+      no_check_publish: true
+      no_local_repository: true
+    jsonlint:
+      ignore_patterns: [ ]
+      detect_key_conflicts: false
+    securitychecker:
+      lockfile: ./composer.lock
+      format: ~
+      end_point: ~
+      timeout: ~
+      run_always: false
   testsuites: []
   extensions: []
