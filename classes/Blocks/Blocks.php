@@ -21,8 +21,9 @@ class Blocks {
 
 	use Singleton;
 
-	public function init(): void {
+	public function init() {
 		add_action( 'acf/init', [ $this, 'register_blocks' ], 1 );
+		add_action( 'BEA/Helpers/locate_template/templates', [ $this, 'block_templates' ], 10, 2 );
 	}
 
 	/**
@@ -40,7 +41,7 @@ class Blocks {
 		 */
 		$blocks = [];
 
-		$blocks = apply_filters( 'BEA/Blocks', $blocks );
+		$blocks = apply_filters( 'BEA/PB/Blocks', $blocks );
 
 		array_map(
 			static function ( string $block ) {
@@ -56,5 +57,20 @@ class Blocks {
 			},
 			$blocks
 		);
+	}
+
+	/**
+	 * Add the gutenberg template for beapi-frontend-framework
+	 *
+	 * @param array  $templates
+	 * @param string $template
+	 *
+	 * @return array
+	 * @author Nicolas JUEN
+	 */
+	public function block_templates( array $templates, string $template ) {
+		$templates[] = 'components/gutenberg/' . $template . '.php';
+
+		return $templates;
 	}
 }
