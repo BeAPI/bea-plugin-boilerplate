@@ -5,7 +5,6 @@
 
     <!-- Exclude the Composer Vendor directory. -->
     <exclude-pattern>./assets/acf/</exclude-pattern>
-    <exclude-pattern>./autoload.php</exclude-pattern>
 
 
     <!-- Exclude the Node Modules directory. -->
@@ -22,6 +21,12 @@
 
         <!-- Exclude as it conflict with @var declaration. -->
         <exclude name="Squiz.PHP.CommentedOutCode.Found"/>
+
+        <!-- Exclude as we use custom naming for our class. -->
+        <exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+
+        <!-- Exclude as we use the short array syntax over the long one. -->
+        <exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
     </rule>
 
     <!-- Only parse php files. -->
@@ -39,5 +44,15 @@
     <!-- Set ini. -->
     <ini name="memory_limit" value="512M"/>
     <ini name="max_execution_time" value="-1"/>
+
+    <rule ref="WordPress.WP.I18n">
+        <properties>
+          <!-- Value: replace the text domain used. -->
+          <property name="text_domain" type="array" value="bea-plugin-boilerplate"/>
+        </properties>
+    </rule>
+
+    <rule ref="PHPCompatibility"/>
+    <config name="testVersion" value="7.2-"/>
 
 </ruleset>
