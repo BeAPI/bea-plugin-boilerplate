@@ -36,6 +36,11 @@ The autoload is based on psr-4 and handled by composer.
 
 ## Changelog ##
 
+### 3.1.0
+* Jan 2021
+* Update Singleton to be compatible with PHP8.0
+*
+
 ### 3.0.0
 * May 2020
 * Remove autoload.php file, it's have to be on the composer.json file autoloading
