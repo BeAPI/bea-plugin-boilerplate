@@ -1,4 +1,5 @@
 <?php
+
 namespace BEA\PB\Admin;
 
 use BEA\PB\Singleton;

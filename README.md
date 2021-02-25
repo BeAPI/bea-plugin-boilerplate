@@ -36,10 +36,14 @@ The autoload is based on psr-4 and handled by composer.
 
 ## Changelog ##
 
+### 3.1.1
+* Fev 2021
+* Rename hook : `BEA/Helpers/locate_template/templates` in `beapi_helpers_locate_template_templates` for PHPCS
+* Improve PHPCS
+
 ### 3.1.0
 * Jan 2021
 * Update Singleton to be compatible with PHP8.0
-*
 
 ### 3.0.0
 * May 2020

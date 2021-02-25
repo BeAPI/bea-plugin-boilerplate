@@ -24,9 +24,14 @@
 
         <!-- Exclude as we use custom naming for our class. -->
         <exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+        <exclude name="PSR2.Methods.MethodDeclaration.Underscore"/>
+        <exclude name="WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid"/>
 
         <!-- Exclude as we use the short array syntax over the long one. -->
         <exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
+
+        <exclude name="Squiz.PHP.DisallowMultipleAssignments.Found"/>
+        <exclude name="WordPress.PHP.DontExtract.extract_extract"/>
     </rule>
 
     <!-- Only parse php files. -->

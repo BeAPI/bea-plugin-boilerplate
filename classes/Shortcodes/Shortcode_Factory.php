@@ -25,7 +25,7 @@ class Shortcode_Factory {
 	 * @param $class_name Shortcode the Shortcode ClassName to register
 	 *
 	 * @since 2.1.0
-	 * @return \BEA\PB\Shortcodes\Shortcode|bool Instance of the Shortcode added or false on failure
+	 * @return \BEA\PB\Shortcodes\Shortcode|bool|\WP_Error Instance of the Shortcode added or false on failure
 	 */
 	public static function register( $class_name ) {
 		$class_name = __NAMESPACE__ . '\\' . $class_name;
@@ -40,7 +40,7 @@ class Shortcode_Factory {
 		 * @var Shortcode $class
 		 */
 		try {
-			$class = new $class_name;
+			$class = new $class_name();
 			$class->add();
 		} catch ( \Exception $e ) {
 			return new \WP_Error( 'fail_shortcode_instanciation', sprintf( 'Fail to instantiate shortcode with error %s', $e->getMessage() ) );
