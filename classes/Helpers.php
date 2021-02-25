@@ -35,7 +35,7 @@ class Helpers {
 			return false;
 		}
 
-		$path = apply_filters( 'BEA/Helpers/locate_template/templates', array( 'views/' . BEA_PB_VIEWS_FOLDER_NAME . '/' . $tpl . '.php' ), $tpl, __NAMESPACE__ );
+		$path = apply_filters( 'beapi_helpers_locate_template_templates', [ 'views/' . BEA_PB_VIEWS_FOLDER_NAME . '/' . $tpl . '.php' ], $tpl, __NAMESPACE__ );
 
 		// Locate from the theme
 		$located = locate_template( $path, false, false );

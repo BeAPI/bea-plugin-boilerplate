@@ -95,8 +95,8 @@ abstract class Cron {
 	 * @author Nicolas Juen
 	 */
 	private static function get_filesystem() {
-		require_once( ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php' );
-		require_once( ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php' );
+		require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php';
+		require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php';
 		$filesystem = new \WP_Filesystem_Direct( new \StdClass() );
 
 		return $filesystem;
@@ -140,6 +140,7 @@ abstract class Cron {
 		}
 		$this->log->log_this( $message, $type );
 
-		echo date( '[d-m-Y H:i:s]' ) . $message . "\n";
+		//phpcs:ignore
+		printf( '%s %s \n', date( '[d-m-Y H:i:s]' ), esc_html( $message ) );
 	}
 }

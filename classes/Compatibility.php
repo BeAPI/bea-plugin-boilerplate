@@ -22,11 +22,13 @@ class Compatibility {
 		// Load the textdomain
 		load_plugin_textdomain( 'bea-plugin-boilerplate', false, BEA_PB_PLUGIN_DIRNAME . '/languages' );
 
+		//phpcs:ignore
 		trigger_error( sprintf( __( 'Plugin Boilerplate requires PHP version %s or greater to be activated.', 'bea-plugin-boilerplate' ), BEA_PB_MIN_PHP_VERSION ) );
 
 		// Deactive self
 		deactivate_plugins( BEA_PB_DIR . 'bea-plugin-boilerplate.php' );
 
+		//phpcs:ignore
 		unset( $_GET['activate'] );
 
 		add_action( 'admin_notices', array( __CLASS__, 'admin_notices' ) );
@@ -37,7 +39,8 @@ class Compatibility {
 	 */
 	public static function admin_notices() {
 		echo '<div class="notice error is-dismissible">';
-		echo '<p>' . esc_html( sprintf( __( 'Plugin Boilerplate require PHP version %s or greater to be activated. Your server is currently running PHP version %s.', 'bea-plugin-boilerplate' ), BEA_PB_MIN_PHP_VERSION, PHP_VERSION ) ) . '</p>';
+		/* translators: %1$s: PHP min version %2$s: Current PHP version */
+		echo '<p>' . esc_html( sprintf( __( 'Plugin Boilerplate require PHP version %1$s or greater to be activated. Your server is currently running PHP version %2$s.', 'bea-plugin-boilerplate' ), BEA_PB_MIN_PHP_VERSION, PHP_VERSION ) ) . '</p>';
 		echo '</div>';
 	}
 }

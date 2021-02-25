@@ -469,10 +469,18 @@ abstract class Model {
 	 * @return array
 	 */
 	public static function filter_post_array( $data ) {
-		return array_intersect_key( $data, array_flip( array_filter( array_keys( $data ), array(
-			__CLASS__,
-			'filter_post_keys',
-		) ) ) );
+		return array_intersect_key(
+			$data,
+			array_flip(
+				array_filter(
+					array_keys( $data ),
+					array(
+						__CLASS__,
+						'filter_post_keys',
+					)
+				)
+			)
+		);
 	}
 
 	/**
