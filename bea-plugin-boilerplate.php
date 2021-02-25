@@ -2,7 +2,7 @@
 /*
 Plugin Name: BEA Plugin Name
 Version: 1.0.0
-Version Boilerplate: 2.1.8
+Version Boilerplate: 3.1.0
 Plugin URI: https://beapi.fr
 Description: Your plugin description
 Author: Be API Technical team
@@ -12,7 +12,7 @@ Text Domain: bea-plugin-boilerplate
 
 ----
 
-Copyright 2017 Be API Technical team (human@beapi.fr)
+Copyright 2019 Be API Technical team (human@beapi.fr)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,14 +29,14 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-// don't load directly
+// Don't load directly
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 // Plugin constants
 define( 'BEA_PB_VERSION', '1.0.0' );
-define( 'BEA_PB_MIN_PHP_VERSION', '5.4' );
+define( 'BEA_PB_MIN_PHP_VERSION', '7.2' );
 define( 'BEA_PB_VIEWS_FOLDER_NAME', 'bea-pb' );
 define( 'BEA_PB_CPT_NAME', 'custom_post_type' );
 define( 'BEA_PB_TAXO_NAME', 'custom_taxonomy' );
@@ -46,24 +46,18 @@ define( 'BEA_PB_URL', plugin_dir_url( __FILE__ ) );
 define( 'BEA_PB_DIR', plugin_dir_path( __FILE__ ) );
 define( 'BEA_PB_PLUGIN_DIRNAME', basename( rtrim( dirname( __FILE__ ), '/' ) ) );
 
-
 // Check PHP min version
 if ( version_compare( PHP_VERSION, BEA_PB_MIN_PHP_VERSION, '<' ) ) {
-	require_once BEA_PB_DIR . 'compat.php';
+	require_once BEA_PB_DIR . 'classes/Compatibility.php';
 
-	// possibly display a notice, trigger error
+	// Possibly display a notice, trigger error
 	add_action( 'admin_init', array( 'BEA\PB\Compatibility', 'admin_init' ) );
 
-	// stop execution of this file
+	// Stop execution of this file
 	return;
 }
 
-/**
- * Autoload all the things \o/
- */
-require_once BEA_PB_DIR . 'autoload.php';
-
-// Plugin activate/deactive hooks
+// Plugin activate/deactivate hooks
 register_activation_hook( __FILE__, array( '\BEA\PB\Plugin', 'activate' ) );
 register_deactivation_hook( __FILE__, array( '\BEA\PB\Plugin', 'deactivate' ) );
 
@@ -79,9 +73,4 @@ function init_bea_pb_plugin() {
 	if ( is_admin() ) {
 		\BEA\PB\Admin\Main::get_instance();
 	}
-
-	// Widgets
-	add_action( 'widgets_init', function () {
-		register_widget( '\BEA\PB\Widgets\Main' );
-	} );
 }

@@ -47,6 +47,8 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 
+### Composer
+/vendor/
 
 ### WordPress template
 *.log
@@ -62,5 +64,4 @@ wp-content/cache/
 wp-content/upgrade/
 wp-content/uploads/
 wp-content/wp-cache-config.php
-
 
