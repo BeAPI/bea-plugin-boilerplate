@@ -113,8 +113,12 @@ abstract class Acf_Block implements Acf_Block_Interface {
 		}
 
 		return [
-			'block_id'        => $block_id,
-			'block_classname' => sanitize_html_class( $class_name ),
+			'id'               => $block['id'],
+			'block_id'         => $block_id,
+			'block_is_preview' => $is_preview,
+			'block_classname'  => sanitize_html_class( $class_name ),
+			'block_content'    => $content,
+			'block_post_id'    => $post_id,
 		];
 	}
 }
