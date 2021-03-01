@@ -36,6 +36,11 @@ The autoload is based on psr-4 and handled by composer.
 
 ## Changelog ##
 
+### 3.2.0
+* 1 March 2021
+* Introduce interfaces and abstract classes to register Gutenberg blocks
+* Update copyright date.
+
 ### 3.1.1
 * Fev 2021
 * Rename hook : `BEA/Helpers/locate_template/templates` in `beapi_helpers_locate_template_templates` for PHPCS
