@@ -23,12 +23,12 @@ abstract class Cron {
 	protected $type = '';
 
 	/**
-	 * @var $log \Bea_Log
+	 * @var \Bea_Log $log
 	 */
 	private $log;
 
 	/**
-	 * @var $filesystem \WP_Filesystem_Direct
+	 * @var \WP_Filesystem_Direct $filesystem
 	 */
 	protected $filesystem;
 
