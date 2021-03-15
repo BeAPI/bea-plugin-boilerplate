@@ -36,6 +36,18 @@ The autoload is based on psr-4 and handled by composer.
 
 ## Changelog ##
 
+### 3.3.0
+* 15 March 2021
+* Fix all PSALM errors
+* Enhance the phpcs:ignore rules to be compatible with skeleton
+* Use shortarray syntax
+* Enforce return types
+* Use InvalidArgumentException when model wrongly instaciated
+* Remove thumbnail deletion on remove_post_thumnail
+* Rename get_ID to get_id
+* Add psalm
+* Remove `_*` methods from Models
+
 ### 3.2.0
 * 1 March 2021
 * Introduce interfaces and abstract classes to register Gutenberg blocks
