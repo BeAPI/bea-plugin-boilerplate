@@ -17,10 +17,10 @@ class Plugin {
 	 */
 	use Singleton;
 
-	public static function activate() {
+	public static function activate(): void {
 	}
 
-	public static function deactivate() {
+	public static function deactivate(): void {
 
 	}
 }

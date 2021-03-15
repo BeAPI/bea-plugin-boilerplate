@@ -57,8 +57,8 @@ abstract class Controller {
 	 * @return false|string
 	 * @author Nicolas Juen
 	 */
-	public function get_form_url( $args = array() ) {
-		return Router::get_url_complex( array( $this->page_slug ), $args );
+	public function get_form_url( $args = [] ) {
+		return Router::get_url_complex( [ $this->page_slug ], $args );
 	}
 
 	/**
@@ -68,7 +68,7 @@ abstract class Controller {
 	 *
 	 * @author Nicolas Juen
 	 */
-	protected function redirect( $args = array() ) {
+	protected function redirect( $args = [] ): void {
 		wp_safe_redirect( $this->get_form_url( $args ) );
 		exit;
 	}
@@ -80,7 +80,7 @@ abstract class Controller {
 	 * @return \WP_Error|self
 	 */
 	public static function get_current_controller() {
-		$classes = array_filter( get_declared_classes(), array( __CLASS__, 'filter_classes' ) );
+		$classes = array_filter( get_declared_classes(), [ __CLASS__, 'filter_classes' ] );
 
 		// Check there is classes
 		if ( empty( $classes ) ) {
@@ -97,12 +97,12 @@ abstract class Controller {
 	/**
 	 * Get among all classes the right one
 	 *
-	 * @param $class
+	 * @param string $class
 	 *
 	 * @return bool
 	 * @author Nicolas Juen
 	 */
-	public static function filter_classes( $class ) {
+	public static function filter_classes( string $class ): bool {
 		if ( false === is_subclass_of( $class, '\BEA\PB\Controller', true ) ) {
 			return false;
 		}
@@ -118,6 +118,6 @@ abstract class Controller {
 	 * @author Nicolas Juen
 	 */
 	public function get_default_data() {
-		return array();
+		return [];
 	}
 }

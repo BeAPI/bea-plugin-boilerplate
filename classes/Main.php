@@ -19,14 +19,14 @@ class Main {
 	 */
 	use Singleton;
 
-	protected function init() {
-		add_action( 'init', array( $this, 'init_translations' ) );
+	protected function init(): void {
+		add_action( 'init', [ $this, 'init_translations' ] );
 	}
 
 	/**
 	 * Load the plugin translation
 	 */
-	public function init_translations() {
+	public function init_translations(): void {
 		// Load translations
 		load_plugin_textdomain( 'bea-plugin-boilerplate', false, BEA_PB_PLUGIN_DIRNAME . '/languages' );
 	}

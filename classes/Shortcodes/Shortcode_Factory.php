@@ -22,14 +22,14 @@ class Shortcode_Factory {
 	 * Instantiate a shortcode with the given class
 	 * Do not specify the namespace
 	 *
-	 * @param $class_name Shortcode the Shortcode ClassName to register
+	 * @param string $class_name : Shortcode the Shortcode ClassName to register
 	 *
+	 * @return Shortcode|\WP_Error Instance of the Shortcode added or false on failure
 	 * @since 2.1.0
-	 * @return \BEA\PB\Shortcodes\Shortcode|bool|\WP_Error Instance of the Shortcode added or false on failure
 	 */
-	public static function register( $class_name ) {
+	public static function register( string $class_name ) {
 		$class_name = __NAMESPACE__ . '\\' . $class_name;
-		if ( empty( $class_name ) || ! class_exists( $class_name ) || ! is_subclass_of( $class_name, __NAMESPACE__ . '\\Shortcode' ) ) {
+		if ( empty( $class_name ) || ! class_exists( $class_name ) || ! is_subclass_of( $class_name, Shortcode::class ) ) {
 			return new \WP_Error( 'fail_shortcode_registration', sprintf( 'Fail to instantiate shortcode %s', $class_name ) );
 		}
 
@@ -40,6 +40,7 @@ class Shortcode_Factory {
 		 * @var Shortcode $class
 		 */
 		try {
+			/** @psalm-suppress UnsafeInstantiation */
 			$class = new $class_name();
 			$class->add();
 		} catch ( \Exception $e ) {

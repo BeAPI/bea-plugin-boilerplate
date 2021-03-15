@@ -30,7 +30,7 @@ class Helpers {
 	 *
 	 * @return bool|string
 	 */
-	public static function locate_template( $tpl ) {
+	public static function locate_template( string $tpl ) {
 		if ( empty( $tpl ) ) {
 			return false;
 		}
@@ -58,7 +58,7 @@ class Helpers {
 	 *
 	 * @return bool
 	 */
-	public static function include_template( $tpl ) {
+	public static function include_template( string $tpl ): bool {
 		if ( empty( $tpl ) ) {
 			return false;
 		}
@@ -80,7 +80,7 @@ class Helpers {
 	 *
 	 * @return \Closure|false
 	 */
-	public static function load_template( $tpl ) {
+	public static function load_template( string $tpl ) {
 		if ( empty( $tpl ) ) {
 			return false;
 		}
@@ -90,11 +90,12 @@ class Helpers {
 			return false;
 		}
 
-		return function ( $data ) use ( $tpl_path ) {
+		return static function ( $data ) use ( $tpl_path ) {
 			if ( ! is_array( $data ) ) {
 				$data = array( 'data' => $data );
 			}
 
+			// phpcs:ignore WordPress.PHP.DontExtract.extract_extract
 			extract( $data, EXTR_OVERWRITE );
 			include $tpl_path;
 		};
@@ -106,7 +107,7 @@ class Helpers {
 	 * @param string $tpl : the template's name
 	 * @param array $data : the template's data
 	 */
-	public static function render( $tpl, $data = array() ) {
+	public static function render( string $tpl, $data = array() ): void {
 		$view = self::load_template( $tpl );
 		if ( false !== $view ) {
 			$view( $data );
@@ -116,13 +117,13 @@ class Helpers {
 	/**
 	 * Transform a date to a given format if possible
 	 *
-	 * @param string $date : date to transform
-	 * @param $from_format : the from date format
-	 * @param $to_format : the format to transform in
+	 * @param string $date        : date to transform
+	 * @param string $from_format : the from date format
+	 * @param string $to_format   : the format to transform in
 	 *
 	 * @return string the date formatted
 	 */
-	public static function format_date( $date, $from_format, $to_format ) {
+	public static function format_date( string $date, string $from_format, string $to_format ): string {
 		$date = \DateTime::createFromFormat( $from_format, $date );
 		if ( false === $date ) {
 			return '';
@@ -139,7 +140,7 @@ class Helpers {
 	 *
 	 * @return string
 	 */
-	public static function datetime_i18n( $format, \DateTime $date ) {
+	public static function datetime_i18n( string $format, \DateTime $date ): string {
 		return date_i18n( $format, $date->format( 'U' ) );
 	}
 

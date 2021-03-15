@@ -12,25 +12,33 @@ namespace BEA\PB\Models;
 class User {
 
 	/**
-	 * @var \WP_User : the User object
+	 * The WP User object
+	 * @var \WP_User
 	 */
 	public $user;
 
 	/**
-	 * @var int the element id
+	 * The user id
+	 * @var int
 	 */
 	protected $ID;
+
+	/**
+	 * All ACF fields
+	 * @var array
+	 */
+	protected $fields;
 
 	/**
 	 *
 	 * @param \WP_User $object
 	 *
-	 * @throws \Exception
+	 * @throws \InvalidArgumentException
 	 */
 	public function __construct( \WP_User $object ) {
 
 		if ( ! $object->exists() ) {
-			throw new \Exception( 'User does not exist', 'user_does_not_exist' );
+			throw new \InvalidArgumentException( 'User does not exist' );
 		}
 
 		$this->user = $object;
@@ -40,15 +48,16 @@ class User {
 	/**
 	 * Create user
 	 *
-	 * @param array $args
+	 * @param array       $args
+	 * @param string|null $user_email
+	 *
+	 * @return \WP_Error|User
 	 *
 	 * @deprecated 2.1.3 $user_email Use first argument as array.
 	 *
-	 * @return false or user model
-	 *
-	 * @author Alexandre Sadowski|Romain DORR
+	 * @author     Alexandre Sadowski|Romain DORR
 	 */
-	public static function create( $args, $user_email = null ) {
+	public static function create( array $args, $user_email = null ) {
 		if ( null !== $user_email ) {
 			_deprecated_argument( __FUNCTION__, '2.1.3', esc_html__( 'Use first argument as array', 'bea-plugin-boilerplate' ) );
 			$args = [
@@ -57,7 +66,7 @@ class User {
 			];
 		}
 
-		return self::_create( $args );
+		return self::create_user( $args );
 	}
 
 	/**
@@ -65,11 +74,11 @@ class User {
 	 *
 	 * @param array $args
 	 *
-	 * @return User|bool
+	 * @return User|\WP_Error
 	 *
 	 * @author Alexandre Sadowski|Romain DORR
 	 */
-	protected static function _create( $args ) {
+	protected static function create_user( array $args ) {
 		$random_password = wp_generate_password( 12, false );
 
 		$defaults = [
@@ -80,7 +89,7 @@ class User {
 		$user_id = wp_insert_user( $userdata );
 
 		if ( is_wp_error( $user_id ) ) {
-			return false;
+			return $user_id;
 		}
 
 		return new self( new \WP_User( $user_id ) );
@@ -89,14 +98,14 @@ class User {
 	/**
 	 * @return int
 	 */
-	public function get_ID() {
+	public function get_id(): int {
 		return $this->ID;
 	}
 
 	/**
 	 * @return \WP_User
 	 */
-	public function get_user() {
+	public function get_user(): \WP_User {
 		return $this->user;
 	}
 
@@ -129,7 +138,7 @@ class User {
 	 * @return false|string `<img>` tag for the user's avatar. False on failure.
 	 */
 	public function get_avatar( $size = 96, $default = '', $alt = '', $args = null ) {
-		return get_avatar( $this->get_ID(), $size, $default, $alt, $args );
+		return get_avatar( $this->get_id(), $size, $default, $alt, $args );
 	}
 
 	/**
@@ -172,23 +181,23 @@ class User {
 	 *
 	 * @return mixed
 	 */
-	public function has_cap( $capability ) {
+	public function has_cap( string $capability ) {
 
 		$args = array_slice( func_get_args(), 1 );
-		$args = array_merge( array( $capability ), $args );
+		$args = array_merge( [ $capability ], $args );
 
-		return call_user_func_array( array( $this->get_user(), 'has_cap' ), $args );
+		return call_user_func_array( [ $this->get_user(), 'has_cap' ], $args );
 	}
 
 	/**
 	 * Provided the meta value of meta key given
 	 *
 	 * @param string $key
-	 * @param bool $format : format or not, specific to ACF
+	 * @param bool   $format : format or not, specific to ACF
 	 *
-	 * @return bool
+	 * @return array|false|mixed
 	 */
-	public function get_meta( $key, $format = true ) {
+	public function get_meta( string $key, $format = true ) {
 		if ( empty( $key ) ) {
 			return false;
 		}
@@ -201,7 +210,7 @@ class User {
 			return $this->user->{$key};
 		}
 
-		return get_field( $fields[ $key ], 'user_' . $this->get_ID(), $format );
+		return get_field( $fields[ $key ], 'user_' . $this->get_id(), $format );
 	}
 
 	/**
@@ -212,37 +221,37 @@ class User {
 	 *
 	 * @return bool|int
 	 */
-	public function update_meta( $key, $value = '' ) {
+	public function update_meta( string $key, $value = '' ) {
 		if ( empty( $key ) ) {
 			return false;
 		}
 
 		// Check if model implement a method for this particular meta
 		if ( method_exists( $this, 'update_meta_' . $key ) ) {
-			return call_user_func( array( $this, 'update_meta_' . $key ), $value );
+			return $this->{'update_meta_' . $key}( $value );
 		}
 
-		return $this->_update_meta( $key, $value );
+		return $this->update_user_meta( $key, $value );
 	}
 
 	/**
 	 * Really update the value
 	 *
-	 * @param        $key
+	 * @param string $key
 	 * @param string $value
 	 *
 	 * @return bool|int
 	 */
-	protected function _update_meta( $key, $value = '' ) {
+	protected function update_user_meta( string $key, $value = '' ) {
 		if ( ! function_exists( 'update_field' ) ) {
-			return update_user_meta( $this->get_ID(), $key, $value );
+			return update_user_meta( $this->get_id(), $key, $value );
 		}
 
 		// Get the fields and use the ACF ones
 		$fields = $this->get_fields();
-		$key    = isset( $fields[ $key ] ) ? $fields[ $key ] : $key;
+		$key    = $fields[ $key ] ?? $key;
 
-		return update_field( $key, $value, 'user_' . $this->get_ID() );
+		return update_field( $key, $value, 'user_' . $this->get_id() );
 	}
 
 	/**
@@ -250,22 +259,23 @@ class User {
 	 *
 	 * @return array
 	 */
-	protected function get_fields() {
+	protected function get_fields(): array {
 		if ( ! is_null( $this->fields ) ) {
 			return $this->fields;
 		}
 
-		$groups = acf_get_field_groups( array( 'user_role' => 'all' ) );
+		$groups = acf_get_field_groups( [ 'user_role' => 'all' ] );
 
 		if ( empty( $groups ) ) {
-			return array();
+			return [];
 		}
-		$fields = array();
+		$fields = [];
 		foreach ( $groups as $group ) {
 			$fields += acf_get_fields( $group );
 		}
 
-		$acf_fields = array();
+		$acf_fields = [];
+		/** @psalm-suppress PossiblyInvalidIterator */
 		foreach ( $fields as $field ) {
 			$acf_fields[ $field['name'] ] = $field['key'];
 		}
@@ -284,7 +294,7 @@ class User {
 	 * @return bool|\WP_Error
 	 */
 	public function delete( $reassign = null ) {
-		return (bool) wp_delete_user( $this->get_ID(), $reassign );
+		return wp_delete_user( $this->get_id(), $reassign );
 	}
 
 	/**
@@ -294,8 +304,8 @@ class User {
 	 *
 	 * @return string|bool
 	 */
-	public function get_permalink( $args = array() ) {
-		$url = get_the_author_meta( 'url', $this->get_ID() );
+	public function get_permalink( $args = [] ) {
+		$url = get_the_author_meta( 'url', $this->get_id() );
 
 		return ( ! $url ) ? add_query_arg( $args, $url ) : false;
 	}

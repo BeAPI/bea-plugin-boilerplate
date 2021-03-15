@@ -7,7 +7,7 @@ class Router {
 	/**
 	 * @var array the rewrite elements
 	 */
-	private static $rewrite_elements = array();
+	private static $rewrite_elements = [];
 
 	/**
 	 * Launch all the filters and actions needed
@@ -22,7 +22,7 @@ class Router {
 		 * 'registration' => 'account-creation',
 		 *
 		 */
-		self::$rewrite_elements = array();
+		self::$rewrite_elements = [];
 	}
 
 	/**
@@ -38,14 +38,14 @@ class Router {
 	/**
 	 * Get the permalink rewrite element for the given post_type
 	 *
-	 * @param $post_type
+	 * @param string $post_type
 	 *
 	 * @return string
 	 * @author Nicolas Juen
 	 */
-	public static function get_post_type_permalink_rewrite( $post_type ) {
+	public static function get_post_type_permalink_rewrite( string $post_type ) {
 		/**
-		 * @var $wp_rewrite \WP_Rewrite
+		 * @var \WP_Rewrite $wp_rewrite
 		 */
 		global $wp_rewrite;
 
@@ -56,9 +56,9 @@ class Router {
 		}
 
 		// Get the permastruct for single post_type
-		preg_match_all( '/%.+?%/', $post_type_permastruct, $tokens );
+		$results = preg_match_all( '/%.+?%/', $post_type_permastruct, $tokens );
 
-		if ( false === $tokens ) {
+		if ( false === $results || empty( $tokens ) ) {
 			return '';
 		}
 
@@ -68,13 +68,14 @@ class Router {
 	/**
 	 * Get a url based on query var + params if needed
 	 *
-	 * @param $query_var (string): the query var  to make the url with
-	 * @param $params (array): the params to add at the end of the url
+	 * @param string $query_var : the query var  to make the url with
+	 * @param array  $params : the params to add at the end of the url
 	 *
-	 * @return false|string : the url rewrited
-	 * @author Nicolas Juen
+	 * @return false|string the url rewrited
+	 *
+	 * @author Nicolas JUEN
 	 */
-	public static function get_url( $query_var, $params = array() ) {
+	public static function get_url( string $query_var, array $params = [] ) {
 		// Get the slug
 		$slug = self::rewrite_slug( $query_var );
 
@@ -83,7 +84,7 @@ class Router {
 			return false;
 		}
 
-		if ( ! isset( $params ) || empty( $params ) ) {
+		if ( empty( $params ) ) {
 			return trailingslashit( home_url( $slug ) );
 		}
 
@@ -91,25 +92,25 @@ class Router {
 	}
 
 	/**
-	 * Make a complexurl with multiple slugs
+	 * Make a complex url with multiple slugs
 	 *
-	 * @param $slugs (string): the query vars to make the url with
-	 * @param $params (array): the params to add at the end of the url
+	 * @param array $slugs  : the query vars to make the url with
+	 * @param array $params : the params to add at the end of the url
 	 *
-	 * @return false|string : the url rewrited
+	 * @return false|string the url rewrited
 	 * @author Nicolas Juen
 	 */
-	public static function get_url_complex( array $slugs, $params = array() ) {
-		if ( ! isset( $slugs ) || empty( $slugs ) ) {
+	public static function get_url_complex( array $slugs, $params = [] ) {
+		if ( empty( $slugs ) ) {
 			return '';
 		}
 
 		// if not array, make normal url
-		if ( ! is_array( $slugs ) ) {
-			return self::get_url( $slugs );
+		if ( 1 === count( $slugs ) ) {
+			return self::get_url( $slugs[0] );
 		}
 
-		$out_slugs = array();
+		$out_slugs = [];
 		foreach ( $slugs as $key => $slug ) {
 			$t_slug = self::rewrite_slug( $slug );
 			if ( ! empty( $t_slug ) ) {
@@ -120,7 +121,7 @@ class Router {
 			$out_slugs[] = $slug;
 		}
 
-		if ( ! isset( $params ) || empty( $params ) ) {
+		if ( empty( $params ) ) {
 			return trailingslashit( home_url( implode( '/', $out_slugs ) ) );
 		}
 
@@ -130,13 +131,13 @@ class Router {
 	/**
 	 * Get a url based on query var
 	 *
-	 * @param $query_var (string): the query var  to make the url with
+	 * @param string $query_var : the query var  to make the url with
 	 *
-	 * @return false|string : the url rewrited
+	 * @return false|string the url rewrited
 	 * @author Nicolas Juen
 	 */
-	public static function rewrite_slug( $query_var = '' ) {
-		if ( ! isset( $query_var ) || empty( $query_var ) || ! isset( self::$rewrite_elements[ $query_var ] ) ) {
+	public static function rewrite_slug( string $query_var = '' ) {
+		if ( empty( $query_var ) || ! isset( self::$rewrite_elements[ $query_var ] ) ) {
 			return '';
 		}
 

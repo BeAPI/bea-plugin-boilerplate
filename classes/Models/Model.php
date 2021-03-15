@@ -16,28 +16,31 @@ namespace BEA\PB\Models;
  * @package BEA\PB\Models
  */
 abstract class Model {
-
 	/**
-	 * @var string  the post type for the current model
+	 * The post type for the current model
+	 * @var string
 	 */
-	protected $post_type;
+	protected $post_type = '';
 
 	/**
-	 * @var int the element id
+	 * The element id
+	 * @var int
 	 */
 	protected $ID;
 
 	/**
-	 * @var \WP_Post : the WordPress object
+	 * The WordPress object
+	 *
+	 * @var \WP_Post
 	 */
 	public $wp_object;
 
 	/**
-	 * The user ACF fields
+	 * All ACF fields
 	 *
 	 * @var array
 	 */
-	protected $fields = null;
+	protected $fields;
 
 	/**
 	 * Create a new model
@@ -49,7 +52,7 @@ abstract class Model {
 	public function __construct( \WP_Post $object ) {
 
 		if ( $object->post_type !== $this->post_type ) {
-			throw new \Exception( sprintf( '%s post type does not match model post type %s', $object->post_type, $this->post_type ) );
+			throw new \InvalidArgumentException( sprintf( '%s post type does not match model post type %s', $object->post_type, $this->post_type ) );
 		}
 
 		$this->wp_object = $object;
@@ -59,7 +62,7 @@ abstract class Model {
 	/**
 	 * @param \WP_Post $object
 	 *
-	 * @return \WP_Error|Model
+	 * @return object|\WP_Error
 	 */
 	public static function get_model( \WP_Post $object ) {
 		$post_type = get_post_type_object( $object->post_type );
@@ -81,13 +84,13 @@ abstract class Model {
 	/**
 	 * Get among all classes the right one
 	 *
-	 * @param $class
+	 * @param string $class
 	 *
-	 * @return bool
+	 * @return array|null
 	 */
-	public static function filter_classes( $class ) {
-		if ( false === is_subclass_of( $class, __NAMESPACE__ . '\\Model' ) ) {
-			return false;
+	public static function filter_classes( string $class ): ?array {
+		if ( false === is_subclass_of( $class, __CLASS__ ) ) {
+			return null;
 		}
 
 		return get_class_vars( $class );
@@ -96,14 +99,14 @@ abstract class Model {
 	/**
 	 * @return int
 	 */
-	public function get_ID() {
+	public function get_id(): int {
 		return $this->ID;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function get_title() {
+	public function get_title(): string {
 		return get_the_title( $this->wp_object );
 	}
 
@@ -117,19 +120,19 @@ abstract class Model {
 	/**
 	 * @return \WP_Post
 	 */
-	public function get_object() {
+	public function get_object(): \WP_Post {
 		return $this->wp_object;
 	}
 
 	/**
 	 * Provided the meta value of meta key given
 	 *
-	 * @param string $key : the ACF or the meta key to get the data from
-	 * @param bool $format : format or not, specific to ACF
+	 * @param string $key    : the ACF or the meta key to get the data from
+	 * @param bool   $format : format or not, specific to ACF
 	 *
-	 * @return bool
+	 * @return array|false|mixed
 	 */
-	public function get_meta( $key, $format = true ) {
+	public function get_meta( string $key, $format = true ) {
 		if ( empty( $key ) ) {
 			return false;
 		}
@@ -138,16 +141,15 @@ abstract class Model {
 		$fields = $this->get_fields();
 
 		// Check ACF
-		if ( ! in_array( $key, $fields, true ) && ! isset( $fields[ $key ] ) || ! function_exists( 'get_field' ) ) {
+		if ( ! function_exists( '\get_field' ) || ( ! in_array( $key, $fields, true ) && ! isset( $fields[ $key ] ) ) ) {
 			return $this->wp_object->{$key};
 		}
 
 		// On ACF given key
 		$key = in_array( $key, $fields, true ) ? $key : $fields[ $key ];
 
-		return get_field( $key, $this->get_ID(), $format );
+		return \get_field( $key, $this->get_id(), $format );
 	}
-
 
 	/**
 	 * Update a post meta value
@@ -157,64 +159,64 @@ abstract class Model {
 	 *
 	 * @return bool|int
 	 */
-	public function update_meta( $key, $value = '' ) {
+	public function update_meta( string $key, $value = '' ) {
 		if ( empty( $key ) ) {
 			return false;
 		}
 
 		// Check if model implement a method for this particular meta
 		if ( method_exists( $this, 'update_meta_' . $key ) ) {
-			return call_user_func( array( $this, 'update_meta_' . $key ), $value );
+			return call_user_func( [ $this, 'update_meta_' . $key ], $value );
 		}
 
-		return $this->_update_meta( $key, $value );
+		return $this->update_content_meta( $key, $value );
 	}
 
 	/**
 	 * Really update the value
 	 *
-	 * @param        $key
+	 * @param string $key
 	 * @param string $value
 	 *
 	 * @return bool|int
 	 */
-	protected function _update_meta( $key, $value = '' ) {
-		if ( ! function_exists( 'update_field' ) ) {
-			return update_post_meta( $this->get_ID(), $key, $value );
+	protected function update_content_meta( string $key, $value = '' ) {
+		if ( ! function_exists( '\update_field' ) ) {
+			return update_post_meta( $this->get_id(), $key, $value );
 		}
 
 		// Get the fields and use the ACF ones
 		$fields = $this->get_fields();
 		$key    = isset( $fields[ $key ] ) ? $fields[ $key ] : $key;
 
-		return update_field( $key, $value, $this->get_ID() );
+		return \update_field( $key, $value, $this->get_id() );
 	}
 
 	/**
 	 * Set the model terms
 	 *
-	 * @param      $terms
-	 * @param      $taxonomy
-	 * @param bool $append
+	 * @param string|int|array $terms
+	 * @param string           $taxonomy
+	 * @param bool             $append
 	 *
 	 * @return array|\WP_Error
 	 */
-	public function set_terms( $terms, $taxonomy, $append = false ) {
-		return wp_set_object_terms( $this->get_ID(), $terms, $taxonomy, $append );
+	public function set_terms( $terms, string $taxonomy, $append = false ) {
+		return wp_set_object_terms( $this->get_id(), $terms, $taxonomy, $append );
 	}
 
 	/**
 	 * Get the terms for the model
 	 *
-	 * @param       $taxonomy
-	 * @param array $args
+	 * @param string $taxonomy
+	 * @param array  $args
 	 *
-	 * @return array|\WP_Error
+	 * @return \WP_Term[]|\WP_Error
 	 */
-	public function get_terms( $taxonomy, array $args = array() ) {
-		$terms = get_object_term_cache( $this->get_ID(), $taxonomy );
+	public function get_terms( string $taxonomy, array $args = [] ) {
+		$terms = get_object_term_cache( $this->get_id(), $taxonomy );
 		if ( false === $terms ) {
-			$terms = wp_get_object_terms( $this->get_ID(), $taxonomy, $args );
+			$terms = wp_get_object_terms( $this->get_id(), $taxonomy, $args );
 		}
 
 		return $terms;
@@ -223,16 +225,16 @@ abstract class Model {
 	/**
 	 * Get the first terms
 	 *
-	 * @param $taxonomy
+	 * @param string $taxonomy
 	 * @param array $args
 	 *
-	 * @return bool|mixed
+	 * @return \WP_Term|null
 	 */
-	public function get_first_term( $taxonomy, array $args = array() ) {
+	public function get_first_term( string $taxonomy, array $args = [] ): ?\WP_Term {
 		$terms = $this->get_terms( $taxonomy, $args );
 
 		if ( is_wp_error( $terms ) ) {
-			return false;
+			return null;
 		}
 
 		return reset( $terms );
@@ -241,46 +243,41 @@ abstract class Model {
 	/**
 	 * Check if the current object is in term
 	 *
-	 * @param $taxonomy
+	 * @param string $taxonomy
 	 *
 	 * @return bool|\WP_Error
 	 */
-	public function has_terms( $taxonomy ) {
-		return is_object_in_term( $this->get_ID(), $taxonomy );
+	public function has_terms( string $taxonomy ) {
+		return is_object_in_term( $this->get_id(), $taxonomy );
 	}
 
 	/**
-	 * @param $size
+	 * @param string $size
 	 * @param array $attributes
 	 *
 	 * @return string
 	 */
-	public function get_thumbnail( $size, array $attributes = array() ) {
-		return get_the_post_thumbnail( $this->get_ID(), $size, $attributes );
+	public function get_thumbnail( string $size, array $attributes = [] ): string {
+		return get_the_post_thumbnail( $this->get_id(), $size, $attributes );
 	}
 
 	/**
 	 * Return the post thumbnail ID
 	 *
-	 * @return int
+	 * @return int|false
 	 */
 	public function get_thumbnail_id() {
-		return get_post_thumbnail_id( $this->get_ID() );
+		return get_post_thumbnail_id( $this->get_id() );
 	}
 
 	/**
 	 * Set the thumbnail for the current object
 	 *
-	 * @param $id
+	 * @param int $id
 	 *
-	 * @return bool
+	 * @return int|bool
 	 */
-	public function set_thumbnail( $id ) {
-		// Remove the attachment if here
-		if ( has_post_thumbnail( $this->get_ID() ) ) {
-			wp_delete_attachment( $this->get_thumbnail_id(), true );
-		}
-
+	public function set_thumbnail( int $id ) {
 		return set_post_thumbnail( $this->wp_object, $id );
 	}
 
@@ -289,8 +286,8 @@ abstract class Model {
 	 *
 	 * @return bool
 	 */
-	public function has_thumbnail() {
-		return has_post_thumbnail( $this->get_ID() );
+	public function has_thumbnail(): bool {
+		return has_post_thumbnail( $this->get_id() );
 	}
 
 	/**
@@ -298,22 +295,23 @@ abstract class Model {
 	 *
 	 * @return array
 	 */
-	protected function get_fields() {
+	protected function get_fields(): array {
 		if ( ! is_null( $this->fields ) ) {
 			return $this->fields;
 		}
 
-		$groups = acf_get_field_groups( array( 'post_type' => $this->post_type ) );
+		$groups = \acf_get_field_groups( [ 'post_type' => $this->post_type ] );
 
 		if ( empty( $groups ) ) {
-			return array();
+			return [];
 		}
-		$fields = array();
+		$fields = [];
 		foreach ( $groups as $group ) {
 			$fields += acf_get_fields( $group );
 		}
 
-		$acf_fields = array();
+		$acf_fields = [];
+		/** @psalm-suppress PossiblyInvalidIterator */
 		foreach ( $fields as $field ) {
 			$acf_fields[ $field['name'] ] = $field['key'];
 		}
@@ -327,35 +325,35 @@ abstract class Model {
 	/**
 	 * Connect the current object to another object
 	 *
-	 * @param $object_id
-	 * @param $connection_type
+	 * @param int $object_id
+	 * @param string $connection_type
 	 * @param array $metas : metas to set on the creation
 	 *
 	 * @return bool|int|\WP_Error
 	 */
-	protected function connect( $object_id, $connection_type, $metas = array() ) {
+	protected function connect( int $object_id, string $connection_type, $metas = [] ) {
 		if ( ! function_exists( 'p2p_type' ) ) {
 			return false;
 		}
 
-		return p2p_type( $connection_type )->connect( $this->get_ID(), $object_id, $metas );
+		return p2p_type( $connection_type )->connect( $this->get_id(), $object_id, $metas );
 	}
 
 	/**
 	 * Disconnect the current object to another object
 	 *
-	 * @param $object_id
-	 * @param $connection_type
+	 * @param int    $object_id
+	 * @param string $connection_type
 	 *
 	 * @return bool|int|\WP_Error
 	 */
-	protected function disconnect( $object_id, $connection_type ) {
+	protected function disconnect( int $object_id, string $connection_type ) {
 		if ( ! function_exists( 'p2p_type' ) ) {
 			return false;
 		}
 
 		// Delete connection
-		return p2p_type( $connection_type )->disconnect( $this->get_ID(), $object_id );
+		return p2p_type( $connection_type )->disconnect( $this->get_id(), $object_id );
 	}
 
 	/**
@@ -364,11 +362,11 @@ abstract class Model {
 	 *
 	 * @param array $data
 	 *
-	 * @return \WP_Error|bool
+	 * @return \WP_Error|Model
 	 *
 	 */
 	public function update( array $data ) {
-		return $this->_update( $data );
+		return $this->update_content( $data );
 	}
 
 	/**
@@ -379,8 +377,8 @@ abstract class Model {
 	 *
 	 * @return \WP_Error|Model
 	 */
-	protected function _update( array $data ) {
-		if ( empty( $data ) || ! isset( $data ) ) {
+	protected function update_content( array $data ) {
+		if ( empty( $data ) ) {
 			return new \WP_Error( 'nodata', __( 'No data', 'bea-plugin-boilerplate' ) );
 		}
 
@@ -391,7 +389,7 @@ abstract class Model {
 		$data = wp_parse_args( $data, $defaults );
 
 		// Set ID
-		$data['ID']        = $this->get_ID();
+		$data['ID']        = $this->get_id();
 		$data['post_type'] = $this->post_type;
 
 		// Filter post keys
@@ -417,7 +415,7 @@ abstract class Model {
 	 * @return array|bool|\WP_Post
 	 */
 	public function delete( $force_delete = false ) {
-		return wp_delete_post( $this->get_ID(), $force_delete );
+		return wp_delete_post( $this->get_id(), $force_delete );
 	}
 
 	/**
@@ -427,7 +425,7 @@ abstract class Model {
 	 *
 	 * @return string
 	 */
-	public function get_permalink( $args = array() ) {
+	public function get_permalink( $args = [] ) {
 		return add_query_arg( $args, get_permalink( $this->get_object() ) );
 	}
 
@@ -441,7 +439,7 @@ abstract class Model {
 		$data = (array) $this->get_object();
 
 		// Get the keys
-		$wp_keys = array_filter( get_post_custom_keys( $this->get_ID() ), array( $this, 'filter_post_meta_keys' ) );
+		$wp_keys = array_filter( get_post_custom_keys( $this->get_id() ), [ $this, 'filter_post_meta_keys' ] );
 
 		// Add the ACF fields
 		foreach ( $this->get_fields() as $key => $acf_key ) {
@@ -455,7 +453,7 @@ abstract class Model {
 
 		// Add the taxonomies
 		foreach ( get_object_taxonomies( $this->get_object() ) as $tax ) {
-			$data[ $tax ] = $this->get_terms( $tax, array( 'fields' => 'ids' ) );
+			$data[ $tax ] = $this->get_terms( $tax, [ 'fields' => 'ids' ] );
 		}
 
 		return $data;
@@ -468,16 +466,16 @@ abstract class Model {
 	 *
 	 * @return array
 	 */
-	public static function filter_post_array( $data ) {
+	public static function filter_post_array( array $data ): array {
 		return array_intersect_key(
 			$data,
 			array_flip(
 				array_filter(
 					array_keys( $data ),
-					array(
+					[
 						__CLASS__,
 						'filter_post_keys',
-					)
+					]
 				)
 			)
 		);
@@ -486,11 +484,11 @@ abstract class Model {
 	/**
 	 * Return true on allowed post key
 	 *
-	 * @param $key
+	 * @param string $key
 	 *
 	 * @return bool
 	 */
-	public static function filter_post_keys( $key ) {
+	public static function filter_post_keys( string $key ): bool {
 		$keys = array_keys( get_class_vars( '\WP_Post' ) );
 
 		// Add missing post fields
@@ -506,13 +504,13 @@ abstract class Model {
 	/**
 	 * Remove unwanted fields from WP database
 	 *
-	 * @param $key
+	 * @param string $key
 	 *
 	 * @return bool
 	 */
-	public function filter_post_meta_keys( $key ) {
+	public function filter_post_meta_keys( string $key ): bool {
 		$fields = $this->get_fields();
 
-		return ( substr( $key, 0, 1 ) !== '_' && ! isset( $fields[ $key ] ) );
+		return ( strpos( $key, '_' ) !== 0 && ! isset( $fields[ $key ] ) );
 	}
 }
