@@ -8,7 +8,7 @@ class Compatibility {
 	 *
 	 * @since 0.1
 	 */
-	public static function admin_init() {
+	public static function admin_init() : void {
 		// Not on ajax
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			return;
@@ -37,7 +37,7 @@ class Compatibility {
 	/**
 	 * Notify the user about the incompatibility issue.
 	 */
-	public static function admin_notices() {
+	public static function admin_notices(): void {
 		echo '<div class="notice error is-dismissible">';
 		/* translators: %1$s: PHP min version %2$s: Current PHP version */
 		echo '<p>' . esc_html( sprintf( __( 'Plugin Boilerplate require PHP version %1$s or greater to be activated. Your server is currently running PHP version %2$s.', 'bea-plugin-boilerplate' ), BEA_PB_MIN_PHP_VERSION, PHP_VERSION ) ) . '</p>';

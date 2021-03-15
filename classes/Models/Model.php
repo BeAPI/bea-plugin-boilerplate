@@ -16,25 +16,29 @@ namespace BEA\PB\Models;
  * @package BEA\PB\Models
  */
 abstract class Model {
-
 	/**
-	 * @var string : The post type for the current model
+	 * The post type for the current model
+	 * @var string
 	 */
 	protected $post_type = '';
 
 	/**
-	 * @var int : The element id
+	 * The element id
+	 * @var int
 	 */
 	protected $ID;
 
 	/**
-	 * @var \WP_Post : The WordPress object
+	 * The WordPress object
+	 *
+	 * @var \WP_Post
 	 */
 	public $wp_object;
 
 	/**
+	 * All ACF fields
 	 *
-	 * @var array : All ACF fields
+	 * @var array
 	 */
 	protected $fields;
 
@@ -80,11 +84,11 @@ abstract class Model {
 	/**
 	 * Get among all classes the right one
 	 *
-	 * @param $class
+	 * @param string $class
 	 *
 	 * @return array|null
 	 */
-	public static function filter_classes( $class ): ?array {
+	public static function filter_classes( string $class ): ?array {
 		if ( false === is_subclass_of( $class, __CLASS__ ) ) {
 			return null;
 		}
@@ -155,7 +159,7 @@ abstract class Model {
 	 *
 	 * @return bool|int
 	 */
-	public function update_meta( $key, $value = '' ) {
+	public function update_meta( string $key, $value = '' ) {
 		if ( empty( $key ) ) {
 			return false;
 		}
@@ -171,12 +175,12 @@ abstract class Model {
 	/**
 	 * Really update the value
 	 *
-	 * @param        $key
+	 * @param string $key
 	 * @param string $value
 	 *
 	 * @return bool|int
 	 */
-	protected function _update_meta( $key, $value = '' ) {
+	protected function _update_meta( string $key, $value = '' ) {
 		if ( ! function_exists( '\update_field' ) ) {
 			return update_post_meta( $this->get_ID(), $key, $value );
 		}
@@ -191,25 +195,25 @@ abstract class Model {
 	/**
 	 * Set the model terms
 	 *
-	 * @param      $terms
-	 * @param      $taxonomy
-	 * @param bool $append
+	 * @param string|int|array $terms
+	 * @param string           $taxonomy
+	 * @param bool             $append
 	 *
 	 * @return array|\WP_Error
 	 */
-	public function set_terms( $terms, $taxonomy, $append = false ) {
+	public function set_terms( $terms, string $taxonomy, $append = false ) {
 		return wp_set_object_terms( $this->get_ID(), $terms, $taxonomy, $append );
 	}
 
 	/**
 	 * Get the terms for the model
 	 *
-	 * @param       $taxonomy
-	 * @param array $args
+	 * @param string $taxonomy
+	 * @param array  $args
 	 *
 	 * @return \WP_Term[]|\WP_Error
 	 */
-	public function get_terms( $taxonomy, array $args = [] ) {
+	public function get_terms( string $taxonomy, array $args = [] ) {
 		$terms = get_object_term_cache( $this->get_ID(), $taxonomy );
 		if ( false === $terms ) {
 			$terms = wp_get_object_terms( $this->get_ID(), $taxonomy, $args );
@@ -221,12 +225,12 @@ abstract class Model {
 	/**
 	 * Get the first terms
 	 *
-	 * @param $taxonomy
+	 * @param string $taxonomy
 	 * @param array $args
 	 *
 	 * @return \WP_Term|null
 	 */
-	public function get_first_term( $taxonomy, array $args = [] ): ?\WP_Term {
+	public function get_first_term( string $taxonomy, array $args = [] ): ?\WP_Term {
 		$terms = $this->get_terms( $taxonomy, $args );
 
 		if ( is_wp_error( $terms ) ) {
@@ -239,28 +243,28 @@ abstract class Model {
 	/**
 	 * Check if the current object is in term
 	 *
-	 * @param $taxonomy
+	 * @param string $taxonomy
 	 *
 	 * @return bool|\WP_Error
 	 */
-	public function has_terms( $taxonomy ) {
+	public function has_terms( string $taxonomy ) {
 		return is_object_in_term( $this->get_ID(), $taxonomy );
 	}
 
 	/**
-	 * @param $size
+	 * @param string $size
 	 * @param array $attributes
 	 *
 	 * @return string
 	 */
-	public function get_thumbnail( $size, array $attributes = [] ): string {
+	public function get_thumbnail( string $size, array $attributes = [] ): string {
 		return get_the_post_thumbnail( $this->get_ID(), $size, $attributes );
 	}
 
 	/**
 	 * Return the post thumbnail ID
 	 *
-	 * @return int
+	 * @return int|false
 	 */
 	public function get_thumbnail_id() {
 		return get_post_thumbnail_id( $this->get_ID() );
@@ -269,16 +273,11 @@ abstract class Model {
 	/**
 	 * Set the thumbnail for the current object
 	 *
-	 * @param $id
+	 * @param int $id
 	 *
-	 * @return bool
+	 * @return int|bool
 	 */
-	public function set_thumbnail( $id ) {
-		// Remove the attachment if here
-		if ( has_post_thumbnail( $this->get_ID() ) ) {
-			wp_delete_attachment( $this->get_thumbnail_id(), true );
-		}
-
+	public function set_thumbnail( int $id ) {
 		return set_post_thumbnail( $this->wp_object, $id );
 	}
 
@@ -287,7 +286,7 @@ abstract class Model {
 	 *
 	 * @return bool
 	 */
-	public function has_thumbnail() {
+	public function has_thumbnail(): bool {
 		return has_post_thumbnail( $this->get_ID() );
 	}
 
@@ -296,7 +295,7 @@ abstract class Model {
 	 *
 	 * @return array
 	 */
-	protected function get_fields() {
+	protected function get_fields(): array {
 		if ( ! is_null( $this->fields ) ) {
 			return $this->fields;
 		}
@@ -326,13 +325,13 @@ abstract class Model {
 	/**
 	 * Connect the current object to another object
 	 *
-	 * @param $object_id
-	 * @param $connection_type
+	 * @param int $object_id
+	 * @param string $connection_type
 	 * @param array $metas : metas to set on the creation
 	 *
 	 * @return bool|int|\WP_Error
 	 */
-	protected function connect( $object_id, $connection_type, $metas = [] ) {
+	protected function connect( int $object_id, string $connection_type, $metas = [] ) {
 		if ( ! function_exists( 'p2p_type' ) ) {
 			return false;
 		}
@@ -343,12 +342,12 @@ abstract class Model {
 	/**
 	 * Disconnect the current object to another object
 	 *
-	 * @param $object_id
-	 * @param $connection_type
+	 * @param int    $object_id
+	 * @param string $connection_type
 	 *
 	 * @return bool|int|\WP_Error
 	 */
-	protected function disconnect( $object_id, $connection_type ) {
+	protected function disconnect( int $object_id, string $connection_type ) {
 		if ( ! function_exists( 'p2p_type' ) ) {
 			return false;
 		}
@@ -467,7 +466,7 @@ abstract class Model {
 	 *
 	 * @return array
 	 */
-	public static function filter_post_array( $data ) {
+	public static function filter_post_array( array $data ): array {
 		return array_intersect_key(
 			$data,
 			array_flip(
@@ -485,11 +484,11 @@ abstract class Model {
 	/**
 	 * Return true on allowed post key
 	 *
-	 * @param $key
+	 * @param string $key
 	 *
 	 * @return bool
 	 */
-	public static function filter_post_keys( $key ) {
+	public static function filter_post_keys( string $key ): bool {
 		$keys = array_keys( get_class_vars( '\WP_Post' ) );
 
 		// Add missing post fields
@@ -505,13 +504,13 @@ abstract class Model {
 	/**
 	 * Remove unwanted fields from WP database
 	 *
-	 * @param $key
+	 * @param string $key
 	 *
 	 * @return bool
 	 */
-	public function filter_post_meta_keys( $key ) {
+	public function filter_post_meta_keys( string $key ): bool {
 		$fields = $this->get_fields();
 
-		return ( substr( $key, 0, 1 ) !== '_' && ! isset( $fields[ $key ] ) );
+		return ( strpos( $key, '_' ) !== 0 && ! isset( $fields[ $key ] ) );
 	}
 }

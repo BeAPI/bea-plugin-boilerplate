@@ -40,6 +40,7 @@ class Shortcode_Factory {
 		 * @var Shortcode $class
 		 */
 		try {
+			/** @psalm-suppress UnsafeInstantiation */
 			$class = new $class_name();
 			$class->add();
 		} catch ( \Exception $e ) {

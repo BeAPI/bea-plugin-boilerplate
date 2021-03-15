@@ -65,7 +65,7 @@ add_action( 'plugins_loaded', 'init_bea_pb_plugin' );
 /**
  * Init the plugin
  */
-function init_bea_pb_plugin() {
+function init_bea_pb_plugin(): void {
 	// Client
 	\BEA\PB\Main::get_instance();
 

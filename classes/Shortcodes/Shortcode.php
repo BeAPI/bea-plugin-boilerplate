@@ -15,6 +15,7 @@ abstract class Shortcode {
 
 	/**
 	 * The shortcode [tag]
+	 * @var string
 	 * @since   2.1.0
 	 */
 	protected $tag = '';
@@ -25,15 +26,15 @@ abstract class Shortcode {
 	 * @var array
 	 * @since   2.1.0
 	 */
-	protected $defaults = array();
+	protected $defaults = [];
 
 	/**
 	 * Create a shortcode
 	 *
 	 * @since   2.1.0
 	 */
-	public function add() {
-		add_shortcode( $this->tag, array( $this, 'render' ) );
+	public function add(): void {
+		add_shortcode( $this->tag, [ $this, 'render' ] );
 	}
 
 	/**
@@ -45,7 +46,7 @@ abstract class Shortcode {
 	 *
 	 * @return mixed
 	 */
-	public function attributes( $attributes = array() ) {
+	public function attributes( $attributes = [] ) {
 		return shortcode_atts( $this->defaults, $attributes, $this->tag );
 	}
 
@@ -59,6 +60,6 @@ abstract class Shortcode {
 	 *
 	 * @return string
 	 */
-	abstract public function render( $attributes = array(), $content = '' );
+	abstract public function render( $attributes = [], $content = '' );
 
 }

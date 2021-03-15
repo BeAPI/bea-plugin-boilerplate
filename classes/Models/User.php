@@ -12,18 +12,20 @@ namespace BEA\PB\Models;
 class User {
 
 	/**
-	 * @var \WP_User : the User object
+	 * The WP User object
+	 * @var \WP_User
 	 */
 	public $user;
 
 	/**
-	 * @var int the element id
+	 * The user id
+	 * @var int
 	 */
 	protected $ID;
 
 	/**
-	 *
-	 * @var array : All ACF fields
+	 * All ACF fields
+	 * @var array
 	 */
 	protected $fields;
 
@@ -46,8 +48,8 @@ class User {
 	/**
 	 * Create user
 	 *
-	 * @param array $args
-	 * @param null  $user_email
+	 * @param array       $args
+	 * @param string|null $user_email
 	 *
 	 * @return \WP_Error|User
 	 *

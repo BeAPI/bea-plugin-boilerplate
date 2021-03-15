@@ -130,10 +130,10 @@ abstract class Cron {
 	/**
 	 * Log a message for the current type
 	 *
-	 * @param $message : message to write on the log file
-	 * @param $type : log level message
+	 * @param string $message : message to write on the log file
+	 * @param string $type : log level message
 	 */
-	protected function add_log( $message, $type = \Bea_Log::gravity_7 ) {
+	protected function add_log( string $message, string $type = \Bea_Log::gravity_7 ): void {
 		// Log if bea log or not
 		if ( ! is_a( $this->log, '\Bea_Log' ) ) {
 			$this->log = new \Bea_Log( $this->get_log_file_path( false ), '.log' );

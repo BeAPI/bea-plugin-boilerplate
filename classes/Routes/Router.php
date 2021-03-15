@@ -38,12 +38,12 @@ class Router {
 	/**
 	 * Get the permalink rewrite element for the given post_type
 	 *
-	 * @param $post_type
+	 * @param string $post_type
 	 *
 	 * @return string
 	 * @author Nicolas Juen
 	 */
-	public static function get_post_type_permalink_rewrite( $post_type ) {
+	public static function get_post_type_permalink_rewrite( string $post_type ) {
 		/**
 		 * @var \WP_Rewrite $wp_rewrite
 		 */
@@ -68,13 +68,14 @@ class Router {
 	/**
 	 * Get a url based on query var + params if needed
 	 *
-	 * @param $query_var (string): the query var  to make the url with
-	 * @param $params (array): the params to add at the end of the url
+	 * @param string $query_var : the query var  to make the url with
+	 * @param array  $params : the params to add at the end of the url
 	 *
-	 * @return false|string : the url rewrited
-	 * @author Nicolas Juen
+	 * @return false|string the url rewrited
+	 *
+	 * @author Nicolas JUEN
 	 */
-	public static function get_url( $query_var, $params = [] ) {
+	public static function get_url( string $query_var, array $params = [] ) {
 		// Get the slug
 		$slug = self::rewrite_slug( $query_var );
 
@@ -83,7 +84,7 @@ class Router {
 			return false;
 		}
 
-		if ( ! isset( $params ) || empty( $params ) ) {
+		if ( empty( $params ) ) {
 			return trailingslashit( home_url( $slug ) );
 		}
 
@@ -96,7 +97,7 @@ class Router {
 	 * @param array $slugs  : the query vars to make the url with
 	 * @param array $params : the params to add at the end of the url
 	 *
-	 * @return false|string : the url rewrited
+	 * @return false|string the url rewrited
 	 * @author Nicolas Juen
 	 */
 	public static function get_url_complex( array $slugs, $params = [] ) {
@@ -120,7 +121,7 @@ class Router {
 			$out_slugs[] = $slug;
 		}
 
-		if ( ! isset( $params ) || empty( $params ) ) {
+		if ( empty( $params ) ) {
 			return trailingslashit( home_url( implode( '/', $out_slugs ) ) );
 		}
 
@@ -130,13 +131,13 @@ class Router {
 	/**
 	 * Get a url based on query var
 	 *
-	 * @param $query_var (string): the query var  to make the url with
+	 * @param string $query_var : the query var  to make the url with
 	 *
-	 * @return false|string : the url rewrited
+	 * @return false|string the url rewrited
 	 * @author Nicolas Juen
 	 */
-	public static function rewrite_slug( $query_var = '' ) {
-		if ( ! isset( $query_var ) || empty( $query_var ) || ! isset( self::$rewrite_elements[ $query_var ] ) ) {
+	public static function rewrite_slug( string $query_var = '' ) {
+		if ( empty( $query_var ) || ! isset( self::$rewrite_elements[ $query_var ] ) ) {
 			return '';
 		}
 
