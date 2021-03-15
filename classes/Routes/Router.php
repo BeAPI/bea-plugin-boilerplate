@@ -7,7 +7,7 @@ class Router {
 	/**
 	 * @var array the rewrite elements
 	 */
-	private static $rewrite_elements = array();
+	private static $rewrite_elements = [];
 
 	/**
 	 * Launch all the filters and actions needed
@@ -22,7 +22,7 @@ class Router {
 		 * 'registration' => 'account-creation',
 		 *
 		 */
-		self::$rewrite_elements = array();
+		self::$rewrite_elements = [];
 	}
 
 	/**
@@ -45,7 +45,7 @@ class Router {
 	 */
 	public static function get_post_type_permalink_rewrite( $post_type ) {
 		/**
-		 * @var $wp_rewrite \WP_Rewrite
+		 * @var \WP_Rewrite $wp_rewrite
 		 */
 		global $wp_rewrite;
 
@@ -56,9 +56,9 @@ class Router {
 		}
 
 		// Get the permastruct for single post_type
-		preg_match_all( '/%.+?%/', $post_type_permastruct, $tokens );
+		$results = preg_match_all( '/%.+?%/', $post_type_permastruct, $tokens );
 
-		if ( false === $tokens ) {
+		if ( false === $results || empty( $tokens ) ) {
 			return '';
 		}
 
@@ -74,7 +74,7 @@ class Router {
 	 * @return false|string : the url rewrited
 	 * @author Nicolas Juen
 	 */
-	public static function get_url( $query_var, $params = array() ) {
+	public static function get_url( $query_var, $params = [] ) {
 		// Get the slug
 		$slug = self::rewrite_slug( $query_var );
 
@@ -91,25 +91,25 @@ class Router {
 	}
 
 	/**
-	 * Make a complexurl with multiple slugs
+	 * Make a complex url with multiple slugs
 	 *
-	 * @param $slugs (string): the query vars to make the url with
-	 * @param $params (array): the params to add at the end of the url
+	 * @param array $slugs  : the query vars to make the url with
+	 * @param array $params : the params to add at the end of the url
 	 *
 	 * @return false|string : the url rewrited
 	 * @author Nicolas Juen
 	 */
-	public static function get_url_complex( array $slugs, $params = array() ) {
-		if ( ! isset( $slugs ) || empty( $slugs ) ) {
+	public static function get_url_complex( array $slugs, $params = [] ) {
+		if ( empty( $slugs ) ) {
 			return '';
 		}
 
 		// if not array, make normal url
-		if ( ! is_array( $slugs ) ) {
-			return self::get_url( $slugs );
+		if ( 1 === count( $slugs ) ) {
+			return self::get_url( $slugs[0] );
 		}
 
-		$out_slugs = array();
+		$out_slugs = [];
 		foreach ( $slugs as $key => $slug ) {
 			$t_slug = self::rewrite_slug( $slug );
 			if ( ! empty( $t_slug ) ) {
