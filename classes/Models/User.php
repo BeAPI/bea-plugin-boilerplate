@@ -66,7 +66,7 @@ class User {
 			];
 		}
 
-		return self::_create( $args );
+		return self::create_user( $args );
 	}
 
 	/**
@@ -78,7 +78,7 @@ class User {
 	 *
 	 * @author Alexandre Sadowski|Romain DORR
 	 */
-	protected static function _create( array $args ) {
+	protected static function create_user( array $args ) {
 		$random_password = wp_generate_password( 12, false );
 
 		$defaults = [
@@ -98,7 +98,7 @@ class User {
 	/**
 	 * @return int
 	 */
-	public function get_ID(): int {
+	public function get_id(): int {
 		return $this->ID;
 	}
 
@@ -138,7 +138,7 @@ class User {
 	 * @return false|string `<img>` tag for the user's avatar. False on failure.
 	 */
 	public function get_avatar( $size = 96, $default = '', $alt = '', $args = null ) {
-		return get_avatar( $this->get_ID(), $size, $default, $alt, $args );
+		return get_avatar( $this->get_id(), $size, $default, $alt, $args );
 	}
 
 	/**
@@ -210,7 +210,7 @@ class User {
 			return $this->user->{$key};
 		}
 
-		return get_field( $fields[ $key ], 'user_' . $this->get_ID(), $format );
+		return get_field( $fields[ $key ], 'user_' . $this->get_id(), $format );
 	}
 
 	/**
@@ -231,7 +231,7 @@ class User {
 			return $this->{'update_meta_' . $key}( $value );
 		}
 
-		return $this->_update_meta( $key, $value );
+		return $this->update_user_meta( $key, $value );
 	}
 
 	/**
@@ -242,16 +242,16 @@ class User {
 	 *
 	 * @return bool|int
 	 */
-	protected function _update_meta( string $key, $value = '' ) {
+	protected function update_user_meta( string $key, $value = '' ) {
 		if ( ! function_exists( 'update_field' ) ) {
-			return update_user_meta( $this->get_ID(), $key, $value );
+			return update_user_meta( $this->get_id(), $key, $value );
 		}
 
 		// Get the fields and use the ACF ones
 		$fields = $this->get_fields();
 		$key    = $fields[ $key ] ?? $key;
 
-		return update_field( $key, $value, 'user_' . $this->get_ID() );
+		return update_field( $key, $value, 'user_' . $this->get_id() );
 	}
 
 	/**
@@ -294,7 +294,7 @@ class User {
 	 * @return bool|\WP_Error
 	 */
 	public function delete( $reassign = null ) {
-		return wp_delete_user( $this->get_ID(), $reassign );
+		return wp_delete_user( $this->get_id(), $reassign );
 	}
 
 	/**
@@ -305,7 +305,7 @@ class User {
 	 * @return string|bool
 	 */
 	public function get_permalink( $args = [] ) {
-		$url = get_the_author_meta( 'url', $this->get_ID() );
+		$url = get_the_author_meta( 'url', $this->get_id() );
 
 		return ( ! $url ) ? add_query_arg( $args, $url ) : false;
 	}

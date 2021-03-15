@@ -25,6 +25,7 @@ trait Singleton {
 	 */
 	final public static function get_instance() {
 		/** @psalm-suppress RedundantPropertyInitializationCheck, UnsafeInstantiation */
+		// phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 		return static::$instance ?? static::$instance = new static();
 	}
 

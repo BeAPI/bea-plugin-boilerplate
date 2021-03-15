@@ -95,6 +95,7 @@ class Helpers {
 				$data = array( 'data' => $data );
 			}
 
+			// phpcs:ignore WordPress.PHP.DontExtract.extract_extract
 			extract( $data, EXTR_OVERWRITE );
 			include $tpl_path;
 		};

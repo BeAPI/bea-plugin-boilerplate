@@ -99,7 +99,7 @@ abstract class Model {
 	/**
 	 * @return int
 	 */
-	public function get_ID(): int {
+	public function get_id(): int {
 		return $this->ID;
 	}
 
@@ -148,7 +148,7 @@ abstract class Model {
 		// On ACF given key
 		$key = in_array( $key, $fields, true ) ? $key : $fields[ $key ];
 
-		return \get_field( $key, $this->get_ID(), $format );
+		return \get_field( $key, $this->get_id(), $format );
 	}
 
 	/**
@@ -169,7 +169,7 @@ abstract class Model {
 			return call_user_func( [ $this, 'update_meta_' . $key ], $value );
 		}
 
-		return $this->_update_meta( $key, $value );
+		return $this->update_content_meta( $key, $value );
 	}
 
 	/**
@@ -180,16 +180,16 @@ abstract class Model {
 	 *
 	 * @return bool|int
 	 */
-	protected function _update_meta( string $key, $value = '' ) {
+	protected function update_content_meta( string $key, $value = '' ) {
 		if ( ! function_exists( '\update_field' ) ) {
-			return update_post_meta( $this->get_ID(), $key, $value );
+			return update_post_meta( $this->get_id(), $key, $value );
 		}
 
 		// Get the fields and use the ACF ones
 		$fields = $this->get_fields();
 		$key    = isset( $fields[ $key ] ) ? $fields[ $key ] : $key;
 
-		return \update_field( $key, $value, $this->get_ID() );
+		return \update_field( $key, $value, $this->get_id() );
 	}
 
 	/**
@@ -202,7 +202,7 @@ abstract class Model {
 	 * @return array|\WP_Error
 	 */
 	public function set_terms( $terms, string $taxonomy, $append = false ) {
-		return wp_set_object_terms( $this->get_ID(), $terms, $taxonomy, $append );
+		return wp_set_object_terms( $this->get_id(), $terms, $taxonomy, $append );
 	}
 
 	/**
@@ -214,9 +214,9 @@ abstract class Model {
 	 * @return \WP_Term[]|\WP_Error
 	 */
 	public function get_terms( string $taxonomy, array $args = [] ) {
-		$terms = get_object_term_cache( $this->get_ID(), $taxonomy );
+		$terms = get_object_term_cache( $this->get_id(), $taxonomy );
 		if ( false === $terms ) {
-			$terms = wp_get_object_terms( $this->get_ID(), $taxonomy, $args );
+			$terms = wp_get_object_terms( $this->get_id(), $taxonomy, $args );
 		}
 
 		return $terms;
@@ -248,7 +248,7 @@ abstract class Model {
 	 * @return bool|\WP_Error
 	 */
 	public function has_terms( string $taxonomy ) {
-		return is_object_in_term( $this->get_ID(), $taxonomy );
+		return is_object_in_term( $this->get_id(), $taxonomy );
 	}
 
 	/**
@@ -258,7 +258,7 @@ abstract class Model {
 	 * @return string
 	 */
 	public function get_thumbnail( string $size, array $attributes = [] ): string {
-		return get_the_post_thumbnail( $this->get_ID(), $size, $attributes );
+		return get_the_post_thumbnail( $this->get_id(), $size, $attributes );
 	}
 
 	/**
@@ -267,7 +267,7 @@ abstract class Model {
 	 * @return int|false
 	 */
 	public function get_thumbnail_id() {
-		return get_post_thumbnail_id( $this->get_ID() );
+		return get_post_thumbnail_id( $this->get_id() );
 	}
 
 	/**
@@ -287,7 +287,7 @@ abstract class Model {
 	 * @return bool
 	 */
 	public function has_thumbnail(): bool {
-		return has_post_thumbnail( $this->get_ID() );
+		return has_post_thumbnail( $this->get_id() );
 	}
 
 	/**
@@ -336,7 +336,7 @@ abstract class Model {
 			return false;
 		}
 
-		return p2p_type( $connection_type )->connect( $this->get_ID(), $object_id, $metas );
+		return p2p_type( $connection_type )->connect( $this->get_id(), $object_id, $metas );
 	}
 
 	/**
@@ -353,7 +353,7 @@ abstract class Model {
 		}
 
 		// Delete connection
-		return p2p_type( $connection_type )->disconnect( $this->get_ID(), $object_id );
+		return p2p_type( $connection_type )->disconnect( $this->get_id(), $object_id );
 	}
 
 	/**
@@ -366,7 +366,7 @@ abstract class Model {
 	 *
 	 */
 	public function update( array $data ) {
-		return $this->_update( $data );
+		return $this->update_content( $data );
 	}
 
 	/**
@@ -377,7 +377,7 @@ abstract class Model {
 	 *
 	 * @return \WP_Error|Model
 	 */
-	protected function _update( array $data ) {
+	protected function update_content( array $data ) {
 		if ( empty( $data ) ) {
 			return new \WP_Error( 'nodata', __( 'No data', 'bea-plugin-boilerplate' ) );
 		}
@@ -389,7 +389,7 @@ abstract class Model {
 		$data = wp_parse_args( $data, $defaults );
 
 		// Set ID
-		$data['ID']        = $this->get_ID();
+		$data['ID']        = $this->get_id();
 		$data['post_type'] = $this->post_type;
 
 		// Filter post keys
@@ -415,7 +415,7 @@ abstract class Model {
 	 * @return array|bool|\WP_Post
 	 */
 	public function delete( $force_delete = false ) {
-		return wp_delete_post( $this->get_ID(), $force_delete );
+		return wp_delete_post( $this->get_id(), $force_delete );
 	}
 
 	/**
@@ -439,7 +439,7 @@ abstract class Model {
 		$data = (array) $this->get_object();
 
 		// Get the keys
-		$wp_keys = array_filter( get_post_custom_keys( $this->get_ID() ), [ $this, 'filter_post_meta_keys' ] );
+		$wp_keys = array_filter( get_post_custom_keys( $this->get_id() ), [ $this, 'filter_post_meta_keys' ] );
 
 		// Add the ACF fields
 		foreach ( $this->get_fields() as $key => $acf_key ) {
