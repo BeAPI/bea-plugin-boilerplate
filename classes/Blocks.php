@@ -16,7 +16,7 @@ class Blocks {
 
 	use Singleton;
 
-	public function init() {
+	public function init(): void {
 		add_action( 'init', [ $this, 'register_blocks' ], 1 );
 		add_action( 'beapi_helpers_locate_template_templates', [ $this, 'block_templates' ], 10, 2 );
 	}
