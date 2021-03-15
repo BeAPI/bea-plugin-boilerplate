@@ -24,6 +24,7 @@ trait Singleton {
 	 * @return static
 	 */
 	final public static function get_instance() {
+		/** @psalm-suppress RedundantPropertyInitializationCheck, UnsafeInstantiation */
 		return static::$instance ?? static::$instance = new static();
 	}
 
@@ -39,7 +40,7 @@ trait Singleton {
 	 * Implement this method in your child class
 	 * If you want to have actions send at construct
 	 */
-	protected function init() {
+	protected function init() : void {
 	}
 
 	/**
