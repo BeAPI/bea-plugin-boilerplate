@@ -233,7 +233,7 @@ abstract class Model {
 	public function get_first_term( string $taxonomy, array $args = [] ): ?\WP_Term {
 		$terms = $this->get_terms( $taxonomy, $args );
 
-		if ( is_wp_error( $terms ) ) {
+		if ( empty( $terms ) || is_wp_error( $terms ) ) {
 			return null;
 		}
 
