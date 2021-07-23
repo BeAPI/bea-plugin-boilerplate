@@ -57,10 +57,6 @@ if ( version_compare( PHP_VERSION, BEA_PB_MIN_PHP_VERSION, '<' ) ) {
 	return;
 }
 
-// Plugin activate/deactivate hooks
-register_activation_hook( __FILE__, array( '\BEA\PB\Plugin', 'activate' ) );
-register_deactivation_hook( __FILE__, array( '\BEA\PB\Plugin', 'deactivate' ) );
-
 add_action( 'plugins_loaded', 'init_bea_pb_plugin' );
 /**
  * Init the plugin
@@ -71,9 +67,4 @@ function init_bea_pb_plugin(): void {
 
 	// Blocks
 	\BEA\PB\Blocks::get_instance();
-
-	// Admin
-	if ( is_admin() ) {
-		\BEA\PB\Admin\Main::get_instance();
-	}
 }
