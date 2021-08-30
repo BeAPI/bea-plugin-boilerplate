@@ -36,7 +36,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Plugin constants
 define( 'BEA_PB_VERSION', '1.0.0' );
-define( 'BEA_PB_MIN_PHP_VERSION', '7.2' );
 define( 'BEA_PB_VIEWS_FOLDER_NAME', 'bea-pb' );
 define( 'BEA_PB_CPT_NAME', 'custom_post_type' );
 define( 'BEA_PB_TAXO_NAME', 'custom_taxonomy' );
@@ -45,21 +44,6 @@ define( 'BEA_PB_TAXO_NAME', 'custom_taxonomy' );
 define( 'BEA_PB_URL', plugin_dir_url( __FILE__ ) );
 define( 'BEA_PB_DIR', plugin_dir_path( __FILE__ ) );
 define( 'BEA_PB_PLUGIN_DIRNAME', basename( rtrim( dirname( __FILE__ ), '/' ) ) );
-
-// Check PHP min version
-if ( version_compare( PHP_VERSION, BEA_PB_MIN_PHP_VERSION, '<' ) ) {
-	require_once BEA_PB_DIR . 'classes/Compatibility.php';
-
-	// Possibly display a notice, trigger error
-	add_action( 'admin_init', array( 'BEA\PB\Compatibility', 'admin_init' ) );
-
-	// Stop execution of this file
-	return;
-}
-
-// Plugin activate/deactivate hooks
-register_activation_hook( __FILE__, array( '\BEA\PB\Plugin', 'activate' ) );
-register_deactivation_hook( __FILE__, array( '\BEA\PB\Plugin', 'deactivate' ) );
 
 add_action( 'plugins_loaded', 'init_bea_pb_plugin' );
 /**
@@ -71,9 +55,4 @@ function init_bea_pb_plugin(): void {
 
 	// Blocks
 	\BEA\PB\Blocks::get_instance();
-
-	// Admin
-	if ( is_admin() ) {
-		\BEA\PB\Admin\Main::get_instance();
-	}
 }
