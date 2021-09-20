@@ -36,6 +36,12 @@ The autoload is based on psr-4 and handled by composer.
 
 ## Changelog ##
 
+### 3.4.0
+* 20 Sept 2021
+* Fix wrong return type in Model class
+* Remove Compatibility class
+* Remove default Admin class
+
 ### 3.3.0
 * 15 March 2021
 * Fix all PSALM errors
