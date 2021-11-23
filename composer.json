@@ -29,7 +29,8 @@
   },
   "scripts": {
     "cs": "./vendor/bin/phpcs",
-    "cb": "./vendor/bin/phpcbf"
+    "cb": "./vendor/bin/phpcbf",
+    "psalm": "./vendor/bin/psalm"
   },
   "suggest": {
     "wp-cli/wp-cli": "*@stable"
