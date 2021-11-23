@@ -116,7 +116,7 @@ abstract class Acf_Block implements Acf_Block_Interface {
 			'id'               => $block['id'],
 			'block_id'         => $block_id,
 			'block_is_preview' => $is_preview,
-			'block_classname'  => sanitize_html_class( $class_name ),
+			'block_classname'  => implode( ' ', array_map( 'sanitize_html_class', explode( ' ', $class_name ) ) ),
 			'block_content'    => $content,
 			'block_post_id'    => $post_id,
 		];
