@@ -129,19 +129,19 @@ class Helpers {
 			return '';
 		}
 
-		return self::datetime_i18n( $to_format, $date );
+		return self::wp_date( $to_format, $date );
 	}
 
 	/**
-	 * Format on i18n
+	 * Format on wp_date
 	 *
 	 * @param string $format
 	 * @param \DateTime $date
 	 *
 	 * @return string
 	 */
-	public static function datetime_i18n( string $format, \DateTime $date ): string {
-		return date_i18n( $format, $date->format( 'U' ) );
+	public static function wp_date( string $format, \DateTime $date ): string {
+		return wp_date( $format, $date->format( 'U' ) );
 	}
 
 }
