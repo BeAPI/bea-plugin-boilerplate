@@ -43,7 +43,7 @@ define( 'BEA_PB_TAXO_NAME', 'custom_taxonomy' );
 // Plugin URL and PATH
 define( 'BEA_PB_URL', plugin_dir_url( __FILE__ ) );
 define( 'BEA_PB_DIR', plugin_dir_path( __FILE__ ) );
-define( 'BEA_PB_PLUGIN_DIRNAME', basename( rtrim( dirname( __FILE__ ), '/' ) ) );
+define( 'BEA_PB_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
 add_action( 'plugins_loaded', 'init_bea_pb_plugin' );
 /**
