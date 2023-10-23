@@ -41,7 +41,7 @@ trait Singleton {
 	 * Implement this method in your child class
 	 * If you want to have actions send at construct
 	 */
-	protected function init() : void {
+	protected function init(): void {
 	}
 
 	/**

@@ -35,14 +35,14 @@ class User {
 	 *
 	 * @throws \InvalidArgumentException
 	 */
-	public function __construct( \WP_User $object ) {
+	public function __construct( \WP_User $user_obj ) {
 
-		if ( ! $object->exists() ) {
+		if ( ! $user_obj->exists() ) {
 			throw new \InvalidArgumentException( 'User does not exist' );
 		}
 
-		$this->user = $object;
-		$this->ID   = $object->ID;
+		$this->user = $user_obj;
+		$this->ID   = $user_obj->ID;
 	}
 
 	/**
@@ -137,8 +137,8 @@ class User {
 	 * }
 	 * @return false|string `<img>` tag for the user's avatar. False on failure.
 	 */
-	public function get_avatar( $size = 96, $default = '', $alt = '', $args = null ) {
-		return get_avatar( $this->get_id(), $size, $default, $alt, $args );
+	public function get_avatar( $size = 96, $default_url = '', $alt = '', $args = null ) {
+		return get_avatar( $this->get_id(), $size, $default_url, $alt, $args );
 	}
 
 	/**

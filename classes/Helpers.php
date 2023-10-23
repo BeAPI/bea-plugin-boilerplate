@@ -92,7 +92,7 @@ class Helpers {
 
 		return static function ( $data ) use ( $tpl_path ) {
 			if ( ! is_array( $data ) ) {
-				$data = array( 'data' => $data );
+				$data = [ 'data' => $data ];
 			}
 
 			// phpcs:ignore WordPress.PHP.DontExtract.extract_extract
@@ -107,7 +107,7 @@ class Helpers {
 	 * @param string $tpl : the template's name
 	 * @param array $data : the template's data
 	 */
-	public static function render( string $tpl, $data = array() ): void {
+	public static function render( string $tpl, $data = [] ): void {
 		$view = self::load_template( $tpl );
 		if ( false !== $view ) {
 			$view( $data );
@@ -143,5 +143,4 @@ class Helpers {
 	public static function datetime_i18n( string $format, \DateTime $date ): string {
 		return date_i18n( $format, $date->format( 'U' ) );
 	}
-
 }
