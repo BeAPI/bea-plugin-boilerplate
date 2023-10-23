@@ -49,14 +49,14 @@ abstract class Model {
 	 *
 	 * @throws \Exception
 	 */
-	public function __construct( \WP_Post $post ) {
+	public function __construct( \WP_Post $post_obj ) {
 
-		if ( $post->post_type !== $this->post_type ) {
-			throw new \InvalidArgumentException( sprintf( '%s post type does not match model post type %s', esc_html( $post->post_type ), esc_html( $this->post_type ) ) );
+		if ( $post_obj->post_type !== $this->post_type ) {
+			throw new \InvalidArgumentException( sprintf( '%s post type does not match model post type %s', esc_html( $post_obj->post_type ), esc_html( $this->post_type ) ) );
 		}
 
-		$this->wp_object = $post;
-		$this->ID        = $post->ID;
+		$this->wp_object = $post_obj;
+		$this->ID        = $post_obj->ID;
 	}
 
 	/**
@@ -64,17 +64,17 @@ abstract class Model {
 	 *
 	 * @return object|\WP_Error
 	 */
-	public static function get_model( \WP_Post $post ) {
-		$post_type = get_post_type_object( $post->post_type );
+	public static function get_model( \WP_Post $post_obj ) {
+		$post_type = get_post_type_object( $post_obj->post_type );
 
 		if ( empty( $post_type->model_class ) || ! class_exists( $post_type->model_class ) ) {
-			return new \WP_Error( 'fail_model_find', sprintf( 'Fail to find model for post_type %s', get_post_type( $post ) ) );
+			return new \WP_Error( 'fail_model_find', sprintf( 'Fail to find model for post_type %s', get_post_type( $post_obj ) ) );
 		}
 
 		try {
-			$final_class = new $post_type->model_class( $post );
+			$final_class = new $post_type->model_class( $post_obj );
 		} catch ( \Exception $e ) {
-			return new \WP_Error( 'fail_model_instantiation', sprintf( 'Fail to instantiate model for post_type %s', get_post_type( $post ) ) );
+			return new \WP_Error( 'fail_model_instantiation', sprintf( 'Fail to instantiate model for post_type %s', get_post_type( $post_obj ) ) );
 		}
 
 		// Give the model

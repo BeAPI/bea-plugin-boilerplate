@@ -35,14 +35,14 @@ class User {
 	 *
 	 * @throws \InvalidArgumentException
 	 */
-	public function __construct( \WP_User $user ) {
+	public function __construct( \WP_User $user_obj ) {
 
-		if ( ! $user->exists() ) {
+		if ( ! $user_obj->exists() ) {
 			throw new \InvalidArgumentException( 'User does not exist' );
 		}
 
-		$this->user = $user;
-		$this->ID   = $user->ID;
+		$this->user = $user_obj;
+		$this->ID   = $user_obj->ID;
 	}
 
 	/**
