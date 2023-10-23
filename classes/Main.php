@@ -30,5 +30,4 @@ class Main {
 		// Load translations
 		load_plugin_textdomain( 'bea-plugin-boilerplate', false, dirname( BEA_PB_PLUGIN_BASENAME ) . '/languages' );
 	}
-
 }

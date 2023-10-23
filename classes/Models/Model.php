@@ -49,14 +49,14 @@ abstract class Model {
 	 *
 	 * @throws \Exception
 	 */
-	public function __construct( \WP_Post $object ) {
+	public function __construct( \WP_Post $post ) {
 
-		if ( $object->post_type !== $this->post_type ) {
-			throw new \InvalidArgumentException( sprintf( '%s post type does not match model post type %s', $object->post_type, $this->post_type ) );
+		if ( $post->post_type !== $this->post_type ) {
+			throw new \InvalidArgumentException( sprintf( '%s post type does not match model post type %s', esc_html( $post->post_type ), esc_html( $this->post_type ) ) );
 		}
 
-		$this->wp_object = $object;
-		$this->ID        = $object->ID;
+		$this->wp_object = $post;
+		$this->ID        = $post->ID;
 	}
 
 	/**
@@ -64,17 +64,17 @@ abstract class Model {
 	 *
 	 * @return object|\WP_Error
 	 */
-	public static function get_model( \WP_Post $object ) {
-		$post_type = get_post_type_object( $object->post_type );
+	public static function get_model( \WP_Post $post ) {
+		$post_type = get_post_type_object( $post->post_type );
 
 		if ( empty( $post_type->model_class ) || ! class_exists( $post_type->model_class ) ) {
-			return new \WP_Error( 'fail_model_find', sprintf( 'Fail to find model for post_type %s', get_post_type( $object ) ) );
+			return new \WP_Error( 'fail_model_find', sprintf( 'Fail to find model for post_type %s', get_post_type( $post ) ) );
 		}
 
 		try {
-			$final_class = new $post_type->model_class( $object );
+			$final_class = new $post_type->model_class( $post );
 		} catch ( \Exception $e ) {
-			return new \WP_Error( 'fail_model_instantiation', sprintf( 'Fail to instantiate model for post_type %s', get_post_type( $object ) ) );
+			return new \WP_Error( 'fail_model_instantiation', sprintf( 'Fail to instantiate model for post_type %s', get_post_type( $post ) ) );
 		}
 
 		// Give the model
@@ -88,12 +88,12 @@ abstract class Model {
 	 *
 	 * @return array|null
 	 */
-	public static function filter_classes( string $class ): ?array {
-		if ( false === is_subclass_of( $class, __CLASS__ ) ) {
+	public static function filter_classes( string $class_name ): ?array {
+		if ( false === is_subclass_of( $class_name, __CLASS__ ) ) {
 			return null;
 		}
 
-		return get_class_vars( $class );
+		return get_class_vars( $class_name );
 	}
 
 	/**
