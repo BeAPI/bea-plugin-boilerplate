@@ -36,6 +36,12 @@ The autoload is based on psr-4 and handled by composer.
 
 ## Changelog ##
 
+### 3.4.2
+* 23 Oct 2023
+* Add missing composer psalm command
+* Use `plugin_basename()` to get plugin directory
+* Fix various PHPCS & Psalm warnings and errors
+
 ### 3.4.1
 * 23 Nov 2021
 * Fix wrong formatting for block ACF classes
