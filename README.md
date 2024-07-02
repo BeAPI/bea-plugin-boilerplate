@@ -36,27 +36,27 @@ The autoload is based on psr-4 and handled by composer.
 
 ## Changelog ##
 
-### 3.4.2
-* 23 Oct 2023
+### 3.5.0 - 02 Jul 2024
+* Add new abstract class to register ACF Gutenberg block from `block.json` file.
+* Pass block data to the block error template.
+
+### 3.4.2 - 23 Oct 2023
 * Add missing composer psalm command
 * Use `plugin_basename()` to get plugin directory
 * Fix various PHPCS & Psalm warnings and errors
 
-### 3.4.1
-* 23 Nov 2021
+### 3.4.1 - 23 Nov 2021
 * Fix wrong formatting for block ACF classes
 
-### 3.4.0
-* 20 Sept 2021
+### 3.4.0 - 20 Sept 2021
 * Fix wrong return type in Model class
 * Remove Compatibility class
 * Remove default Admin class
 
-### 3.3.0
-* 15 March 2021
+### 3.3.0 - 15 March 2021
 * Fix all PSALM errors
 * Enhance the phpcs:ignore rules to be compatible with skeleton
-* Use shortarray syntax
+* Use short array syntax
 * Enforce return types
 * Use InvalidArgumentException when model wrongly instaciated
 * Remove thumbnail deletion on remove_post_thumnail
@@ -64,86 +64,66 @@ The autoload is based on psr-4 and handled by composer.
 * Add psalm
 * Remove `_*` methods from Models
 
-### 3.2.0
-* 1 March 2021
+### 3.2.0 - 01 Mar 2021
 * Introduce interfaces and abstract classes to register Gutenberg blocks
 * Update copyright date.
 
-### 3.1.1
-* Fev 2021
+### 3.1.1 - Fev 2021
 * Rename hook : `BEA/Helpers/locate_template/templates` in `beapi_helpers_locate_template_templates` for PHPCS
 * Improve PHPCS
 
-### 3.1.0
-* Jan 2021
+### 3.1.0 - Jan 2021
 * Update Singleton to be compatible with PHP8.0
 
-### 3.0.0
-* May 2020
+### 3.0.0 - May 2020
 * Remove autoload.php file, it's have to be on the composer.json file autoloading
 * Move compatibility class to the classes directory
 * Use the PSR-4 naming convention
 
-### 2.2
-* February 2019
+### 2.2 - Feb 2019
 * Remove widget feature
 
-### 2.1.8
-* August 2018
+### 2.1.8 - Aug 2018
 * Fix misuse of singleton in shortcode factory
 
-### 2.1.7
-* 14 June 2017
+### 2.1.7 - 14 Jun 2017
 * Fix wrong use of get_object_term_cache() and php Exception
 
-### 2.1.6
-* 22 Nov 2016
+### 2.1.6 - 22 Nov 2016
 * Fix Non-static method init_translations() should not be called statically
 
-### 2.1.5
-* 15 Nov 2016
+### 2.1.5 - 15 Nov 2016
 * Fix method get_model using model_class in post_type
 
-### 2.1.4
-* 06 Oct 2016
+### 2.1.4 - 06 Oct 2016
 * Fix textdomain load
 * Add french translations
 
-### 2.1.3
-* 13 April 2016
+### 2.1.3 - 13 Apr 2016
 * Fix model class name with namespace
 
-### 2.1.2
-* 16 Mar 2016
+### 2.1.2 - 16 Mar 2016
 * Fix user model filename
 
-### 2.1.1
-* 6 Mar 2016
+### 2.1.1 - 6 Mar 2016
 * Fix plugin version number
 
-### 2.1.0
-* 12 Feb 2016
+### 2.1.0 - 12 Feb 2016
 * Add Shortcode implementation
 
-### 2.0.1
-* 11 Jan 2016
+### 2.0.1 - 11 Jan 2016
 * Fix title display in widget view
 
-### 2.0.0
-* 13 Oct 2015
+### 2.0.0 - 13 Oct 2015
 * Add traits
 
-### 1.1.2
-* 30 Sep 2015
+### 1.1.2 - 30 Sep 2015
 * Fix widget registration
 
-### 1.1.1
-* 4 Sep 2015
+### 1.1.1 - 4 Sep 2015
 
-### 1.1.0
-* 4 Sep 2015
+### 1.1.0 - 4 Sep 2015
 * Add new filter on locate_template
 
-### 1.0.0
-* 18 Feb 2016
+### 1.0.0 - 18 Feb 2016
 * Initial
