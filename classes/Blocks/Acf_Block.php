@@ -77,7 +77,12 @@ abstract class Acf_Block implements Acf_Block_Interface {
 
 			$tpl = Helpers::load_template( 'template-admin-block-invalid' );
 			if ( ! empty( $tpl ) ) {
-				$tpl( [ 'block' => $block, 'error_messages' => $errors ] );
+				$tpl(
+					[
+						'block'          => $block,
+						'error_messages' => $errors,
+					]
+				);
 			}
 
 			return;
