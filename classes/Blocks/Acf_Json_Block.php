@@ -26,4 +26,13 @@ abstract class Acf_Json_Block extends Acf_Block {
 			]
 		);
 	}
+
+	/**
+	 * Block registration args loaded from `block.json` file.
+	 *
+	 * @return array
+	 */
+	public function get_block_args(): array {
+		return [];
+	}
 }
