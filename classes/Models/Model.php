@@ -214,12 +214,11 @@ abstract class Model {
 	 * @return \WP_Term[]|\WP_Error
 	 */
 	public function get_terms( string $taxonomy, array $args = [] ) {
-		$terms = get_object_term_cache( $this->get_id(), $taxonomy );
-		if ( false === $terms ) {
-			$terms = wp_get_object_terms( $this->get_id(), $taxonomy, $args );
+		if ( empty( $args ) ) {
+			return get_the_terms( $this->get_id(), $taxonomy );
 		}
 
-		return $terms;
+		return wp_get_object_terms( $this->get_id(), $taxonomy, $args );
 	}
 
 	/**
