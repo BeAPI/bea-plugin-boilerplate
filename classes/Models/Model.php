@@ -50,7 +50,6 @@ abstract class Model {
 	 * @throws \Exception
 	 */
 	public function __construct( \WP_Post $post_obj ) {
-
 		if ( $post_obj->post_type !== $this->post_type ) {
 			throw new \InvalidArgumentException( sprintf( '%s post type does not match model post type %s', esc_html( $post_obj->post_type ), esc_html( $this->post_type ) ) );
 		}
@@ -137,16 +136,10 @@ abstract class Model {
 			return false;
 		}
 
-		// Get all ACF fields
-		$fields = $this->get_fields();
-
 		// Check ACF
-		if ( ! function_exists( '\get_field' ) || ( ! in_array( $key, $fields, true ) && ! isset( $fields[ $key ] ) ) ) {
-			return $this->wp_object->{$key};
+		if ( ! function_exists( '\get_field' ) ) {
+			return get_post_meta( $this->get_id(), $key, true );
 		}
-
-		// On ACF given key
-		$key = in_array( $key, $fields, true ) ? $key : $fields[ $key ];
 
 		return \get_field( $key, $this->get_id(), $format );
 	}
@@ -176,18 +169,15 @@ abstract class Model {
 	 * Really update the value
 	 *
 	 * @param string $key
-	 * @param string $value
+	 * @param mixed $value
 	 *
 	 * @return bool|int
 	 */
 	protected function update_content_meta( string $key, $value = '' ) {
+		// Check ACF
 		if ( ! function_exists( '\update_field' ) ) {
 			return update_post_meta( $this->get_id(), $key, $value );
 		}
-
-		// Get the fields and use the ACF ones
-		$fields = $this->get_fields();
-		$key    = isset( $fields[ $key ] ) ? $fields[ $key ] : $key;
 
 		return \update_field( $key, $value, $this->get_id() );
 	}

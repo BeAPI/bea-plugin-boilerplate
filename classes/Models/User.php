@@ -202,15 +202,12 @@ class User {
 			return false;
 		}
 
-		// Get all ACF fields
-		$fields = $this->get_fields();
-
 		// Check ACF
-		if ( ! isset( $fields[ $key ] ) || ! function_exists( 'get_field' ) ) {
-			return $this->user->{$key};
+		if ( ! function_exists( 'get_field' ) ) {
+			return get_user_meta( $this->get_id(), $key, true );
 		}
 
-		return get_field( $fields[ $key ], 'user_' . $this->get_id(), $format );
+		return get_field( $key, 'user_' . $this->get_id(), $format );
 	}
 
 	/**
@@ -246,10 +243,6 @@ class User {
 		if ( ! function_exists( 'update_field' ) ) {
 			return update_user_meta( $this->get_id(), $key, $value );
 		}
-
-		// Get the fields and use the ACF ones
-		$fields = $this->get_fields();
-		$key    = $fields[ $key ] ?? $key;
 
 		return update_field( $key, $value, 'user_' . $this->get_id() );
 	}
