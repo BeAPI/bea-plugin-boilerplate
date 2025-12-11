@@ -3,6 +3,8 @@
 
     <description>A custom set of rules to check for a WPized WordPress project</description>
 
+    <!-- Scan all files in directory -->
+    <file>.</file>
     <!-- Exclude the Composer Vendor directory. -->
     <exclude-pattern>./assets/acf/</exclude-pattern>
 
@@ -27,6 +29,7 @@
 
         <!-- Exclude as we use the short array syntax over the long one. -->
         <exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
+        <exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
     </rule>
 
     <!-- Only parse php files. -->

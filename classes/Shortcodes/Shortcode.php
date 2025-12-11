@@ -61,5 +61,4 @@ abstract class Shortcode {
 	 * @return string
 	 */
 	abstract public function render( $attributes = [], $content = '' );
-
 }
