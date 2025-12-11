@@ -36,6 +36,10 @@ The autoload is based on psr-4 and handled by composer.
 
 ## Changelog ##
 
+## 3.5.1 - 02 Jul 2024
+* Improve Model performance with no load all ACF fields.
+* Update composer dependencies to fix security issues.
+
 ### 3.5.0 - 02 Jul 2024
 * Add new abstract class to register ACF Gutenberg block from `block.json` file.
 * Pass block data to the block error template.
