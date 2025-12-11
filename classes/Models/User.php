@@ -207,7 +207,7 @@ class User {
 			return get_user_meta( $this->get_id(), $key, true );
 		}
 
-		return get_field( $key, 'user_' . $this->get_id(), $format );
+		return get_field( $key, $this->user, $format );
 	}
 
 	/**
