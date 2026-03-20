@@ -102,12 +102,12 @@ abstract class Controller {
 	 * @return bool
 	 * @author Nicolas Juen
 	 */
-	public static function filter_classes( string $class ): bool {
-		if ( false === is_subclass_of( $class, '\BEA\PB\Controller', true ) ) {
+	public static function filter_classes( string $class_name ): bool {
+		if ( false === is_subclass_of( $class_name, '\BEA\PB\Controller', true ) ) {
 			return false;
 		}
 
-		return $class::get_instance()->is_page();
+		return $class_name::get_instance()->is_page();
 	}
 
 	/**

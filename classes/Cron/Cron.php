@@ -2,7 +2,7 @@
 
 namespace BEA\PB;
 
-use \Bea_Log;
+use \Bea_Log; //phpcs:ignore Universal.UseStatements.NoLeadingBackslash.LeadingBackslashFound
 
 /**
  * This class needs Bea_Log to work

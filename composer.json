@@ -28,13 +28,11 @@
     "phpcompatibility/php-compatibility": "9.3.5",
     "phpro/grumphp-shim": "v2.18.0",
     "squizlabs/php_codesniffer": "3.13.5",
-    "vimeo/psalm": "6.14.2",
     "wp-coding-standards/wpcs": "3.3.0"
   },
   "scripts": {
     "cs": "./vendor/bin/phpcs",
-    "cb": "./vendor/bin/phpcbf",
-    "psalm": "./vendor/bin/psalm"
+    "cb": "./vendor/bin/phpcbf"
   },
   "suggest": {
     "wp-cli/wp-cli": "*@stable"

@@ -50,12 +50,13 @@
 
     <rule ref="WordPress.WP.I18n">
         <properties>
-          <!-- Value: replace the text domain used. -->
-          <property name="text_domain" type="array" value="bea-plugin-boilerplate"/>
+            <property name="text_domain" type="array">
+                <element value="bea-plugin-boilerplate"/>
+            </property>
         </properties>
     </rule>
 
     <rule ref="PHPCompatibility"/>
-    <config name="testVersion" value="7.2-"/>
+    <config name="testVersion" value="8.0-"/>
 
 </ruleset>
