@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "bea-pb/quote",
+	"title": "Quote",
+	"description": "Example native block without ACF.",
+	"category": "text",
+	"icon": "format-quote",
+	"keywords": [ "quote", "example" ],
+	"attributes": {
+		"content": {
+			"type": "string",
+			"default": "Example quote from the BEA Plugin Boilerplate."
+		},
+		"author": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": true
+	}
+}

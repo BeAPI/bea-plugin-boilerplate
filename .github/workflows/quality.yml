@@ -1,32 +1,58 @@
 name: Quality
 
-on: [pull_request]
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - master
+      - trunk
 
 jobs:
-  run:    
-    runs-on: ${{ matrix.operating-system }}
+  lint:
+    name: PHP Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+      - run: composer install --no-interaction --prefer-dist
+      - run: composer lint
+
+  phpcs:
+    name: PHPCS
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+      - run: composer install --no-interaction --prefer-dist
+      - run: composer validate --strict
+      - run: composer cs -- ./
+
+  phpstan:
+    name: PHPStan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+      - run: composer install --no-interaction --prefer-dist
+      - run: composer phpstan
+
+  phpunit:
+    name: PHPUnit
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        operating-system: [ ubuntu-latest ]
-        php-versions: [ '8.3' ]
-    name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
+        php-version: ['8.0', '8.3']
     steps:
-    - name: Checkout
-      uses: actions/checkout@v1
-
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: ${{ matrix.php-versions }}
-        tools: phpcbf, phpcs
-    - name: Check PHP Version
-      run: php -v
-    
-    - name: Add dependencies
-      run: composer install 
-
-    - name: Check composer
-      run: composer validate
-
-    - name: Check cs
-      run: composer cs -- ./
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+      - run: composer install --no-interaction --prefer-dist
+      - run: composer test

@@ -1,133 +1,150 @@
-# BEA Plugin Boilerplate #
+# BEA Plugin Boilerplate
 
-## Description ##
+Foundation for building WordPress plugins at BeAPI.
 
-The BEA Plugin Boilerplate serves as a foundation off of which to build your WordPress plugins.
- 
-## Getting Started ##
+> **AI agents:** read [AGENTS.md](AGENTS.md) before scaffolding or extending a plugin from this boilerplate.
 
-For making this plugin easily usable, you can make the given replacements please enable the case sensitive search and then :
+## Requirements
 
-* Search for: `bea-plugin-boilerplate` and replace with: `my-plugin`
-* Search for: `BEA\PB` and replace with: `BEA\My_plugin`
-* Search for: `BEA_PB_` and replace with: `MY_PLUGIN_`
-* Search for: `Plugin Boilerplate` and replace with: `My plugin name`
-* Search for: `init_bea_pb_plugin` and replace with: `init_my_plugin`
-* Search for: `bea-pb` and replace with: `my-plugin`
+- WordPress 6.0+
+- PHP 8.0+
+- Composer
+- [Advanced Custom Fields](https://wordpress.org/plugins/advanced-custom-fields/) for the Hello block example
 
-Then you have to rename the `bea-plugin-boilerplate.php` to `my-plugin.php` and edit the plugin header.
+## Installation
 
-### Composer ###
-You need composer to autoload all your classes from the classes folder.
+This boilerplate targets **Bedrock** (or any Composer-managed WordPress stack). Plugin classes are autoloaded from the **project root** `composer.json`, not from a local `vendor/` inside the plugin.
 
-Use the `beapi/composer-scaffold-plugin` package that add it automatically to the composer.json file.
-You can add it yourself like this :
- 
-```composer.json
-    "autoload": {
-        "psr-4": {
-            "BEA\PB\\": "content/plugins/bea-plugin-boilerplate/classes/"
-        }
+### Bedrock project
+
+1. Add the plugin under `web/app/plugins/{slug}/` (path may vary with your Bedrock layout).
+2. Register its namespace in the **Bedrock root** `composer.json`:
+
+```json
+{
+  "autoload": {
+    "psr-4": {
+      "BEA\\MyPlugin\\": "web/app/plugins/my-plugin/classes/"
     }
+  }
+}
 ```
 
-## Autoload ##
-The autoload is based on psr-4 and handled by composer.
+3. Run `composer dump-autoload -o` at the Bedrock root.
+4. Activate the plugin in WordPress.
 
-## Changelog ##
+The plugin bootstraps with `inc/autoload.php`: it uses the root autoloader when classes are already available, and falls back to `{plugin}/vendor/autoload.php` only for standalone development of this repository.
 
-## 3.5.1 - 02 Jul 2024
-* Improve Model performance with no load all ACF fields.
-* Update composer dependencies to fix security issues.
+### Standalone development (this repository / CI)
 
-### 3.5.0 - 02 Jul 2024
-* Add new abstract class to register ACF Gutenberg block from `block.json` file.
-* Pass block data to the block error template.
+```bash
+git clone git@github.com:beapi/bea-plugin-boilerplate.git
+cd bea-plugin-boilerplate
+composer install
+```
 
-### 3.4.2 - 23 Oct 2023
-* Add missing composer psalm command
-* Use `plugin_basename()` to get plugin directory
-* Fix various PHPCS & Psalm warnings and errors
+Dev dependencies (PHPCS, PHPUnit, PHPStan) live in the plugin `vendor/` for local tooling and GitHub Actions. They are not required in Bedrock production.
 
-### 3.4.1 - 23 Nov 2021
-* Fix wrong formatting for block ACF classes
+## Quick start
 
-### 3.4.0 - 20 Sept 2021
-* Fix wrong return type in Model class
-* Remove Compatibility class
-* Remove default Admin class
+### Bedrock (recommended)
 
-### 3.3.0 - 15 March 2021
-* Fix all PSALM errors
-* Enhance the phpcs:ignore rules to be compatible with skeleton
-* Use short array syntax
-* Enforce return types
-* Use InvalidArgumentException when model wrongly instaciated
-* Remove thumbnail deletion on remove_post_thumnail
-* Rename get_ID to get_id
-* Add psalm
-* Remove `_*` methods from Models
+Use [composer-scaffold-plugin](https://github.com/BeAPI/composer-scaffold-plugin) from your Bedrock project root:
 
-### 3.2.0 - 01 Mar 2021
-* Introduce interfaces and abstract classes to register Gutenberg blocks
-* Update copyright date.
+```bash
+composer require beapi/composer-scaffold-plugin
+composer scaffold-plugin web/app/plugins/my-plugin
+```
 
-### 3.1.1 - Fev 2021
-* Rename hook : `BEA/Helpers/locate_template/templates` in `beapi_helpers_locate_template_templates` for PHPCS
-* Improve PHPCS
+The interactive command lets you pick components, rename identifiers, and register the PSR-4 namespace in the root `composer.json` (pass `--no-autoload` only if you manage autoload manually).
 
-### 3.1.0 - Jan 2021
-* Update Singleton to be compatible with PHP8.0
+Then activate the plugin in WordPress.
 
-### 3.0.0 - May 2020
-* Remove autoload.php file, it's have to be on the composer.json file autoloading
-* Move compatibility class to the classes directory
-* Use the PSR-4 naming convention
+### Fallback: in-repo scaffold script
 
-### 2.2 - Feb 2019
-* Remove widget feature
+When working inside a cloned boilerplate (or without `composer-scaffold-plugin`), use the built-in script:
 
-### 2.1.8 - Aug 2018
-* Fix misuse of singleton in shortcode factory
+```bash
+composer run scaffold -- my-plugin "My Plugin Name" "BEA\\MyPlugin" "MY_PLUGIN"
+```
 
-### 2.1.7 - 14 Jun 2017
-* Fix wrong use of get_object_term_cache() and php Exception
+Then register the namespace in the Bedrock root `composer.json` and run `composer dump-autoload -o` at the project root.
 
-### 2.1.6 - 22 Nov 2016
-* Fix Non-static method init_translations() should not be called statically
+## Manual renaming
 
-### 2.1.5 - 15 Nov 2016
-* Fix method get_model using model_class in post_type
+If you prefer manual replacements, enable case-sensitive search and replace:
 
-### 2.1.4 - 06 Oct 2016
-* Fix textdomain load
-* Add french translations
+| Search | Replace with |
+| --- | --- |
+| `bea-plugin-boilerplate` | `my-plugin` |
+| `BEA\PB` | `BEA\MyPlugin` |
+| `BEA_PB_` | `MY_PLUGIN_` |
+| `Plugin Boilerplate` | `My plugin name` |
+| `init_bea_pb_plugin` | `init_my_plugin` |
+| `bea-pb` | `my-plugin` |
 
-### 2.1.3 - 13 Apr 2016
-* Fix model class name with namespace
+Then rename `bea-plugin-boilerplate.php` to `my-plugin.php` and update the plugin header.
 
-### 2.1.2 - 16 Mar 2016
-* Fix user model filename
+## Included examples
 
-### 2.1.1 - 6 Mar 2016
-* Fix plugin version number
+| Feature | Location |
+| --- | --- |
+| Custom post type + taxonomy | `classes/Post_Types/Custom_Post_Type.php` |
+| Post model | `classes/Models/Custom_Post_Type_Model.php` |
+| ACF block (`block.json`) | `classes/Blocks/Hello_Block.php` |
+| Native block (`block.json`) | `classes/Blocks/Quote_Block.php` |
+| Shortcode `[bea_hello]` | `classes/Shortcodes/Hello.php` |
+| Router + controller | `classes/Routes/Router.php`, `classes/Controllers/Example_Controller.php` |
+| Cron base + example | `classes/Cron.php`, `classes/Cron/Example_Cron.php` |
 
-### 2.1.0 - 12 Feb 2016
-* Add Shortcode implementation
+Extend blocks via the `bea_pb_blocks` filter. Extend rewrite slugs via `bea_pb_rewrite_elements`.
 
-### 2.0.1 - 11 Jan 2016
-* Fix title display in widget view
+## Development
 
-### 2.0.0 - 13 Oct 2015
-* Add traits
+```bash
+composer cs
+composer cb
+composer lint
+composer phpstan
+composer test
+```
 
-### 1.1.2 - 30 Sep 2015
-* Fix widget registration
+Grumphp runs the same checks locally before commits when configured.
 
-### 1.1.1 - 4 Sep 2015
+## Project structure
 
-### 1.1.0 - 4 Sep 2015
-* Add new filter on locate_template
+- `inc/` Composer autoload bootstrap (`autoload.php`)
+- `classes/` PSR-4 application code
+- `views/` PHP templates rendered through `Helpers`
+- `assets/blocks/` Block metadata (`block.json`)
+- `assets/acf/php/` Local ACF field groups for block examples
+- `languages/` Translation files
+- `tests/` PHPUnit unit tests
 
-### 1.0.0 - 18 Feb 2016
-* Initial
+Views receive data through a `$view_data` array instead of `extract()`.
+
+## Autoload
+
+PSR-4 autoloading is declared in the plugin `composer.json`:
+
+```json
+"autoload": {
+  "psr-4": {
+    "BEA\\PB\\": "classes/"
+  }
+}
+```
+
+On Bedrock, **merge this mapping into the root** `composer.json` (adjust the path to your plugin directory). Do not rely on `composer install` inside the deployed plugin.
+
+For local work on this repository or CI, run `composer install` in the plugin directory so dev tools and the fallback autoloader are available.
+
+## Optional dependencies
+
+- ACF for ACF-based blocks and model meta helpers
+- Posts 2 Posts for `P2p_Aware` connection helpers
+- Bea_Log for extended cron logging (falls back to `error_log()`)
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md).

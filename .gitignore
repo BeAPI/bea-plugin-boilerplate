@@ -51,6 +51,7 @@ crashlytics-build.properties
 /vendor/
 
 ### WordPress template
+.phpunit.cache
 *.log
 .htaccess
 sitemap.xml

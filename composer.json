@@ -1,8 +1,8 @@
 {
   "name": "beapi/bea-plugin-boilerplate",
   "description": "Plugin boilerplate from BeAPI.",
-  "license": "GPL-2.0+",
-  "type": "project",
+  "license": "GPL-2.0-or-later",
+  "type": "wordpress-plugin",
   "keywords": ["WordPress", "boilerplate", "CMS"],
   "authors": [
     {
@@ -12,6 +12,9 @@
       "role": "Company"
     }
   ],
+  "require": {
+    "php": ">=8.0"
+  },
   "config": {
     "optimize-autoloader": true,
     "preferred-install": { "*": "dist" },
@@ -21,20 +24,42 @@
       "dealerdirect/phpcodesniffer-composer-installer": true
     }
   },
+  "autoload": {
+    "psr-4": {
+      "BEA\\PB\\": "classes/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "BEA\\PB\\Tests\\": "tests/"
+    }
+  },
   "require-dev": {
+    "brain/monkey": "2.6.2",
     "dealerdirect/phpcodesniffer-composer-installer": "v1.2.0",
     "overtrue/phplint": "9.7.1",
     "php-parallel-lint/php-parallel-lint": "v1.4.0",
+    "php-stubs/wordpress-stubs": "6.9.0",
     "phpcompatibility/php-compatibility": "9.3.5",
     "phpro/grumphp-shim": "v2.18.0",
+    "phpstan/phpstan": "2.1.38",
+    "phpunit/phpunit": "^10.5.63",
     "squizlabs/php_codesniffer": "3.13.5",
-    "wp-coding-standards/wpcs": "3.3.0"
+    "szepeviktor/phpstan-wordpress": "2.0.3",
+    "wp-coding-standards/wpcs": "3.3.0",
+    "yoast/phpunit-polyfills": "2.0.4"
   },
   "scripts": {
     "cs": "./vendor/bin/phpcs",
-    "cb": "./vendor/bin/phpcbf"
+    "cb": "./vendor/bin/phpcbf",
+    "lint": "parallel-lint --exclude vendor --exclude node_modules .",
+    "phpstan": "phpstan analyse --configuration=phpstan.neon.dist --memory-limit=1G",
+    "test": "phpunit --configuration phpunit.xml.dist",
+    "scaffold": "php bin/scaffold.php"
   },
   "suggest": {
-    "wp-cli/wp-cli": "*@stable"
+    "beapi/composer-scaffold-plugin": "Recommended Bedrock workflow to scaffold a new plugin from this boilerplate.",
+    "advanced-custom-fields/advanced-custom-fields": "Required for ACF block examples.",
+    "wp-cli/wp-cli": "Useful for generating translation files and managing WordPress."
   }
 }

@@ -33,13 +33,8 @@ class Shortcode_Factory {
 			return new \WP_Error( 'fail_shortcode_registration', sprintf( 'Fail to instantiate shortcode %s', $class_name ) );
 		}
 
-		/**
-		 * Since the shortcodes are Singleton we only have to get the instance
-		 * and call the add method
-		 *
-		 * @var Shortcode $class
-		 */
 		try {
+			/** @var Shortcode $class */
 			/** @psalm-suppress UnsafeInstantiation */
 			$class = new $class_name();
 			$class->add();

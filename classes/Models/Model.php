@@ -2,6 +2,9 @@
 
 namespace BEA\PB\Models;
 
+use BEA\PB\Traits\Acf_Aware;
+use BEA\PB\Traits\P2p_Aware;
+
 /**
  * The purpose of this model is to use methods from \WP_post and implement custom ones
  * This model is only for the post_types
@@ -16,6 +19,10 @@ namespace BEA\PB\Models;
  * @package BEA\PB\Models
  */
 abstract class Model {
+
+	use Acf_Aware;
+	use P2p_Aware;
+
 	/**
 	 * The post type for the current model
 	 * @var string
@@ -34,13 +41,6 @@ abstract class Model {
 	 * @var \WP_Post
 	 */
 	public $wp_object;
-
-	/**
-	 * All ACF fields
-	 *
-	 * @var array
-	 */
-	protected $fields;
 
 	/**
 	 * Create a new model
@@ -132,16 +132,7 @@ abstract class Model {
 	 * @return array|false|mixed
 	 */
 	public function get_meta( string $key, $format = true ) {
-		if ( empty( $key ) ) {
-			return false;
-		}
-
-		// Check ACF
-		if ( ! function_exists( '\get_field' ) ) {
-			return get_post_meta( $this->get_id(), $key, true );
-		}
-
-		return \get_field( $key, $this->get_id(), $format );
+		return $this->get_acf_meta( $key, $format );
 	}
 
 	/**
@@ -174,12 +165,7 @@ abstract class Model {
 	 * @return bool|int
 	 */
 	protected function update_content_meta( string $key, $value = '' ) {
-		// Check ACF
-		if ( ! function_exists( '\update_field' ) ) {
-			return update_post_meta( $this->get_id(), $key, $value );
-		}
-
-		return \update_field( $key, $value, $this->get_id() );
+		return $this->update_acf_meta( $key, $value );
 	}
 
 	/**
@@ -285,64 +271,7 @@ abstract class Model {
 	 * @return array
 	 */
 	protected function get_fields(): array {
-		if ( ! is_null( $this->fields ) ) {
-			return $this->fields;
-		}
-
-		$groups = \acf_get_field_groups( [ 'post_type' => $this->post_type ] );
-
-		if ( empty( $groups ) ) {
-			return [];
-		}
-		$fields = [];
-		foreach ( $groups as $group ) {
-			$fields += acf_get_fields( $group );
-		}
-
-		$acf_fields = [];
-		/** @psalm-suppress PossiblyInvalidIterator */
-		foreach ( $fields as $field ) {
-			$acf_fields[ $field['name'] ] = $field['key'];
-		}
-
-		// Set the object available fields
-		$this->fields = $acf_fields;
-
-		return $acf_fields;
-	}
-
-	/**
-	 * Connect the current object to another object
-	 *
-	 * @param int $object_id
-	 * @param string $connection_type
-	 * @param array $metas : metas to set on the creation
-	 *
-	 * @return bool|int|\WP_Error
-	 */
-	protected function connect( int $object_id, string $connection_type, $metas = [] ) {
-		if ( ! function_exists( 'p2p_type' ) ) {
-			return false;
-		}
-
-		return p2p_type( $connection_type )->connect( $this->get_id(), $object_id, $metas );
-	}
-
-	/**
-	 * Disconnect the current object to another object
-	 *
-	 * @param int    $object_id
-	 * @param string $connection_type
-	 *
-	 * @return bool|int|\WP_Error
-	 */
-	protected function disconnect( int $object_id, string $connection_type ) {
-		if ( ! function_exists( 'p2p_type' ) ) {
-			return false;
-		}
-
-		// Delete connection
-		return p2p_type( $connection_type )->disconnect( $this->get_id(), $object_id );
+		return $this->get_acf_fields();
 	}
 
 	/**
@@ -471,6 +400,36 @@ abstract class Model {
 	}
 
 	/**
+	 * Allowed WP_Post keys for mass updates.
+	 *
+	 * @var array<string, true>|null
+	 */
+	private static $allowed_post_keys;
+
+	/**
+	 * Return allowed post keys for mass updates.
+	 *
+	 * @return array<string, true>
+	 */
+	private static function get_allowed_post_keys(): array {
+		if ( null !== self::$allowed_post_keys ) {
+			return self::$allowed_post_keys;
+		}
+
+		$keys = array_keys( get_class_vars( '\WP_Post' ) );
+
+		$keys[] = 'import_id';
+		$keys[] = 'context';
+		$keys[] = 'tags_input';
+		$keys[] = 'tax_input';
+		$keys[] = 'post_category';
+
+		self::$allowed_post_keys = array_fill_keys( $keys, true );
+
+		return self::$allowed_post_keys;
+	}
+
+	/**
 	 * Return true on allowed post key
 	 *
 	 * @param string $key
@@ -478,16 +437,7 @@ abstract class Model {
 	 * @return bool
 	 */
 	public static function filter_post_keys( string $key ): bool {
-		$keys = array_keys( get_class_vars( '\WP_Post' ) );
-
-		// Add missing post fields
-		$keys[] = 'import_id';
-		$keys[] = 'context';
-		$keys[] = 'tags_input';
-		$keys[] = 'tax_input';
-		$keys[] = 'post_category';
-
-		return in_array( $key, $keys, true );
+		return isset( self::get_allowed_post_keys()[ $key ] );
 	}
 
 	/**

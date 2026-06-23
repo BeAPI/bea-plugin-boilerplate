@@ -1,0 +1,151 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Action callback returns array but should not return anything\.$#'
+			identifier: return.void
+			count: 1
+			path: classes/Blocks.php
+
+		-
+			message: '#^Method BEA\\PB\\Blocks\:\:get_instance\(\) should return static\(BEA\\PB\\Blocks\) but returns BEA\\PB\\Blocks\.$#'
+			identifier: return.type
+			count: 1
+			path: classes/Blocks.php
+
+		-
+			message: '#^Static property BEA\\PB\\Blocks\:\:\$instance \(BEA\\PB\\Blocks\) does not accept null\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: classes/Blocks.php
+
+		-
+			message: '#^Static property BEA\\PB\\Blocks\:\:\$instance \(BEA\\PB\\Blocks\) on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.property
+			count: 1
+			path: classes/Blocks.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: classes/Blocks.php
+
+		-
+			message: '#^Function acf_register_block_type not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: classes/Blocks/Acf_Block.php
+
+		-
+			message: '#^Call to function is_subclass_of\(\) with arguments class\-string\<BEA\\PB\\Controllers\\Controller\>, ''BEA\\\\PB\\\\Controllers\\\\Controller'' and true will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: classes/Controllers/Controller.php
+
+		-
+			message: '#^Method BEA\\PB\\Controllers\\Controller\:\:get_instance\(\) should return static\(BEA\\PB\\Controllers\\Controller\) but returns BEA\\PB\\Controllers\\Controller\.$#'
+			identifier: return.type
+			count: 1
+			path: classes/Controllers/Controller.php
+
+		-
+			message: '#^Static property BEA\\PB\\Controllers\\Controller\:\:\$instance \(BEA\\PB\\Controllers\\Controller\) does not accept null\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: classes/Controllers/Controller.php
+
+		-
+			message: '#^Static property BEA\\PB\\Controllers\\Controller\:\:\$instance \(BEA\\PB\\Controllers\\Controller\) on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.property
+			count: 1
+			path: classes/Controllers/Controller.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: classes/Controllers/Controller.php
+
+		-
+			message: '#^Call to function is_array\(\) with array\<string, mixed\> will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: classes/Helpers.php
+
+		-
+			message: '#^Parameter \#2 \$timestamp of function wp_date expects int\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: classes/Helpers.php
+
+		-
+			message: '#^Method BEA\\PB\\Main\:\:get_instance\(\) should return static\(BEA\\PB\\Main\) but returns BEA\\PB\\Main\.$#'
+			identifier: return.type
+			count: 1
+			path: classes/Main.php
+
+		-
+			message: '#^Static property BEA\\PB\\Main\:\:\$instance \(BEA\\PB\\Main\) does not accept null\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: classes/Main.php
+
+		-
+			message: '#^Static property BEA\\PB\\Main\:\:\$instance \(BEA\\PB\\Main\) on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.property
+			count: 1
+			path: classes/Main.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: classes/Main.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$class$#'
+			identifier: parameter.notFound
+			count: 1
+			path: classes/Models/Model.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$object$#'
+			identifier: parameter.notFound
+			count: 2
+			path: classes/Models/Model.php
+
+		-
+			message: '#^Call to function is_null\(\) with array will always evaluate to false\.$#'
+			identifier: function.impossibleType
+			count: 1
+			path: classes/Models/User.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$default$#'
+			identifier: parameter.notFound
+			count: 1
+			path: classes/Models/User.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$object$#'
+			identifier: parameter.notFound
+			count: 1
+			path: classes/Models/User.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: classes/Models/User.php
+
+		-
+			message: '#^Variable \$tokens in empty\(\) always exists and is not falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: classes/Routes/Router.php
+
+		-
+			message: '#^Variable \$class_name in empty\(\) always exists and is not falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: classes/Shortcodes/Shortcode_Factory.php

@@ -3,6 +3,7 @@
 namespace BEA\PB\Controllers;
 
 use BEA\PB\Routes\Router;
+use BEA\PB\Singleton;
 
 /**
  * This class is the base class for the controllers
@@ -18,6 +19,15 @@ use BEA\PB\Routes\Router;
  * @package BEA\PB
  */
 abstract class Controller {
+
+	use Singleton;
+
+	/**
+	 * Registered controller class names.
+	 *
+	 * @var array<int, class-string<self>>
+	 */
+	private static $controllers = [];
 
 	/**
 	 * The page slug on the rewrite rule
@@ -37,6 +47,44 @@ abstract class Controller {
 	 * @var string
 	 */
 	protected $page_query_var = 'bea_pb_page';
+
+	/**
+	 * Register the controller class for current-page resolution.
+	 *
+	 * @param class-string<self> $class_name Controller class name.
+	 */
+	public static function register_controller( string $class_name ): void {
+		if ( ! is_subclass_of( $class_name, self::class, true ) ) {
+			return;
+		}
+
+		if ( in_array( $class_name, self::$controllers, true ) ) {
+			return;
+		}
+
+		self::$controllers[] = $class_name;
+	}
+
+	/**
+	 * Return registered controller class names.
+	 *
+	 * @return array<int, class-string<self>>
+	 */
+	public static function get_registered_controllers(): array {
+		/**
+		 * Filter registered controller classes.
+		 *
+		 * @param array<int, class-string<self>> $controllers Controller class names.
+		 */
+		return apply_filters( 'bea_pb_controllers', self::$controllers );
+	}
+
+	/**
+	 * Register the concrete controller when the singleton boots.
+	 */
+	protected function init(): void {
+		self::register_controller( static::class );
+	}
 
 	/**
 	 * Check if the current page rewrited is the right page to execute or not methods
@@ -80,34 +128,15 @@ abstract class Controller {
 	 * @return \WP_Error|self
 	 */
 	public static function get_current_controller() {
-		$classes = array_filter( get_declared_classes(), [ __CLASS__, 'filter_classes' ] );
+		foreach ( self::get_registered_controllers() as $class_name ) {
+			$controller = $class_name::get_instance();
 
-		// Check there is classes
-		if ( empty( $classes ) ) {
-			return new \WP_Error( 'no-controller', 'No controller found' );
+			if ( $controller->is_page() ) {
+				return $controller;
+			}
 		}
 
-		// Get the filtered controller
-		$class = reset( $classes );
-
-		// Give the controller full
-		return $class::get_instance();
-	}
-
-	/**
-	 * Get among all classes the right one
-	 *
-	 * @param string $class
-	 *
-	 * @return bool
-	 * @author Nicolas Juen
-	 */
-	public static function filter_classes( string $class_name ): bool {
-		if ( false === is_subclass_of( $class_name, '\BEA\PB\Controller', true ) ) {
-			return false;
-		}
-
-		return $class_name::get_instance()->is_page();
+		return new \WP_Error( 'no-controller', 'No controller found' );
 	}
 
 	/**

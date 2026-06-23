@@ -2,17 +2,20 @@
 /*
 Plugin Name: BEA Plugin Name
 Version: 1.0.0
-Version Boilerplate: 3.5.1
+Version Boilerplate: 3.6.0
 Plugin URI: https://beapi.fr
 Description: Your plugin description
 Author: Be API Technical team
 Author URI: https://beapi.fr
 Domain Path: languages
 Text Domain: bea-plugin-boilerplate
+Requires at least: 6.0
+Requires PHP: 8.0
+Requires Plugins: advanced-custom-fields
 
 ----
 
-Copyright 2021 Be API Technical team (human@beapi.fr)
+Copyright 2021-2026 Be API Technical team (human@beapi.fr)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -45,14 +48,37 @@ define( 'BEA_PB_URL', plugin_dir_url( __FILE__ ) );
 define( 'BEA_PB_DIR', plugin_dir_path( __FILE__ ) );
 define( 'BEA_PB_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
+require_once BEA_PB_DIR . 'inc/autoload.php';
+
+if ( ! bea_pb_load_composer_autoload() ) {
+	add_action(
+		'admin_notices',
+		static function (): void {
+			if ( ! current_user_can( 'activate_plugins' ) ) {
+				return;
+			}
+
+			printf(
+				'<div class="notice notice-error"><p>%s</p></div>',
+				esc_html__(
+					'BEA Plugin Boilerplate requires Composer autoloading. Register the plugin PSR-4 namespace in your Bedrock root composer.json (then run composer dump-autoload), or run composer install in the plugin directory when developing this repository standalone.',
+					'bea-plugin-boilerplate'
+				)
+			);
+		}
+	);
+
+	return;
+}
+
+register_activation_hook( __FILE__, [ \BEA\PB\Plugin::class, 'activate' ] );
+register_deactivation_hook( __FILE__, [ \BEA\PB\Plugin::class, 'deactivate' ] );
+
 add_action( 'plugins_loaded', 'init_bea_pb_plugin' );
 /**
  * Init the plugin
  */
 function init_bea_pb_plugin(): void {
-	// Client
 	\BEA\PB\Main::get_instance();
-
-	// Blocks
 	\BEA\PB\Blocks::get_instance();
 }

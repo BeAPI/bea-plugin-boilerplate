@@ -2,51 +2,55 @@
 
 namespace BEA\PB\Routes;
 
+/**
+ * Helper for custom rewrite slugs and URLs.
+ */
 class Router {
 
 	/**
-	 * @var array the rewrite elements
+	 * @var array<string, string>
 	 */
 	private static $rewrite_elements = [];
 
 	/**
-	 * Launch all the filters and actions needed
+	 * Boot rewrite elements from a filter.
 	 */
-	public function __construct() {
+	public static function boot(): void {
 		/**
-		 * This array is built like that
-		 *  internal_query_element => displayed_query_element
+		 * Filter rewrite elements.
 		 *
-		 * Like
-		 *
-		 * 'registration' => 'account-creation',
-		 *
+		 * @param array<string, string> $rewrite_elements Internal query var => public slug.
 		 */
-		self::$rewrite_elements = [];
+		self::$rewrite_elements = apply_filters(
+			'bea_pb_rewrite_elements',
+			[
+				'example-page' => 'example-page',
+			]
+		);
 	}
 
 	/**
-	 * Return the rewrite elements registered
+	 * Register rewrite elements manually.
 	 *
-	 * @return array
-	 * @author Nicolas Juen
+	 * @param array<string, string> $elements Internal query var => public slug.
+	 */
+	public static function register_rewrite_elements( array $elements ): void {
+		self::$rewrite_elements = array_merge( self::$rewrite_elements, $elements );
+	}
+
+	/**
+	 * Return the rewrite elements registered.
+	 *
+	 * @return array<string, string>
 	 */
 	public static function get_rewrite_elements() {
 		return self::$rewrite_elements;
 	}
 
 	/**
-	 * Get the permalink rewrite element for the given post_type
-	 *
-	 * @param string $post_type
-	 *
-	 * @return string
-	 * @author Nicolas Juen
+	 * Get the permalink rewrite element for the given post_type.
 	 */
 	public static function get_post_type_permalink_rewrite( string $post_type ) {
-		/**
-		 * @var \WP_Rewrite $wp_rewrite
-		 */
 		global $wp_rewrite;
 
 		if ( 'page' === $post_type ) {
@@ -55,7 +59,6 @@ class Router {
 			$post_type_permastruct = $wp_rewrite->get_extra_permastruct( $post_type );
 		}
 
-		// Get the permastruct for single post_type
 		$results = preg_match_all( '/%.+?%/', $post_type_permastruct, $tokens );
 
 		if ( false === $results || empty( $tokens ) ) {
@@ -66,20 +69,15 @@ class Router {
 	}
 
 	/**
-	 * Get a url based on query var + params if needed
+	 * Get a URL based on query var and optional params.
 	 *
-	 * @param string $query_var : the query var  to make the url with
-	 * @param array  $params : the params to add at the end of the url
+	 * @param array<string, scalar|null> $params Query args.
 	 *
-	 * @return false|string the url rewrited
-	 *
-	 * @author Nicolas JUEN
+	 * @return false|string
 	 */
 	public static function get_url( string $query_var, array $params = [] ) {
-		// Get the slug
 		$slug = self::rewrite_slug( $query_var );
 
-		// If empty return false
 		if ( empty( $slug ) ) {
 			return false;
 		}
@@ -92,33 +90,26 @@ class Router {
 	}
 
 	/**
-	 * Make a complex url with multiple slugs
+	 * Build a URL from multiple rewrite slugs.
 	 *
-	 * @param array $slugs  : the query vars to make the url with
-	 * @param array $params : the params to add at the end of the url
+	 * @param array<int, string>         $slugs  Query vars or raw slugs.
+	 * @param array<string, scalar|null> $params Query args.
 	 *
-	 * @return false|string the url rewrited
-	 * @author Nicolas Juen
+	 * @return false|string
 	 */
 	public static function get_url_complex( array $slugs, $params = [] ) {
 		if ( empty( $slugs ) ) {
 			return '';
 		}
 
-		// if not array, make normal url
 		if ( 1 === count( $slugs ) ) {
-			return self::get_url( $slugs[0] );
+			return self::get_url( $slugs[0], $params );
 		}
 
 		$out_slugs = [];
-		foreach ( $slugs as $key => $slug ) {
-			$t_slug = self::rewrite_slug( $slug );
-			if ( ! empty( $t_slug ) ) {
-				$out_slugs[] = $t_slug;
-				continue;
-			}
-
-			$out_slugs[] = $slug;
+		foreach ( $slugs as $slug ) {
+			$mapped_slug = self::rewrite_slug( $slug );
+			$out_slugs[] = ! empty( $mapped_slug ) ? $mapped_slug : $slug;
 		}
 
 		if ( empty( $params ) ) {
@@ -129,12 +120,7 @@ class Router {
 	}
 
 	/**
-	 * Get a url based on query var
-	 *
-	 * @param string $query_var : the query var  to make the url with
-	 *
-	 * @return false|string the url rewrited
-	 * @author Nicolas Juen
+	 * Resolve a rewrite slug from a query var.
 	 */
 	public static function rewrite_slug( string $query_var = '' ) {
 		if ( empty( $query_var ) || ! isset( self::$rewrite_elements[ $query_var ] ) ) {

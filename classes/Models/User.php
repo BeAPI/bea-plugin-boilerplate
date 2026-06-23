@@ -300,6 +300,10 @@ class User {
 	public function get_permalink( $args = [] ) {
 		$url = get_the_author_meta( 'url', $this->get_id() );
 
-		return ( ! $url ) ? add_query_arg( $args, $url ) : false;
+		if ( ! $url ) {
+			return false;
+		}
+
+		return add_query_arg( $args, $url );
 	}
 }

@@ -3,30 +3,21 @@
 namespace BEA\PB;
 
 /**
- * The purpose of the API class is to have the basic reusable methods like :
- *  - Template include
- *  - Template searcher
- *  - Date formatting
- *
- * You can put here all of the tools you use in the project but not
- * limited to an object or a context.
- * It's recommended to use static methods for simple accessing to the methods
- * and stick to the non context methods
- *
- * Class API
- * @package BEA\PB
+ * View and formatting helpers.
  */
 class Helpers {
 
 	/**
-	 * Use the trait
+	 * Cached template paths keyed by template slug.
+	 *
+	 * @var array<string, string|false>
 	 */
-	use Singleton;
+	private static $located_templates = [];
 
 	/**
-	 * Locate template in the theme or plugin if needed
+	 * Locate template in the theme or plugin if needed.
 	 *
-	 * @param string $tpl : the tpl name, add automatically .php at the end of the file
+	 * @param string $tpl Template name without extension.
 	 *
 	 * @return bool|string
 	 */
@@ -35,30 +26,39 @@ class Helpers {
 			return false;
 		}
 
+		if ( array_key_exists( $tpl, self::$located_templates ) ) {
+			return self::$located_templates[ $tpl ];
+		}
+
 		$path = apply_filters( 'beapi_helpers_locate_template_templates', [ 'views/' . BEA_PB_VIEWS_FOLDER_NAME . '/' . $tpl . '.php' ], $tpl, __NAMESPACE__ );
 
-		// Locate from the theme
 		$located = locate_template( $path, false, false );
 		if ( ! empty( $located ) ) {
+			self::$located_templates[ $tpl ] = $located;
+
 			return $located;
 		}
 
-		// Locate on the files
-		if ( is_file( BEA_PB_DIR . 'views/' . $tpl . '.php' ) ) {// Use builtin template
-			return ( BEA_PB_DIR . 'views/' . $tpl . '.php' );
+		if ( is_file( BEA_PB_DIR . 'views/' . $tpl . '.php' ) ) {
+			self::$located_templates[ $tpl ] = BEA_PB_DIR . 'views/' . $tpl . '.php';
+
+			return self::$located_templates[ $tpl ];
 		}
+
+		self::$located_templates[ $tpl ] = false;
 
 		return false;
 	}
 
 	/**
-	 * Include the template given
+	 * Include the template given.
 	 *
-	 * @param string $tpl : the template name to load
+	 * @param string               $tpl  Template name.
+	 * @param array<string, mixed> $data Template data.
 	 *
 	 * @return bool
 	 */
-	public static function include_template( string $tpl ): bool {
+	public static function include_template( string $tpl, array $data = [] ): bool {
 		if ( empty( $tpl ) ) {
 			return false;
 		}
@@ -68,15 +68,16 @@ class Helpers {
 			return false;
 		}
 
+		$view_data = $data;
 		include $tpl_path;
 
 		return true;
 	}
 
 	/**
-	 * Load the template given and return a view to be render
+	 * Load the template given and return a view renderer.
 	 *
-	 * @param string $tpl : the template name to load
+	 * @param string $tpl Template name.
 	 *
 	 * @return \Closure|false
 	 */
@@ -95,33 +96,30 @@ class Helpers {
 				$data = [ 'data' => $data ];
 			}
 
-			// phpcs:ignore WordPress.PHP.DontExtract.extract_extract
-			extract( $data, EXTR_OVERWRITE );
+			$view_data = $data;
 			include $tpl_path;
 		};
 	}
 
 	/**
-	 * Render a view
+	 * Render a view.
 	 *
-	 * @param string $tpl : the template's name
-	 * @param array $data : the template's data
+	 * @param string               $tpl  Template name.
+	 * @param array<string, mixed> $data Template data.
 	 */
 	public static function render( string $tpl, $data = [] ): void {
 		$view = self::load_template( $tpl );
 		if ( false !== $view ) {
-			$view( $data );
+			$view( is_array( $data ) ? $data : [ 'data' => $data ] );
 		}
 	}
 
 	/**
-	 * Transform a date to a given format if possible
+	 * Transform a date to a given format if possible.
 	 *
-	 * @param string $date        : date to transform
-	 * @param string $from_format : the from date format
-	 * @param string $to_format   : the format to transform in
-	 *
-	 * @return string the date formatted
+	 * @param string $date        Date to transform.
+	 * @param string $from_format Source format.
+	 * @param string $to_format   Target format.
 	 */
 	public static function format_date( string $date, string $from_format, string $to_format ): string {
 		$date = \DateTime::createFromFormat( $from_format, $date );
@@ -129,18 +127,13 @@ class Helpers {
 			return '';
 		}
 
-		return self::datetime_i18n( $to_format, $date );
+		return self::datetime_wp_date( $to_format, $date );
 	}
 
 	/**
-	 * Format on i18n
-	 *
-	 * @param string $format
-	 * @param \DateTime $date
-	 *
-	 * @return string
+	 * Format a date using WordPress i18n helpers.
 	 */
-	public static function datetime_i18n( string $format, \DateTime $date ): string {
-		return date_i18n( $format, $date->format( 'U' ) );
+	public static function datetime_wp_date( string $format, \DateTime $date ): string {
+		return wp_date( $format, $date->format( 'U' ) );
 	}
 }

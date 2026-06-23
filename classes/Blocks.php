@@ -3,6 +3,8 @@
 namespace BEA\PB;
 
 use BEA\PB\Blocks\Block_Interface;
+use BEA\PB\Blocks\Hello_Block;
+use BEA\PB\Blocks\Quote_Block;
 
 /**
  * This class is for :
@@ -27,7 +29,10 @@ class Blocks {
 		 * Here enter all the blocks class names you need to instantiate
 		 * This have to be instances of \BEA\PB\Block_Interface
 		 */
-		$blocks = [];
+		$blocks = [
+			Hello_Block::class,
+			Quote_Block::class,
+		];
 
 		$blocks = apply_filters( 'bea_pb_blocks', $blocks );
 

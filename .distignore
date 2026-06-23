@@ -1,0 +1,17 @@
+/vendor/
+/node_modules/
+/.git/
+/.github/
+/.idea/
+/.phpunit.cache/
+/tests/
+/bin/
+/composer.json
+/composer.lock
+/phpcs.xml
+/phpstan.neon.dist
+/phpunit.xml.dist
+/grumphp.yml
+/.gitignore
+/.gitattributes
+/README.md
